@@ -1,0 +1,110 @@
+[
+  {
+    "id": "junior-developer",
+    "label": "Junior Developer",
+    "avatar": "👩‍💻",
+    "title": "Junior Developer",
+    "company": "Contoso",
+    "description": "Junior developer exploring GitHub Copilot, developer productivity, and cloud-native tools",
+    "interest_tags": [
+      "github-copilot",
+      "developer",
+      "ai-agents",
+      "cloud-native"
+    ]
+  },
+  {
+    "id": "cloud-architect",
+    "label": "Cloud Architect",
+    "avatar": "🏗️",
+    "title": "Cloud Architect",
+    "company": "Contoso",
+    "description": "Cloud architect working with Kubernetes, Azure architecture, and modern app platforms",
+    "interest_tags": [
+      "cloud-native",
+      "developer",
+      "security",
+      "ai-agents"
+    ]
+  },
+  {
+    "id": "security-leader",
+    "label": "Security Leader",
+    "avatar": "🛡️",
+    "title": "Security Leader",
+    "company": "Fabrikam",
+    "description": "Security leader focused on SOC optimisation, exposure management, and AI security",
+    "interest_tags": [
+      "security",
+      "governance",
+      "ai-agents"
+    ]
+  },
+  {
+    "id": "data-engineer",
+    "label": "Data Engineer",
+    "avatar": "📊",
+    "title": "Data Engineer",
+    "company": "Northwind",
+    "description": "Data engineer working with Fabric, BI, pipelines, and real-time analytics",
+    "interest_tags": [
+      "data",
+      "analytics",
+      "fabric",
+      "power-bi"
+    ]
+  },
+  {
+    "id": "sales-executive",
+    "label": "Sales Executive",
+    "avatar": "💼",
+    "title": "Sales Executive",
+    "company": "Adventure Works",
+    "description": "Sales executive looking for practical AI value, customer stories, and productivity wins",
+    "interest_tags": [
+      "business-value",
+      "copilot-productivity",
+      "ai-agents"
+    ]
+  },
+  {
+    "id": "finance-manager",
+    "label": "Finance Manager",
+    "avatar": "💹",
+    "title": "Finance Manager",
+    "company": "A Datum",
+    "description": "Finance manager interested in analytics, decision support, reporting, and AI productivity",
+    "interest_tags": [
+      "data",
+      "analytics",
+      "copilot-productivity",
+      "power-bi"
+    ]
+  },
+  {
+    "id": "startup-founder",
+    "label": "Startup Founder",
+    "avatar": "🚀",
+    "title": "Startup Founder",
+    "company": "Litware Startups",
+    "description": "Startup founder exploring agentic workflows, product velocity, and practical AI innovation",
+    "interest_tags": [
+      "ai-agents",
+      "developer",
+      "business-value"
+    ]
+  },
+  {
+    "id": "product-manager",
+    "label": "Product Manager",
+    "avatar": "🧩",
+    "title": "Product Manager",
+    "company": "Tailspin",
+    "description": "Product manager interested in customer scenarios, copilots, and AI features that drive adoption",
+    "interest_tags": [
+      "copilot-productivity",
+      "ai-agents",
+      "business-value"
+    ]
+  }
+]

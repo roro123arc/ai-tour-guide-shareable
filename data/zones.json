@@ -1,0 +1,32 @@
+[
+  {
+    "zone_id": "main-stage",
+    "name": "Main Stage",
+    "kind": "stage",
+    "notes": "Opening, keynote, main plenary"
+  },
+  {
+    "zone_id": "expo",
+    "name": "Expo Area",
+    "kind": "expo",
+    "notes": "Demo booths and partner area"
+  },
+  {
+    "zone_id": "developer-zone",
+    "name": "Developer Zone",
+    "kind": "track-area",
+    "notes": "GitHub Copilot, developer and build experiences"
+  },
+  {
+    "zone_id": "security-zone",
+    "name": "Security Zone",
+    "kind": "track-area",
+    "notes": "Security-related tracks and demos"
+  },
+  {
+    "zone_id": "data-zone",
+    "name": "Data Zone",
+    "kind": "track-area",
+    "notes": "Fabric, analytics, BI, and data experiences"
+  }
+]

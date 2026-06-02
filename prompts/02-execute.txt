@@ -1,0 +1,49 @@
+Implement the AI Tour Guide app based on the plan.
+
+Use the local /data JSON files as the source of truth.
+Do not invent event content and do not fetch from the internet.
+
+Build or update the static app so it can:
+1. Load the catalog data from /data
+2. Show quick interest buttons
+3. Show sample visitor profiles
+4. Accept a custom visitor profile:
+   - job title
+   - company
+   - description
+5. Match the visitor against the catalog using:
+   - interests
+   - role keywords
+   - tags
+   - session/workshop/booth descriptions
+   - zones
+6. Render a clear recommendation result:
+   - recommended sessions or workshops
+   - recommended booths
+   - best zone to start from
+   - short "why this fits you" explanation
+   - suggested next action
+
+Implementation constraints:
+- Static app only
+- HTML, CSS, JavaScript
+- No framework unless the current project already uses one
+- No backend
+- No authentication
+- No external services
+- Keep the code easy to explain in a lab
+
+UI requirements:
+- Clean layout for laptop screens
+- Works on mobile so it can later be opened by QR code
+- The data source should be obvious in the code
+- Use friendly labels, not technical debug output
+
+After coding:
+1. Explain which files you changed
+2. Explain how data flows from /data JSON into recommendations
+3. Explain how to run the app locally from VS Code
+4. Give 3 demo inputs to test:
+   - Cloud Architect working with Kubernetes and Azure
+   - Security Leader focused on governance and risk
+   - Data Engineer working with Fabric and analytics

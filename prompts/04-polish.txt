@@ -1,0 +1,40 @@
+Polish the AI Tour Guide app for a live booth/lab demo.
+
+Do not add new architecture or production complexity.
+Keep the app static and based on local /data JSON files.
+
+Improve only what helps the demo:
+
+1. Clarity
+- The visitor should immediately understand what to do
+- Use simple copy
+- Avoid technical labels unless they help explain the lab
+
+2. Recommendation output
+- Make the result feel useful, not random
+- Show a short reason for each recommendation
+- Show a clear "start here" zone or next action
+- Avoid overcrowding the cards
+
+3. Visual polish
+- Make it readable on a laptop screen
+- Make it usable on a phone
+- Keep spacing clean
+- Make buttons obvious
+- Make the recommendation area stand out
+
+4. Lab explainability
+- Keep code readable
+- Keep scoring logic understandable
+- Add only helpful comments where needed
+- Make it easy to point at /data and say: "this is the knowledge base"
+
+5. Demo safety
+- If a JSON file is missing or an optional field is empty, show a useful message instead of breaking
+- Do not silently invent data
+- Do not depend on external APIs
+
+After polishing, explain:
+1. The final demo flow in 5 steps
+2. Where to update the real catalog data
+3. How this can later be published and opened from a QR code

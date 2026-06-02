@@ -1,0 +1,61 @@
+[
+  {
+    "id": "doors-open",
+    "label": "Doors Open + Registration",
+    "time": "08:00",
+    "display_time": "8:00 AM",
+    "description": "Grab your badge, fuel up with coffee, and get ready to dive in.",
+    "type": "milestone"
+  },
+  {
+    "id": "event-opening",
+    "label": "Event Opening & Welcome",
+    "time": "09:30",
+    "display_time": "9:30 AM",
+    "description": "Microsoft Israel General Manager, Alon Haimovich.",
+    "type": "milestone"
+  },
+  {
+    "id": "keynote",
+    "label": "Keynote",
+    "time": "09:45",
+    "display_time": "9:45 AM",
+    "description": "Becoming Frontier - Framework for success to become frontier companies through AI Transformation and human ambition.",
+    "speakers": [
+      "Avi Yoshi",
+      "Ben Haklai"
+    ],
+    "speaker_titles": [
+      "Field CTO",
+      "National Technology Officer"
+    ],
+    "type": "milestone"
+  },
+  {
+    "id": "lunch",
+    "label": "Continuous Lunch",
+    "time_range": [
+      "11:30",
+      "15:00"
+    ],
+    "display_time": "11:30 AM-3:00 PM",
+    "description": "Continuous lunch service from 11:30 to 15:00, so attendees can enjoy lunch while still participating in the sessions that interest them.",
+    "type": "service"
+  },
+  {
+    "id": "breakouts",
+    "label": "Breakouts Session Begin",
+    "time": "11:45",
+    "display_time": "11:45 AM",
+    "description": "Choose your adventure with deep-dive sessions tailored to your interests.",
+    "type": "milestone"
+  },
+  {
+    "id": "wrap-up",
+    "label": "Event Wrap-Up",
+    "time": "17:00",
+    "display_time": "5:00 PM",
+    "description": "That's a wrap! Leave inspired, informed, and ready to lead the frontier.",
+    "type": "milestone"
+  }
+]

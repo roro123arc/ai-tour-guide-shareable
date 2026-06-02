@@ -1,0 +1,17 @@
+[
+  {
+    "session_id": "sess-001",
+    "title": "REPLACE_FROM_SESSION_CATALOG",
+    "description": "REPLACE_FROM_SESSION_CATALOG",
+    "track": [
+      "developer"
+    ],
+    "speakers": [
+      "REPLACE"
+    ],
+    "time": null,
+    "room": null,
+    "zone_id": "developer-zone",
+    "source": "session_catalog"
+  }
+]

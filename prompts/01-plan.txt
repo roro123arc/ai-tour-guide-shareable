@@ -1,0 +1,58 @@
+You are helping me run a GitHub Copilot lab at Microsoft AI Tour Tel Aviv.
+
+The project is called AI Tour Guide.
+
+Goal:
+Build a small static web app that helps an event visitor decide what to attend next.
+
+Important:
+- Do not invent sessions.
+- Do not use live scraping.
+- Do not call external APIs.
+- Use only the local JSON files in the /data folder as the source of truth.
+
+First, inspect the project structure and the /data folder.
+
+The data folder may include files such as:
+- event_meta.json
+- agenda_summary.json
+- sessions.template.json
+- workshops.json
+- booths.json
+- zones.json
+- interests_taxonomy.json
+- sample_profiles.json
+- ui_copy.json
+
+Create an implementation plan for a lab-friendly static web app.
+
+The app should support:
+1. Quick interest buttons
+2. Sample visitor profiles
+3. A custom visitor profile form with job title, company, and description
+4. Recommendations based on the exported AI Tour catalog data
+
+The output should include:
+- recommended sessions or workshops
+- recommended demo booths
+- best zone to start from
+- a short explanation of why these were recommended
+- a suggested next step for the visitor
+
+Keep the implementation simple:
+- HTML
+- CSS
+- JavaScript
+- local JSON files
+- no login
+- no backend
+- no production complexity
+
+Before writing code, explain:
+1. Which JSON files will be used
+2. What fields are important for matching
+3. How the scoring/recommendation logic will work
+4. Which files need to be changed
+5. How we will validate that recommendations come from the local catalog data
+
+Make the plan practical and suitable for a 20-30 minute hands-on lab.

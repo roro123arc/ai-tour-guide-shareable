@@ -1,0 +1,34 @@
+{
+  "developer": [
+    "github-copilot",
+    "developer",
+    "cloud-native",
+    "ai-agents"
+  ],
+  "security": [
+    "security",
+    "governance",
+    "ai-agents"
+  ],
+  "data": [
+    "data",
+    "analytics",
+    "fabric",
+    "power-bi"
+  ],
+  "ai-agents": [
+    "ai-agents",
+    "github-copilot",
+    "copilot-productivity"
+  ],
+  "copilot": [
+    "github-copilot",
+    "copilot-productivity",
+    "ai-agents"
+  ],
+  "business-value": [
+    "business-value",
+    "copilot-productivity",
+    "analytics"
+  ]
+}

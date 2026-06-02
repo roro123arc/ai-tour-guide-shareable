@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Tour Guide</title>
+  <link rel="icon" href="data:," />
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css?v=20260602-fast-path-row" />
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <div class="hero-content">
+        <div class="brand-row">
+          <span class="microsoft-mark" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </span>
+          <span>Microsoft AI Tour Tel Aviv</span>
+        </div>
+        <p class="eyebrow">5-15 minute GitHub Copilot lab</p>
+        <h1>AI Tour Guide</h1>
+        <p class="sub">Turn the exported session catalog into a personal route through the event.</p>
+        <div class="hero-badges" aria-label="Demo highlights">
+          <span>Catalog JSON</span>
+          <span>No login</span>
+          <span>Copilot-built</span>
+          <span>QR-ready</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="assets/tour-guide-hero.png" alt="Friendly AI tour-guide robot holding a map" />
+      </div>
+    </header>
+
+    <section class="source-strip" aria-label="Data source">
+      <strong>Source of truth:</strong>
+      <span>local files in <code>/data</code> exported from the AI Tour session catalog</span>
+    </section>
+
+    <section class="card quick-card">
+      <div class="quick-title">
+        <p class="step-label">Step 1</p>
+        <h2>Choose a fast path</h2>
+      </div>
+      <div id="quickButtons" class="button-grid quick-buttons"></div>
+    </section>
+
+    <section class="card">
+      <p class="step-label">Step 2</p>
+      <h2>Try a sample profile</h2>
+      <div id="sampleProfiles" class="button-grid profile-grid"></div>
+    </section>
+
+    <section class="card">
+      <p class="step-label">Step 3</p>
+      <h2>Personalise your route</h2>
+      <div class="form-grid">
+        <label>Job title<input id="jobTitle" placeholder="Cloud Architect" /></label>
+        <label>Company<input id="company" placeholder="Contoso" /></label>
+      </div>
+      <label>Tell us about your role
+        <textarea id="description" rows="4" placeholder="Working with Kubernetes, developer productivity, and AI agents"></textarea>
+      </label>
+      <div class="actions">
+        <button id="submitProfile" class="primary">Get recommendations</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Ask the catalog</h2>
+      <div class="qa-row">
+        <input id="questionInput" placeholder="e.g. When do breakouts start?" />
+        <button id="askQuestion">Ask</button>
+      </div>
+      <div id="qaAnswer" class="qa-answer hidden"></div>
+    </section>
+
+    <section class="card results-card">
+      <h2>Recommended for you</h2>
+      <p class="results-copy">Recommendations are matched from workshops, booths, zones, and agenda metadata in <code>/data</code>.</p>
+      <div id="resultsEmpty" class="muted">Choose a quick path, try a sample profile, or describe your role.</div>
+      <div id="results" class="hidden">
+        <div>
+          <h3>Suggested zone</h3>
+          <div id="zoneResult" class="pill"></div>
+        </div>
+        <div>
+          <h3>Workshops</h3>
+          <ul id="workshopResults"></ul>
+        </div>
+        <div>
+          <h3>Demo booths</h3>
+          <ul id="boothResults"></ul>
+        </div>
+      </div>
+      <div id="mapSection" class="event-map-section hidden">
+        <div class="map-intro">
+          <span class="step-label">Event map</span>
+          <h3>Your sessions on the venue map</h3>
+          <p>Each pin follows your recommended path across the updated ground-floor and first-floor venue map.</p>
+        </div>
+        <div class="event-map-layout">
+            <div class="venue-map" aria-label="Microsoft AI Tour unified venue map">
+              <img
+                class="venue-map-image"
+                src="assets/unified-venue-map.png"
+                alt="Microsoft AI Tour unified venue map with Hall B Developers Session, Hall C+D, Hall E Industry Session, Hall F,G,H Security Session, and Hall K,L,M Startup Session"
+              />
+              <div id="mapPins" class="map-pins"></div>
+            </div>
+          <div id="mapLegend" class="map-legend"></div>
+        </div>
+      </div>
+      <div id="timelineSection" class="timeline-section hidden">
+        <div class="timeline-heading">
+          <h3>Your ideal path</h3>
+          <span id="timelineNote">Built to avoid time conflicts where possible.</span>
+        </div>
+        <div id="mealWindow" class="meal-window hidden"></div>
+        <div id="timelineResults" class="timeline"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js?v=20260602-map-polish"></script>
+</body>
+</html>

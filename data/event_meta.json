@@ -1,0 +1,16 @@
+{
+  "event_id": "ai-tour-telaviv-2026",
+  "name": "Microsoft AI Tour Tel Aviv",
+  "date": "2026-06-30",
+  "venue": "Expo Tel Aviv",
+  "city": "Tel Aviv",
+  "opening_time": "08:00",
+  "event_opening": "09:30",
+  "keynote_time": "09:45",
+  "breakouts_start": "11:45",
+  "lunch_window": {
+    "start": "11:30",
+    "end": "15:00"
+  },
+  "wrap_up_time": "17:00"
+}

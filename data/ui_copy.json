@@ -1,0 +1,32 @@
+{
+  "appTitle": "AI Tour Guide",
+  "tagline": "Find where to go next based on your role and interests",
+  "quickStartTitle": "Quick start",
+  "quickButtons": [
+    {
+      "id": "developer",
+      "label": "👩‍💻 Developer"
+    },
+    {
+      "id": "security",
+      "label": "🔐 Security"
+    },
+    {
+      "id": "data",
+      "label": "📊 Data"
+    },
+    {
+      "id": "ai-agents",
+      "label": "🤖 AI Agents"
+    }
+  ],
+  "sampleProfilesTitle": "Try a sample profile",
+  "personaliseTitle": "Personalise your route",
+  "fields": {
+    "title": "Job title",
+    "company": "Company",
+    "description": "Tell us about your role"
+  },
+  "cta": "Get recommendations",
+  "askBox": "Ask anything about today's event"
+}

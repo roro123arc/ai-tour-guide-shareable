@@ -1,0 +1,66 @@
+[
+  {
+    "booth_id": "booth-fabric",
+    "name": "Fabric",
+    "description": "Real-time bus telemetry demo using public transportation data from Israel",
+    "interest_tags": [
+      "fabric",
+      "data",
+      "analytics"
+    ],
+    "zone_id": "data-zone"
+  },
+  {
+    "booth_id": "booth-powerbi",
+    "name": "Power BI",
+    "description": "Interactive reporting ideas using NFC cards, storytelling, and live reports",
+    "interest_tags": [
+      "power-bi",
+      "data",
+      "analytics"
+    ],
+    "zone_id": "data-zone"
+  },
+  {
+    "booth_id": "booth-health-ai",
+    "name": "Health AI",
+    "description": "Healthcare copilot and agent experiences",
+    "interest_tags": [
+      "ai-agents",
+      "copilot-productivity",
+      "business-value"
+    ],
+    "zone_id": "expo"
+  },
+  {
+    "booth_id": "booth-better-together-security",
+    "name": "Better Together Security",
+    "description": "Security investigation and exposure management story",
+    "interest_tags": [
+      "security",
+      "governance"
+    ],
+    "zone_id": "security-zone"
+  },
+  {
+    "booth_id": "booth-security-for-ai",
+    "name": "Security for AI",
+    "description": "How organisations can use AI safely with attack detection for AI apps and services",
+    "interest_tags": [
+      "security",
+      "ai-agents",
+      "governance"
+    ],
+    "zone_id": "security-zone"
+  },
+  {
+    "booth_id": "booth-ai-for-security",
+    "name": "AI for Security",
+    "description": "Threat intelligence briefing agent and security-focused AI scenarios",
+    "interest_tags": [
+      "security",
+      "ai-agents"
+    ],
+    "zone_id": "security-zone"
+  }
+]

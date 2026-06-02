@@ -1,0 +1,65 @@
+Validate the AI Tour Guide app as if you are a lab participant.
+
+First, confirm that the app uses the local /data JSON files as the source of truth.
+Do not validate against invented content or external websites.
+
+Check the following flows:
+
+1. Quick interest buttons
+- Developer
+- Security
+- Data
+- AI Agents
+
+For each one, confirm that the recommendation changes and that the results are relevant to the selected interest.
+
+2. Sample profiles
+Test at least these profiles if they exist:
+- Junior Developer
+- Cloud Architect
+- Security Leader
+- Data Engineer
+- Sales Executive
+- Finance Manager
+- Startup Founder
+- Product Manager
+
+Confirm that different profiles produce different paths through the event catalog.
+
+3. Custom profile
+Test these inputs:
+
+Input A:
+Job title: Cloud Architect
+Company: Contoso
+Description: I work with Kubernetes, Azure, platform engineering and AI apps.
+
+Input B:
+Job title: Security Leader
+Company: Contoso
+Description: I care about governance, identity, risk, security operations and safe AI adoption.
+
+Input C:
+Job title: Data Engineer
+Company: Contoso
+Description: I work with Microsoft Fabric, analytics, Power BI and data platforms.
+
+Input D:
+Job title: Sales Executive
+Company: Contoso
+Description: I need practical AI value stories, productivity examples and customer-ready demos.
+
+Validation criteria:
+- Recommendations should come from the JSON catalog
+- The same item should not appear in every result unless it is truly relevant
+- Explanations should be short and useful
+- The UI should be readable on a laptop screen
+- The app should still work if some optional fields are missing in the JSON
+- The code should remain simple enough to explain during the lab
+
+If you find issues, fix them.
+
+At the end, summarize:
+1. What worked
+2. What you fixed
+3. How to demo the app confidently in the lab

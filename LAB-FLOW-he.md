@@ -35,6 +35,20 @@
 ### 6. Polish
 להדביק את `prompts/04-polish.txt`.
 
+### 7. הרחבת דמו עם Copilot
+אפשר לתת לקהל לבחור capability קטן להוספה:
+- `Where should I go now?` - המלצה לפי מיקום נוכחי, זמן פנוי ו-interest
+- פילטרים לפי הקטלוג הרשמי: session type, topic, audience
+- `Why this?` - הסבר קצר למה סשן/booth הומלץ
+- `Copy my route` - העתקת המסלול כטקסט
+
+Prompt פתיחה מומלץ:
+
+```text
+Explain this app and suggest the smallest safe code change to add one booth-demo feature.
+Keep the app static, local, and reliable.
+```
+
 ## Demo-safe inputs
 מומלץ שהמשתתפים ינסו לפחות אחד מאלה:
 - Junior Developer exploring GitHub Copilot and cloud-native tools
@@ -48,4 +62,5 @@
 - לא LinkedIn Login
 - לא scraping חי
 - לא inference מתמונה
-- לא להסתמך על session times/rooms אם לא מולאו בפועל ב-`sessions.json`
+- לא להסתמך על APIs חיצוניים בזמן הדמו
+- לא לטעון שהאפליקציה נבנתה כולה עם GitHub Copilot אם בפועל מציגים הרחבה/איטרציה על codebase קיים

@@ -13,7 +13,7 @@
       document.documentElement.setAttribute("data-theme", theme);
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=20260602-fast-path-row" />
+  <link rel="stylesheet" href="styles.css?v=20260610-copilot-demo" />
 </head>
 <body>
   <main class="container">
@@ -74,6 +74,84 @@
       </div>
     </section>
 
+    <section class="card demo-lab-card">
+      <div class="demo-lab-heading">
+        <div>
+          <p class="step-label">Copilot demo extensions</p>
+          <h2>Make the guide smarter live</h2>
+        </div>
+        <p>
+          These controls mirror the official session-catalog filters and a “next best stop”
+          feature that GitHub Copilot can help add or adapt during the booth demo.
+        </p>
+      </div>
+
+      <div class="demo-tools-grid">
+        <article class="tool-panel">
+          <h3>Official catalog filters</h3>
+          <p class="tool-copy">Filter recommendations by session type, topic, and audience.</p>
+          <div class="filter-grid">
+            <label>
+              Session type
+              <select id="sessionTypeFilter"></select>
+            </label>
+            <label>
+              Topic
+              <select id="topicFilter"></select>
+            </label>
+            <label>
+              Audience
+              <select id="audienceFilter"></select>
+            </label>
+          </div>
+          <div class="actions compact-actions">
+            <button id="applyFilters" class="primary" type="button">Apply filters</button>
+            <button id="resetFilters" type="button">Reset filters</button>
+          </div>
+        </article>
+
+        <article class="tool-panel">
+          <h3>Where should I go now?</h3>
+          <p class="tool-copy">Pick your current hall and time window to get a nearby next stop.</p>
+          <div class="filter-grid">
+            <label>
+              Current location
+              <select id="currentLocation">
+                <option value="registration">Registration</option>
+                <option value="expo" selected>Hall C+D</option>
+                <option value="developer-zone">Hall B</option>
+                <option value="security-session">Hall F,G,H</option>
+                <option value="startup-session">Hall K,L,M</option>
+              </select>
+            </label>
+            <label>
+              Time available
+              <select id="timeAvailable">
+                <option value="10">10 minutes</option>
+                <option value="20" selected>20 minutes</option>
+                <option value="30">30 minutes</option>
+              </select>
+            </label>
+            <label>
+              Interest
+              <select id="nextInterest">
+                <option value="developer">Developer</option>
+                <option value="security">Security</option>
+                <option value="data">Data</option>
+                <option value="ai-agents" selected>AI Agents</option>
+              </select>
+            </label>
+          </div>
+          <div class="actions compact-actions">
+            <button id="whereNowButton" class="primary" type="button">Recommend next stop</button>
+          </div>
+          <div id="whereNowResult" class="next-stop-result muted">
+            Choose your context to get a map-aware next stop.
+          </div>
+        </article>
+      </div>
+    </section>
+
     <section class="card">
       <h2>Ask the catalog</h2>
       <div class="qa-row">
@@ -130,6 +208,6 @@
     </section>
   </main>
 
-  <script src="app.js?v=20260602-map-polish"></script>
+  <script src="app.js?v=20260610-copilot-demo"></script>
 </body>
 </html>

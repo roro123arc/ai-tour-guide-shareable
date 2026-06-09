@@ -3,6 +3,16 @@
     "booth_id": "booth-fabric",
     "name": "Fabric",
     "description": "Real-time bus telemetry demo using public transportation data from Israel",
+    "session_type": "Demo booth",
+    "topics": [
+      "Unify your data platform"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "hall": "Hall C+D",
+    "duration_minutes": 15,
     "interest_tags": [
       "fabric",
       "data",
@@ -14,6 +24,15 @@
     "booth_id": "booth-powerbi",
     "name": "Power BI",
     "description": "Interactive reporting ideas using NFC cards, storytelling, and live reports",
+    "session_type": "Demo booth",
+    "topics": [
+      "Unify your data platform"
+    ],
+    "audience": [
+      "Decision-makers"
+    ],
+    "hall": "Hall C+D",
+    "duration_minutes": 15,
     "interest_tags": [
       "power-bi",
       "data",
@@ -25,6 +44,16 @@
     "booth_id": "booth-health-ai",
     "name": "Health AI",
     "description": "Healthcare copilot and agent experiences",
+    "session_type": "Demo booth",
+    "topics": [
+      "Copilot and agents at work",
+      "Innovate with low code AI and agents"
+    ],
+    "audience": [
+      "Decision-makers"
+    ],
+    "hall": "Hall C+D",
+    "duration_minutes": 15,
     "interest_tags": [
       "ai-agents",
       "copilot-productivity",
@@ -36,6 +65,15 @@
     "booth_id": "booth-better-together-security",
     "name": "Better Together Security",
     "description": "Security investigation and exposure management story",
+    "session_type": "Demo booth",
+    "topics": [
+      "Security"
+    ],
+    "audience": [
+      "Decision-makers"
+    ],
+    "hall": "Hall C+D",
+    "duration_minutes": 15,
     "interest_tags": [
       "security",
       "governance"
@@ -46,6 +84,17 @@
     "booth_id": "booth-security-for-ai",
     "name": "Security for AI",
     "description": "How organisations can use AI safely with attack detection for AI apps and services",
+    "session_type": "Demo booth",
+    "topics": [
+      "Security",
+      "Copilot and agents at work"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "hall": "Hall C+D",
+    "duration_minutes": 15,
     "interest_tags": [
       "security",
       "ai-agents",
@@ -57,6 +106,17 @@
     "booth_id": "booth-ai-for-security",
     "name": "AI for Security",
     "description": "Threat intelligence briefing agent and security-focused AI scenarios",
+    "session_type": "Demo booth",
+    "topics": [
+      "Security",
+      "Innovate with Azure AI apps and agents"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "hall": "Hall C+D",
+    "duration_minutes": 15,
     "interest_tags": [
       "security",
       "ai-agents"

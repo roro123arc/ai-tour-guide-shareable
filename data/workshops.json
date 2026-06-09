@@ -3,6 +3,16 @@
     "workshop_id": "wrk-code-smarter",
     "title": "Code Smarter With GitHub Copilot",
     "description": "Discover the new GitHub Copilot features",
+    "session_type": "Breakout",
+    "topics": [
+      "Copilot and agents at work",
+      "Innovate with Azure AI apps and agents"
+    ],
+    "audience": [
+      "Developers"
+    ],
+    "hall": "Hall B · Developers Session",
+    "duration_minutes": 45,
     "interest_tags": [
       "github-copilot",
       "developer",
@@ -19,6 +29,16 @@
     "workshop_id": "wrk-vibe-coding",
     "title": "Unlock Your Creativity With Vibe Coding",
     "description": "Create a classic game in 15 minutes with GitHub Copilot agent",
+    "session_type": "Lightning Talk",
+    "topics": [
+      "Copilot and agents at work",
+      "Innovate with Azure AI apps and agents"
+    ],
+    "audience": [
+      "Developers"
+    ],
+    "hall": "Hall B · Developers Session",
+    "duration_minutes": 45,
     "interest_tags": [
       "github-copilot",
       "developer",
@@ -34,6 +54,17 @@
     "workshop_id": "wrk-copilot-studio",
     "title": "Copilot Studio in Action",
     "description": "Quick intro to Copilot Studio. Instant agent building.",
+    "session_type": "Breakout",
+    "topics": [
+      "Copilot and agents at work",
+      "Innovate with low code AI and agents"
+    ],
+    "audience": [
+      "Decision-makers",
+      "Developers"
+    ],
+    "hall": "Hall B · Developers Session",
+    "duration_minutes": 45,
     "interest_tags": [
       "ai-agents",
       "copilot-productivity"
@@ -49,6 +80,16 @@
     "workshop_id": "wrk-trip-advisor",
     "title": "Create Your Own AI Trip Advisor",
     "description": "Build and customize the agent behind your next vacation with Azure AI Foundry",
+    "session_type": "Breakout",
+    "topics": [
+      "Innovate with Azure AI apps and agents",
+      "Copilot and agents at work"
+    ],
+    "audience": [
+      "Developers"
+    ],
+    "hall": "Hall B · Developers Session",
+    "duration_minutes": 45,
     "interest_tags": [
       "ai-agents",
       "developer"
@@ -64,6 +105,17 @@
     "workshop_id": "wrk-genai-agent",
     "title": "Build Your Own GenAI Agent",
     "description": "Design your AI agent that thinks, remembers, and acts for you",
+    "session_type": "Lightning Talk",
+    "topics": [
+      "Innovate with Azure AI apps and agents",
+      "Copilot and agents at work"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "hall": "Hall C+D",
+    "duration_minutes": 30,
     "interest_tags": [
       "ai-agents",
       "developer",

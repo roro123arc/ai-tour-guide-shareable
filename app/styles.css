@@ -321,6 +321,7 @@ code {
 label { display: block; color: var(--cp-text-muted); font-size: 14px; font-weight: 700; margin: 10px 0; }
 
 input,
+select,
 textarea {
   width: 100%;
   padding: 12px;
@@ -333,6 +334,87 @@ textarea {
 }
 
 .actions { margin-top: 12px; }
+
+.demo-lab-card {
+  border-color: var(--cp-border-strong);
+  background:
+    linear-gradient(135deg, var(--cp-accent-soft), transparent 38%),
+    var(--cp-panel-strong);
+}
+
+.demo-lab-heading {
+  display: grid;
+  grid-template-columns: minmax(260px, .42fr) 1fr;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 16px;
+}
+
+.demo-lab-heading p:last-child,
+.tool-copy {
+  margin: 0;
+  color: var(--cp-text-muted);
+  line-height: 1.45;
+}
+
+.demo-tools-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.tool-panel {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  background: var(--cp-surface);
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.compact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.compact-actions button {
+  min-height: 42px;
+  padding: 10px 14px;
+}
+
+.next-stop-result {
+  display: grid;
+  gap: 4px;
+  min-height: 82px;
+  padding: 12px;
+  border: 1px dashed var(--cp-border-strong);
+  border-radius: 14px;
+  background: var(--cp-surface-soft);
+}
+
+.next-stop-result strong,
+.next-stop-result span,
+.next-stop-result p {
+  display: block;
+  margin: 0;
+}
+
+.next-stop-result strong {
+  color: var(--cp-text);
+  font-size: 18px;
+}
+
+.next-stop-result p {
+  color: var(--cp-text-muted);
+  line-height: 1.35;
+}
 
 .results-copy { margin: -4px 0 16px; color: var(--cp-text-muted); }
 
@@ -370,6 +452,12 @@ textarea {
 .recommendation-item > span {
   color: var(--cp-text-muted);
   font-size: 14px;
+}
+
+.recommendation-item .why-this {
+  color: var(--cp-link);
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .tag-row {
@@ -1017,6 +1105,9 @@ html[data-theme="dark"] .map-small-label {
   .hero,
   #results,
   .event-map-layout,
+  .demo-lab-heading,
+  .demo-tools-grid,
+  .filter-grid,
   .form-grid,
   .quick-card { grid-template-columns: 1fr; }
   .quick-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); }

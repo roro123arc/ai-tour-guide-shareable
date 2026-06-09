@@ -96,6 +96,7 @@ http://<MACHINE-IP>:8000/app/
 
 - `workshops.json` - רשימת workshops.
 - `booths.json` - רשימת demo booths.
+- `catalog_filters.json` - ערכי פילטרים לפי הקטלוג הרשמי: session type, topic, audience.
 - `zones.json` - אזורי התחלה והמלצה.
 - `agenda_summary.json` - לו"ז, lunch וחלונות שירות.
 - `sample_profiles.json` - פרופילים לדוגמה.
@@ -115,6 +116,41 @@ app/app.js
 
 תחת האובייקט `venueLocations`.
 
+## Flow מומלץ לעמדה
+
+הסיפור המדויק: זה לא דמו שטוען ש-GitHub Copilot בנה את כל האפליקציה מאפס בלייב. זה דמו שמראה איך משתמשים ב-GitHub Copilot על codebase אמיתי כדי להבין, להרחיב ולהתאים חוויית משתתפים.
+
+מה להראות:
+
+1. לפתוח את האפליקציה ולבחור fast path, למשל Developer.
+2. להראות recommendations, מפת venue, ideal path ו-time conflicts.
+3. להראות את **Official catalog filters** שמדמים את פילטרי הקטלוג הרשמי: session type, topic, audience.
+4. להראות את **Where should I go now?** שממליץ על התחנה הבאה לפי מיקום נוכחי, זמן פנוי ו-interest.
+5. לעבור ל-VS Code ולבקש מ-GitHub Copilot להסביר או להרחיב את הקוד.
+
+Prompt מומלץ:
+
+```text
+Explain how this app recommends workshops, booths, zones, map pins, and next-best stops.
+Point me to the JSON files and functions I should edit to adapt it for another event.
+```
+
+עוד prompts בטוחים לדמו:
+
+```text
+Add another catalog filter for audience seniority using the existing JSON pattern.
+```
+
+```text
+Improve the “Where should I go now?” explanation so it mentions walking time, hall, and matched interest.
+```
+
+```text
+Add a “Copy my route” button that copies the recommended path, halls, and times to the clipboard.
+```
+
+הערת data: בגרסת העמדה אנחנו משתמשים ב-JSON מקומי ומסודר שמבוסס על הקטלוג הרשמי, כדי שהדמו יהיה מהיר, פרטי ויציב. בגרסת production אפשר לחבר ל-API רשמי, CMS export, או MCP tool שמחזיר event data מאושר.
+
 ## הערות
 
 - אין צורך בלוגין.
@@ -122,4 +158,3 @@ app/app.js
 - אין צורך ב-`npm install`.
 - אין build step.
 - אם מעלים ל-GitHub Pages או לאתר ציבורי, ה-QR צריך להצביע לכתובת שמסתיימת ב-`/app/`.
-

@@ -42,6 +42,10 @@ function scoreItems(items, tags, queryText = '') {
         item.name,
         item.description,
         item.zone_id,
+        item.session_type,
+        item.hall,
+        ...(item.topics || []),
+        ...(item.audience || []),
         ...itemTags
       ].join(' '));
       const tagScore = itemTags.filter(tag => tagSet.has(tag)).length * 10;
@@ -127,6 +131,7 @@ function buildIdealPath(workshops, booths, agendaSummary) {
 }
 
 const venueLocations = {
+  'registration': { area: 'Registration', floor: 'Ground floor', x: 22, y: 55 },
   'wrk-code-smarter': { area: 'Hall B · Developers Session', floor: 'Ground floor', x: 74, y: 84 },
   'wrk-vibe-coding': { area: 'Hall B · Developers Session', floor: 'Ground floor', x: 70, y: 88 },
   'wrk-copilot-studio': { area: 'Hall B · Developers Session', floor: 'Ground floor', x: 61, y: 88 },
@@ -147,6 +152,15 @@ const venueLocations = {
   'security-session': { area: 'Hall F,G,H · Security Session', floor: '1st floor', x: 35, y: 24 }
 };
 
+const walkingCost = {
+  'registration': { 'expo': 6, 'developer-zone': 8, 'security-session': 12, 'startup-session': 12, 'data-zone': 7 },
+  'expo': { 'registration': 6, 'developer-zone': 5, 'security-session': 10, 'startup-session': 10, 'data-zone': 2 },
+  'developer-zone': { 'registration': 8, 'expo': 5, 'security-session': 11, 'startup-session': 11, 'data-zone': 6 },
+  'security-session': { 'registration': 12, 'expo': 10, 'developer-zone': 11, 'startup-session': 5, 'data-zone': 10 },
+  'startup-session': { 'registration': 12, 'expo': 10, 'developer-zone': 11, 'security-session': 5, 'data-zone': 10 },
+  'data-zone': { 'registration': 7, 'expo': 2, 'developer-zone': 6, 'security-session': 10, 'startup-session': 10 }
+};
+
 function itemId(item) {
   return item.workshop_id || item.booth_id || item.zone_id || item.id;
 }
@@ -157,6 +171,18 @@ function itemTitle(item) {
 
 function locationFor(item) {
   return venueLocations[itemId(item)] || venueLocations[item.zone_id] || venueLocations.expo;
+}
+
+function distanceFrom(currentLocationId, item) {
+  const zoneId = item.zone_id || 'expo';
+  return walkingCost[currentLocationId]?.[zoneId] ?? 9;
+}
+
+function matchesCatalogFilter(item, filters) {
+  if (filters.sessionType && item.session_type !== filters.sessionType) return false;
+  if (filters.topic && !(item.topics || []).includes(filters.topic)) return false;
+  if (filters.audience && !(item.audience || []).includes(filters.audience)) return false;
+  return true;
 }
 
 function renderEventMap(path, zoneId, zoneLabel) {
@@ -232,12 +258,29 @@ function renderTags(tags = []) {
   }).join('');
 }
 
-function renderRecommendationItem(item, type) {
+function explainRecommendation(item, type, tags = [], queryText = '') {
+  const matchedTags = (item.interest_tags || []).filter(tag => tags.includes(tag));
+  const location = locationFor(item);
+  const reasons = [];
+  if (matchedTags.length) {
+    reasons.push(`matches ${matchedTags.slice(0, 2).map(tag => tagLabels[tag] || tag).join(' + ')}`);
+  }
+  if (item.session_type) reasons.push(item.session_type);
+  if (item.audience?.length) reasons.push(`for ${item.audience.join(' / ')}`);
+  if (location.area) reasons.push(location.area);
+  if (queryText && normalise(queryText).split(/[^a-z0-9+#.-]+/).some(token => token.length > 2 && normalise(item.description).includes(token))) {
+    reasons.unshift('matches your description');
+  }
+  return reasons.length ? `Why this: ${reasons.join(' · ')}.` : `Why this: relevant to your selected profile and event path.`;
+}
+
+function renderRecommendationItem(item, type, tags = [], queryText = '') {
   const title = type === 'booth' ? item.name : item.title;
   return `
     <li class="recommendation-item">
       <strong>${title}</strong>
       <span>${item.description}</span>
+      <span class="why-this">${explainRecommendation(item, type, tags, queryText)}</span>
       <div class="tag-row">${renderTags(item.interest_tags)}</div>
     </li>
   `;
@@ -294,14 +337,15 @@ function answerQuestion(q, eventMeta, agendaSummary) {
 }
 
 (async function init() {
-  const [eventMeta, agendaSummary, workshops, booths, sampleProfiles, taxonomy, zones] = await Promise.all([
+  const [eventMeta, agendaSummary, workshops, booths, sampleProfiles, taxonomy, zones, catalogFilters] = await Promise.all([
     loadJson('../data/event_meta.json'),
     loadJson('../data/agenda_summary.json'),
     loadJson('../data/workshops.json'),
     loadJson('../data/booths.json'),
     loadJson('../data/sample_profiles.json'),
     loadJson('../data/interests_taxonomy.json'),
-    loadJson('../data/zones.json')
+    loadJson('../data/zones.json'),
+    loadJson('../data/catalog_filters.json')
   ]);
 
   const quickButtons = document.getElementById('quickButtons');
@@ -316,6 +360,12 @@ function answerQuestion(q, eventMeta, agendaSummary) {
   const results = document.getElementById('results');
   const resultsEmpty = document.getElementById('resultsEmpty');
   const qaAnswer = document.getElementById('qaAnswer');
+  const sessionTypeFilter = document.getElementById('sessionTypeFilter');
+  const topicFilter = document.getElementById('topicFilter');
+  const audienceFilter = document.getElementById('audienceFilter');
+  const whereNowResult = document.getElementById('whereNowResult');
+  let activeTags = [];
+  let activeQueryText = '';
 
   const quickDefs = [
     { id: 'developer', label: '👩‍💻 Developer' },
@@ -329,19 +379,40 @@ function answerQuestion(q, eventMeta, agendaSummary) {
     return z ? z.name : zoneId;
   }
 
+  function populateSelect(select, values, allLabel) {
+    select.innerHTML = [`<option value="">${allLabel}</option>`, ...values.map(value => `<option value="${value}">${value}</option>`)].join('');
+  }
+
+  function currentFilters() {
+    return {
+      sessionType: sessionTypeFilter.value,
+      topic: topicFilter.value,
+      audience: audienceFilter.value
+    };
+  }
+
+  function filterItems(items, filters) {
+    return items.filter(item => matchesCatalogFilter(item, filters));
+  }
+
   function renderRecommendations(tags, queryText = '') {
+    activeTags = tags;
+    activeQueryText = queryText;
     const effectiveTags = tags.length ? tags : ['ai-agents', 'github-copilot', 'developer', 'business-value'];
-    const recommendedWorkshops = scoreItems(workshops, effectiveTags, queryText).slice(0, 4);
-    const recommendedBooths = scoreItems(booths, effectiveTags, queryText).slice(0, 4);
+    const filters = currentFilters();
+    const filteredWorkshops = filterItems(workshops, filters);
+    const filteredBooths = filterItems(booths, filters);
+    const recommendedWorkshops = scoreItems(filteredWorkshops, effectiveTags, queryText).slice(0, 4);
+    const recommendedBooths = scoreItems(filteredBooths, effectiveTags, queryText).slice(0, 4);
     const zoneId = pickZone(recommendedWorkshops, recommendedBooths);
 
     zoneResult.textContent = zoneName(zoneId);
     workshopResults.innerHTML = recommendedWorkshops.length
-      ? recommendedWorkshops.map(w => renderRecommendationItem(w, 'workshop')).join('')
-      : '<li>Add workshops to the catalog JSON to show recommendations here.</li>';
+      ? recommendedWorkshops.map(w => renderRecommendationItem(w, 'workshop', effectiveTags, queryText)).join('')
+      : '<li>No workshops match the current filters. Try resetting the catalog filters.</li>';
     boothResults.innerHTML = recommendedBooths.length
-      ? recommendedBooths.map(b => renderRecommendationItem(b, 'booth')).join('')
-      : '<li>Add booths to the catalog JSON to show recommendations here.</li>';
+      ? recommendedBooths.map(b => renderRecommendationItem(b, 'booth', effectiveTags, queryText)).join('')
+      : '<li>No demo booths match the current filters. Try a broader topic or audience.</li>';
 
     const path = buildIdealPath(recommendedWorkshops, recommendedBooths, agendaSummary);
     renderEventMap(path, zoneId, zoneName(zoneId));
@@ -367,6 +438,52 @@ function answerQuestion(q, eventMeta, agendaSummary) {
     results.classList.remove('hidden');
     resultsEmpty.classList.add('hidden');
   }
+
+  function recommendNextStop() {
+    const currentLocation = document.getElementById('currentLocation').value;
+    const timeAvailable = Number(document.getElementById('timeAvailable').value);
+    const interest = document.getElementById('nextInterest').value;
+    const tags = taxonomy[interest] || [];
+    const filters = currentFilters();
+    const candidates = [...filterItems(workshops, filters), ...filterItems(booths, filters)]
+      .map(item => {
+        const score = scoreItems([item], tags, interest)[0] ? 1 : 0;
+        const walk = distanceFrom(currentLocation, item);
+        const fit = walk + Math.min(item.duration_minutes || 15, 20) <= timeAvailable + 10;
+        const tagHits = (item.interest_tags || []).filter(tag => tags.includes(tag)).length;
+        return { item, walk, fit, rank: tagHits * 10 + (fit ? 4 : 0) - walk };
+      })
+      .sort((a, b) => b.rank - a.rank);
+    const best = candidates[0];
+    if (!best) {
+      whereNowResult.innerHTML = '<strong>No matching stop yet.</strong><span>Try resetting filters or choosing another interest.</span>';
+      return;
+    }
+    const location = locationFor(best.item);
+    const title = itemTitle(best.item);
+    whereNowResult.innerHTML = `
+      <strong>${title}</strong>
+      <span>${location.area} · about ${best.walk} min from your current location.</span>
+      <p>${best.fit ? 'Fits your time window' : 'Slightly tight, but still the best match'} and aligns with ${tagLabels[tags[0]] || interest}.</p>
+    `;
+  }
+
+  populateSelect(sessionTypeFilter, catalogFilters.session_types, 'All session types');
+  populateSelect(topicFilter, catalogFilters.topics, 'All topics');
+  populateSelect(audienceFilter, catalogFilters.audiences, 'All audiences');
+
+  document.getElementById('applyFilters').addEventListener('click', () => {
+    renderRecommendations(activeTags, activeQueryText);
+  });
+
+  document.getElementById('resetFilters').addEventListener('click', () => {
+    sessionTypeFilter.value = '';
+    topicFilter.value = '';
+    audienceFilter.value = '';
+    renderRecommendations(activeTags, activeQueryText);
+  });
+
+  document.getElementById('whereNowButton').addEventListener('click', recommendNextStop);
 
   quickDefs.forEach(btn => {
     const el = document.createElement('button');

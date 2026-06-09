@@ -26,6 +26,14 @@ Open:
 http://localhost:8000/app/
 ```
 
+The default URL intentionally shows the original attendee experience.
+
+Preview the enhanced Copilot-demo version:
+
+```text
+http://localhost:8000/app/?demo=copilot
+```
+
 Optional custom port:
 
 ```bash
@@ -106,13 +114,28 @@ Pin locations are configured in `app/app.js` under `venueLocations`.
 
 Use this app as a Copilot-ready extension demo rather than a claim that the full app was generated live.
 
+The default attendee page stays simple:
+
+```text
+http://localhost:8000/app/
+```
+
+The enhanced reference version is available separately:
+
+```text
+http://localhost:8000/app/?demo=copilot
+```
+
 Suggested flow:
 
 1. Open the attendee guide and choose a fast path such as **Developer**.
 2. Show the recommendations, venue map, ideal path, and time-conflict handling.
-3. Use **Official catalog filters** to mirror the public AI Tour catalog filters: session type, topic, and audience.
-4. Use **Where should I go now?** to recommend a next stop based on current hall, time available, and interest.
-5. In VS Code, show how GitHub Copilot can explain or extend the codebase:
+3. Ask attendees what they would add next.
+4. Open `prompts/05-demo-extensions.txt` and paste one prompt into GitHub Copilot Chat.
+5. Use the enhanced preview URL to show the target experience:
+   - **Official catalog filters** mirror the public AI Tour catalog filters: session type, topic, and audience.
+   - **Where should I go now?** recommends a next stop based on current hall, time available, and interest.
+   - **Why this?** explains recommendations.
 
 ```text
 Explain how this app recommends workshops, booths, zones, map pins, and next-best stops.
@@ -120,6 +143,8 @@ Point me to the JSON files and functions I should edit to adapt it for another e
 ```
 
 Safe live prompts:
+
+See `prompts/05-demo-extensions.txt`.
 
 ```text
 Add another catalog filter for audience seniority using the existing JSON pattern.

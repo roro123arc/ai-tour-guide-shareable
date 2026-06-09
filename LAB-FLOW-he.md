@@ -42,6 +42,24 @@
 - `Why this?` - הסבר קצר למה סשן/booth הומלץ
 - `Copy my route` - העתקת המסלול כטקסט
 
+ברירת המחדל של האפליקציה נשארת הדף המקורי:
+
+```text
+http://localhost:8000/app/
+```
+
+גרסת preview עם התוספות זמינה כאן:
+
+```text
+http://localhost:8000/app/?demo=copilot
+```
+
+קובץ הפרומפטים המוכן:
+
+```text
+prompts/05-demo-extensions.txt
+```
+
 Prompt פתיחה מומלץ:
 
 ```text

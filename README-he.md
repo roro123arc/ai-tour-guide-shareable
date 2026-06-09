@@ -38,6 +38,14 @@ cd ai-tour-guide-shareable
 http://localhost:8000/app/
 ```
 
+זו הכתובת המקורית והנקייה למשתתפים.
+
+כתובת preview לגרסה המשודרגת של דמו Copilot:
+
+```text
+http://localhost:8000/app/?demo=copilot
+```
+
 אם צריך פורט אחר:
 
 ```bash
@@ -120,13 +128,26 @@ app/app.js
 
 הסיפור המדויק: זה לא דמו שטוען ש-GitHub Copilot בנה את כל האפליקציה מאפס בלייב. זה דמו שמראה איך משתמשים ב-GitHub Copilot על codebase אמיתי כדי להבין, להרחיב ולהתאים חוויית משתתפים.
 
+חשוב: ברירת המחדל נשארת הדף המקורי:
+
+```text
+http://localhost:8000/app/
+```
+
+הגרסה המשודרגת קיימת רק כ-preview/reference:
+
+```text
+http://localhost:8000/app/?demo=copilot
+```
+
 מה להראות:
 
 1. לפתוח את האפליקציה ולבחור fast path, למשל Developer.
 2. להראות recommendations, מפת venue, ideal path ו-time conflicts.
-3. להראות את **Official catalog filters** שמדמים את פילטרי הקטלוג הרשמי: session type, topic, audience.
-4. להראות את **Where should I go now?** שממליץ על התחנה הבאה לפי מיקום נוכחי, זמן פנוי ו-interest.
-5. לעבור ל-VS Code ולבקש מ-GitHub Copilot להסביר או להרחיב את הקוד.
+3. לשאול את המשתתף/קהל: “מה הייתם מוסיפים עכשיו?”
+4. לפתוח את `prompts/05-demo-extensions.txt`.
+5. להריץ prompt אחד ב-GitHub Copilot Chat.
+6. לפתוח את גרסת ה-preview כדי להראות את התוצאה הרצויה.
 
 Prompt מומלץ:
 
@@ -136,6 +157,12 @@ Point me to the JSON files and functions I should edit to adapt it for another e
 ```
 
 עוד prompts בטוחים לדמו:
+
+ראו גם:
+
+```text
+prompts/05-demo-extensions.txt
+```
 
 ```text
 Add another catalog filter for audience seniority using the existing JSON pattern.

@@ -3,6 +3,9 @@ async function loadJson(path) {
   return res.json();
 }
 
+const queryParams = new URLSearchParams(window.location.search);
+const copilotDemoMode = queryParams.get('demo') === 'copilot';
+
 function normalise(text) {
   return (text || '').toLowerCase();
 }
@@ -276,11 +279,14 @@ function explainRecommendation(item, type, tags = [], queryText = '') {
 
 function renderRecommendationItem(item, type, tags = [], queryText = '') {
   const title = type === 'booth' ? item.name : item.title;
+  const explanation = copilotDemoMode
+    ? `<span class="why-this">${explainRecommendation(item, type, tags, queryText)}</span>`
+    : '';
   return `
     <li class="recommendation-item">
       <strong>${title}</strong>
       <span>${item.description}</span>
-      <span class="why-this">${explainRecommendation(item, type, tags, queryText)}</span>
+      ${explanation}
       <div class="tag-row">${renderTags(item.interest_tags)}</div>
     </li>
   `;
@@ -366,6 +372,10 @@ function answerQuestion(q, eventMeta, agendaSummary) {
   const whereNowResult = document.getElementById('whereNowResult');
   let activeTags = [];
   let activeQueryText = '';
+
+  if (copilotDemoMode) {
+    document.getElementById('copilotDemoExtensions').classList.remove('hidden');
+  }
 
   const quickDefs = [
     { id: 'developer', label: '👩‍💻 Developer' },

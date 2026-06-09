@@ -1,0 +1,101 @@
+# GitHub Copilot booth demo prompts
+
+Use these prompts after showing the original attendee guide at `/app/`.
+The idea is to let attendees choose what capability to add next, then use
+GitHub Copilot to inspect and extend the existing codebase.
+
+Preview URL for the already-built reference version:
+
+```text
+http://localhost:8000/app/?demo=copilot
+```
+
+## Prompt 1 - understand the current app
+
+```text
+Explain how this static AI Tour Guide app works.
+Cover:
+- where event data is stored
+- how workshops and booths are recommended
+- how the map pins are connected to sessions
+- how the ideal path avoids time conflicts
+- which files I should edit to add a new attendee feature
+Keep the explanation practical for a developer at a conference booth.
+```
+
+## Prompt 2 - add official catalog filters
+
+```text
+Add a compact “Official catalog filters” panel to this app.
+
+Requirements:
+- Keep the default attendee guide simple and stable.
+- Add filters for Session type, Topic, and Audience.
+- Use data/catalog_filters.json for the available filter values.
+- Use existing metadata on workshops and booths:
+  session_type, topics, audience, hall.
+- Filtering should update recommended workshops and demo booths.
+- Do not add a backend, login, or external API.
+```
+
+## Prompt 3 - add “Where should I go now?”
+
+```text
+Add a “Where should I go now?” card.
+
+Inputs:
+- Current location: Registration, Hall C+D, Hall B, Hall F,G,H, Hall K,L,M
+- Time available: 10, 20, or 30 minutes
+- Interest: Developer, Security, Data, AI Agents
+
+Output:
+- One recommended next stop
+- The hall
+- Approximate walking time
+- Short reason based on interest match and time window
+
+Use local JSON and existing venueLocations only.
+Do not call Google Maps or any external API.
+```
+
+## Prompt 4 - add “Why this?”
+
+```text
+Add a short “Why this?” explanation under each recommended workshop and booth.
+
+Use:
+- matched interest tags
+- session type
+- audience
+- hall/location
+- whether the item fits the selected profile
+
+Keep each explanation to one sentence.
+```
+
+## Prompt 5 - add “Copy my route”
+
+```text
+Add a “Copy my route” button near “Your ideal path”.
+When clicked, copy a clean text itinerary to the clipboard with:
+- suggested zone
+- workshops
+- demo booths
+- halls
+- times
+- time conflict notes, if any
+
+Show a small success message after copying.
+Keep the app static and local.
+```
+
+## Suggested booth storyline
+
+```text
+The attendee first sees the original guide at /app/.
+Then we ask: “What would make this more useful at the event?”
+The audience chooses a feature.
+We use GitHub Copilot to understand the code and add the feature.
+The reference version is available at /app/?demo=copilot.
+```
+

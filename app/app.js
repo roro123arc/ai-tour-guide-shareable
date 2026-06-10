@@ -8,7 +8,7 @@ const copilotDemoMode = queryParams.get('demo') === 'copilot';
 
 function bindIntroModal() {
   const modal = document.getElementById('introModal');
-  const closeButtons = [document.getElementById('introStart')];
+  const closeButtons = [document.getElementById('introStart'), document.getElementById('introPreview')];
   const closeModal = () => modal?.classList.add('hidden');
 
   closeButtons.forEach(button => button?.addEventListener('click', closeModal));

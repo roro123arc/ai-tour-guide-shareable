@@ -6,6 +6,20 @@ async function loadJson(path) {
 const queryParams = new URLSearchParams(window.location.search);
 const copilotDemoMode = queryParams.get('demo') === 'copilot';
 
+function bindIntroModal() {
+  const modal = document.getElementById('introModal');
+  const closeButtons = [document.getElementById('introClose'), document.getElementById('introStart')];
+  const closeModal = () => modal?.classList.add('hidden');
+
+  closeButtons.forEach(button => button?.addEventListener('click', closeModal));
+  modal?.addEventListener('click', event => {
+    if (event.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeModal();
+  });
+}
+
 function normalise(text) {
   return (text || '').toLowerCase();
 }
@@ -343,6 +357,8 @@ function answerQuestion(q, eventMeta, agendaSummary) {
 }
 
 (async function init() {
+  bindIntroModal();
+
   const [eventMeta, agendaSummary, workshops, booths, sampleProfiles, taxonomy, zones, catalogFilters] = await Promise.all([
     loadJson('../data/event_meta.json'),
     loadJson('../data/agenda_summary.json'),

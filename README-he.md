@@ -143,11 +143,12 @@ http://localhost:8000/app/?demo=copilot
 מה להראות:
 
 1. לפתוח את האפליקציה ולבחור fast path, למשל Developer.
-2. להראות recommendations, מפת venue, ideal path ו-time conflicts.
-3. לשאול את המשתתף/קהל: “מה הייתם מוסיפים עכשיו?”
-4. לפתוח את `prompts/05-demo-extensions.txt`.
-5. להריץ prompt אחד ב-GitHub Copilot Chat.
-6. לפתוח את גרסת ה-preview כדי להראות את התוצאה הרצויה.
+2. להשתמש ב-intro popup כדי למסגר את הסיפור: קודם attendee mode, אחר כך builder mode עם GitHub Copilot.
+3. להראות recommendations, מפת venue, ideal path ו-time conflicts.
+4. לשאול את המשתתף/קהל: “מה הייתם מוסיפים עכשיו?”
+5. לפתוח את `prompts/05-demo-extensions.txt`.
+6. להריץ prompt אחד ב-GitHub Copilot Chat.
+7. לפתוח את גרסת ה-preview כדי להראות את התוצאה הרצויה.
 
 Prompt מומלץ:
 

@@ -129,10 +129,11 @@ http://localhost:8000/app/?demo=copilot
 Suggested flow:
 
 1. Open the attendee guide and choose a fast path such as **Developer**.
-2. Show the recommendations, venue map, ideal path, and time-conflict handling.
-3. Ask attendees what they would add next.
-4. Open `prompts/05-demo-extensions.txt` and paste one prompt into GitHub Copilot Chat.
-5. Use the enhanced preview URL to show the target experience:
+2. Use the intro popup to frame the experience: attendee mode first, builder mode with GitHub Copilot next.
+3. Show the recommendations, venue map, ideal path, and time-conflict handling.
+4. Ask attendees what they would add next.
+5. Open `prompts/05-demo-extensions.txt` and paste one prompt into GitHub Copilot Chat.
+6. Use the enhanced preview URL to show the target experience:
    - **Official catalog filters** mirror the public AI Tour catalog filters: session type, topic, and audience.
    - **Where should I go now?** recommends a next stop based on current hall, time available, and interest.
    - **Why this?** explains recommendations.

@@ -246,21 +246,6 @@ code {
   line-height: 1.5;
 }
 
-.intro-close {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--cp-border);
-  border-radius: 50%;
-  background: var(--cp-surface);
-  color: var(--cp-text);
-  cursor: pointer;
-  font-size: 22px;
-  line-height: 1;
-}
-
 .intro-actions {
   display: flex;
   flex-wrap: wrap;

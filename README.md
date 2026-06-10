@@ -129,7 +129,7 @@ http://localhost:8000/app/?demo=copilot
 Suggested flow:
 
 1. Open the attendee guide and choose a fast path such as **Developer**.
-2. Use the intro popup to frame the experience: attendee mode first, builder mode with GitHub Copilot next.
+2. Use the intro popup to frame the experience: the guide was built and improved with GitHub Copilot, then attendees can try adding features live.
 3. Show the recommendations, venue map, ideal path, and time-conflict handling.
 4. Ask attendees what they would add next.
 5. Open `prompts/05-demo-extensions.txt` and paste one prompt into GitHub Copilot Chat.

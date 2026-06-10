@@ -143,7 +143,7 @@ http://localhost:8000/app/?demo=copilot
 מה להראות:
 
 1. לפתוח את האפליקציה ולבחור fast path, למשל Developer.
-2. להשתמש ב-intro popup כדי למסגר את הסיפור: קודם attendee mode, אחר כך builder mode עם GitHub Copilot.
+2. להשתמש ב-intro popup כדי למסגר את הסיפור: ה-guide נבנה ושופר בעזרת GitHub Copilot, ואז המשתתפים יכולים להתנסות בהוספת פיצ׳רים בלייב.
 3. להראות recommendations, מפת venue, ideal path ו-time conflicts.
 4. לשאול את המשתתף/קהל: “מה הייתם מוסיפים עכשיו?”
 5. לפתוח את `prompts/05-demo-extensions.txt`.

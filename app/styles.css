@@ -157,6 +157,7 @@ h3 { margin: 0 0 8px; }
 }
 
 .hero-badges span,
+.badge-button,
 .source-strip,
 .pill {
   border: 1px solid var(--cp-border);
@@ -165,7 +166,21 @@ h3 { margin: 0 0 8px; }
   border-radius: 999px;
 }
 
-.hero-badges span { padding: 8px 12px; font-weight: 700; }
+.hero-badges span,
+.badge-button {
+  padding: 8px 12px;
+  font-weight: 700;
+}
+
+.badge-button {
+  cursor: pointer;
+  font: inherit;
+}
+
+.badge-button:hover {
+  border-color: var(--cp-border-strong);
+  background: var(--cp-surface-soft);
+}
 
 .hero-visual {
   position: relative;
@@ -258,6 +273,63 @@ code {
   color: var(--cp-link);
   font-weight: 900;
   text-decoration: none;
+}
+
+.qr-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(17, 24, 39, .46);
+}
+
+.qr-card {
+  position: relative;
+  width: min(420px, 100%);
+  padding: 24px;
+  border: 1px solid var(--cp-border);
+  border-radius: 24px;
+  background: var(--cp-panel-strong);
+  box-shadow: var(--cp-shadow);
+  text-align: center;
+}
+
+.qr-card h2 {
+  margin-bottom: 16px;
+}
+
+.qr-card img {
+  display: block;
+  width: min(280px, 100%);
+  height: auto;
+  margin: 0 auto 14px;
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  background: var(--cp-surface);
+}
+
+.qr-card p:last-child {
+  margin: 0;
+  color: var(--cp-text-muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.qr-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--cp-border);
+  border-radius: 50%;
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
 }
 
 .card {

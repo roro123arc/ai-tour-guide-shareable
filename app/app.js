@@ -20,6 +20,23 @@ function bindIntroModal() {
   });
 }
 
+function bindQrModal() {
+  const modal = document.getElementById('qrModal');
+  const openButton = document.getElementById('qrBadge');
+  const closeButton = document.getElementById('qrClose');
+  const openModal = () => modal?.classList.remove('hidden');
+  const closeModal = () => modal?.classList.add('hidden');
+
+  openButton?.addEventListener('click', openModal);
+  closeButton?.addEventListener('click', closeModal);
+  modal?.addEventListener('click', event => {
+    if (event.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeModal();
+  });
+}
+
 function normalise(text) {
   return (text || '').toLowerCase();
 }
@@ -358,6 +375,7 @@ function answerQuestion(q, eventMeta, agendaSummary) {
 
 (async function init() {
   bindIntroModal();
+  bindQrModal();
 
   const [eventMeta, agendaSummary, workshops, booths, sampleProfiles, taxonomy, zones, catalogFilters] = await Promise.all([
     loadJson('../data/event_meta.json'),

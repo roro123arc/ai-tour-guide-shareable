@@ -31,6 +31,16 @@
     </div>
   </div>
 
+  <div class="qr-modal hidden" id="qrModal" role="dialog" aria-modal="true" aria-labelledby="qrTitle">
+    <div class="qr-card">
+      <button class="qr-close" id="qrClose" type="button" aria-label="Close QR code">×</button>
+      <p class="step-label">Scan to open</p>
+      <h2 id="qrTitle">AI Tour Guide QR</h2>
+      <img src="assets/ai-tour-guide-public-qr.png" alt="QR code for the public AI Tour Guide site" />
+      <p>https://roro123arc.github.io/ai-tour-guide-shareable/app/</p>
+    </div>
+  </div>
+
   <main class="container">
     <header class="hero">
       <div class="hero-content">
@@ -47,7 +57,7 @@
           <span>Catalog JSON</span>
           <span>No login</span>
           <span>Copilot-built</span>
-          <span>QR-ready</span>
+          <button class="badge-button" id="qrBadge" type="button">QR</button>
         </div>
       </div>
       <div class="hero-visual">

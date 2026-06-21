@@ -356,8 +356,27 @@ function renderMealWindow(agendaSummary) {
   `;
 }
 
-function answerQuestion(q, eventMeta, agendaSummary) {
+function answerQuestion(q, eventMeta, agendaSummary, stations = []) {
   const text = normalise(q);
+  const stationMatches = stations.filter(station => {
+    const searchable = normalise([
+      station.name,
+      station.description,
+      station.hall,
+      station.station_type,
+      ...(station.topics || []),
+      ...(station.audience || []),
+      ...(station.interest_tags || [])
+    ].join(' '));
+    return text.includes('station') || text.includes('booth')
+      ? text.split(/[^a-z0-9+#.-]+/).filter(token => token.length > 2).some(token => searchable.includes(token))
+      : searchable.includes(text);
+  }).slice(0, 4);
+  if ((text.includes('station') || text.includes('booth') || text.includes('hall')) && stationMatches.length) {
+    return stationMatches
+      .map(station => `${station.name}: ${station.description} (${station.hall})`)
+      .join('\n');
+  }
   if (text.includes('when') && text.includes('breakout')) {
     return `Breakout sessions begin at ${eventMeta.breakouts_start}.`;
   }
@@ -377,11 +396,12 @@ function answerQuestion(q, eventMeta, agendaSummary) {
   bindIntroModal();
   bindQrModal();
 
-  const [eventMeta, agendaSummary, workshops, booths, sampleProfiles, taxonomy, zones, catalogFilters] = await Promise.all([
+  const [eventMeta, agendaSummary, workshops, booths, stations, sampleProfiles, taxonomy, zones, catalogFilters] = await Promise.all([
     loadJson('../data/event_meta.json'),
     loadJson('../data/agenda_summary.json'),
     loadJson('../data/workshops.json'),
     loadJson('../data/booths.json'),
+    loadJson('../data/stations.json'),
     loadJson('../data/sample_profiles.json'),
     loadJson('../data/interests_taxonomy.json'),
     loadJson('../data/zones.json'),
@@ -487,6 +507,10 @@ function answerQuestion(q, eventMeta, agendaSummary) {
 
     results.classList.remove('hidden');
     resultsEmpty.classList.add('hidden');
+
+    requestAnimationFrame(() => {
+      document.getElementById('mapSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   }
 
   function recommendNextStop() {
@@ -562,6 +586,11 @@ function answerQuestion(q, eventMeta, agendaSummary) {
 
   document.getElementById('submitProfile').addEventListener('click', () => {
     resetCatalogFilters();
+    const submitButton = document.getElementById('submitProfile');
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Building recommendations...';
+    }
     const title = document.getElementById('jobTitle').value;
     const company = document.getElementById('company').value;
     const description = document.getElementById('description').value;
@@ -571,11 +600,24 @@ function answerQuestion(q, eventMeta, agendaSummary) {
       tags = ['ai-agents', 'github-copilot', 'developer', 'business-value'];
     }
     renderRecommendations(tags, queryText);
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Recommendations ready';
+    }
+  });
+
+  ['jobTitle', 'company', 'description'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', () => {
+      const submitButton = document.getElementById('submitProfile');
+      if (!submitButton) return;
+      submitButton.disabled = false;
+      submitButton.textContent = 'Get recommendations';
+    });
   });
 
   document.getElementById('askQuestion').addEventListener('click', () => {
     const q = document.getElementById('questionInput').value;
-    qaAnswer.textContent = answerQuestion(q, eventMeta);
+    qaAnswer.textContent = answerQuestion(q, eventMeta, agendaSummary, stations);
     qaAnswer.classList.remove('hidden');
   });
 })();

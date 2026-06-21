@@ -1,0 +1,68 @@
+[
+  {
+    "station_id": "station-fabric",
+    "name": "Fabric",
+    "station_type": "Demo station",
+    "description": "Real-time bus telemetry demo using public transportation data from Israel",
+    "hall": "Hall C+D",
+    "zone_id": "data-zone",
+    "topics": ["Unify your data platform"],
+    "audience": ["Developers", "Decision-makers"],
+    "interest_tags": ["fabric", "data", "analytics"]
+  },
+  {
+    "station_id": "station-powerbi",
+    "name": "Power BI",
+    "station_type": "Demo station",
+    "description": "Interactive reporting ideas using NFC cards, storytelling, and live reports",
+    "hall": "Hall C+D",
+    "zone_id": "data-zone",
+    "topics": ["Unify your data platform"],
+    "audience": ["Decision-makers"],
+    "interest_tags": ["power-bi", "data", "analytics"]
+  },
+  {
+    "station_id": "station-health-ai",
+    "name": "Health AI",
+    "station_type": "Demo station",
+    "description": "Healthcare copilot and agent experiences",
+    "hall": "Hall C+D",
+    "zone_id": "expo",
+    "topics": ["Copilot and agents at work", "Innovate with low code AI and agents"],
+    "audience": ["Decision-makers"],
+    "interest_tags": ["ai-agents", "copilot-productivity", "business-value"]
+  },
+  {
+    "station_id": "station-better-together-security",
+    "name": "Better Together Security",
+    "station_type": "Demo station",
+    "description": "Security investigation and exposure management story",
+    "hall": "Hall C+D",
+    "zone_id": "security-zone",
+    "topics": ["Security"],
+    "audience": ["Decision-makers"],
+    "interest_tags": ["security", "governance"]
+  },
+  {
+    "station_id": "station-security-for-ai",
+    "name": "Security for AI",
+    "station_type": "Demo station",
+    "description": "How organisations can use AI safely with attack detection for AI apps and services",
+    "hall": "Hall C+D",
+    "zone_id": "security-zone",
+    "topics": ["Security", "Copilot and agents at work"],
+    "audience": ["Developers", "Decision-makers"],
+    "interest_tags": ["security", "ai-agents", "governance"]
+  },
+  {
+    "station_id": "station-ai-for-security",
+    "name": "AI for Security",
+    "station_type": "Demo station",
+    "description": "Threat intelligence briefing agent and security-focused AI scenarios",
+    "hall": "Hall C+D",
+    "zone_id": "security-zone",
+    "topics": ["Security", "Innovate with Azure AI apps and agents"],
+    "audience": ["Developers", "Decision-makers"],
+    "interest_tags": ["security", "ai-agents"]
+  }
+]

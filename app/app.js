@@ -232,7 +232,7 @@ function renderEventMap(path, zoneId, zoneLabel) {
       location: zoneLocation
     },
     ...path.selected.map(entry => ({
-      label: entry.type === 'booth' ? 'Demo booth' : 'Workshop',
+      label: entry.type === 'booth' ? 'Demo station' : 'Workshop',
       title: itemTitle(entry.item),
       time: `${entry.start}-${entry.end}`,
       location: locationFor(entry.item)
@@ -325,7 +325,7 @@ function renderRecommendationItem(item, type, tags = [], queryText = '') {
 
 function renderTimelineItem(entry, status = 'selected') {
   const title = entry.type === 'booth' ? entry.item.name : entry.item.title;
-  const label = entry.type === 'booth' ? 'Booth visit' : 'Workshop';
+  const label = entry.type === 'booth' ? 'Demo station' : 'Workshop';
   const location = locationFor(entry.item);
   return `
     <div class="timeline-item ${status === 'conflict' ? 'timeline-conflict' : ''}">
@@ -358,9 +358,15 @@ function renderMealWindow(agendaSummary) {
 
 function answerQuestion(q, eventMeta, agendaSummary, stations = []) {
   const text = normalise(q);
+  if (text === 'stations' || text.includes('list stations') || text.includes('all stations')) {
+    return stations
+      .map(station => `${station.name}: ${station.title || station.description} (${station.station_type}, ${station.hall})`)
+      .join('\n');
+  }
   const stationMatches = stations.filter(station => {
     const searchable = normalise([
       station.name,
+      station.title,
       station.description,
       station.hall,
       station.station_type,
@@ -374,7 +380,7 @@ function answerQuestion(q, eventMeta, agendaSummary, stations = []) {
   }).slice(0, 4);
   if ((text.includes('station') || text.includes('booth') || text.includes('hall')) && stationMatches.length) {
     return stationMatches
-      .map(station => `${station.name}: ${station.description} (${station.hall})`)
+      .map(station => `${station.name}: ${station.title || station.description} (${station.station_type}, ${station.hall})`)
       .join('\n');
   }
   if (text.includes('when') && text.includes('breakout')) {
@@ -482,7 +488,7 @@ function answerQuestion(q, eventMeta, agendaSummary, stations = []) {
       : '<li>No workshops match the current filters. Try resetting the catalog filters.</li>';
     boothResults.innerHTML = recommendedBooths.length
       ? recommendedBooths.map(b => renderRecommendationItem(b, 'booth', effectiveTags, queryText)).join('')
-      : '<li>No demo booths match the current filters. Try a broader topic or audience.</li>';
+      : '<li>No demo stations match the current filters. Try a broader topic or audience.</li>';
 
     const path = buildIdealPath(recommendedWorkshops, recommendedBooths, agendaSummary);
     renderEventMap(path, zoneId, zoneName(zoneId));

@@ -2,8 +2,8 @@
   {
     "booth_id": "booth-fabric",
     "name": "Fabric",
-    "description": "Real-time bus telemetry demo using public transportation data from Israel",
-    "session_type": "Demo booth",
+    "description": "Fabric-themed digital escape room: “The Case of the Missing Trophy”. Participants use Fabric CLI to solve challenges across workspaces, lakehouses, pipelines, and notebooks, collect digits, and unlock a physical prize.",
+    "session_type": "Demo",
     "topics": [
       "Unify your data platform"
     ],
@@ -14,28 +14,29 @@
     "hall": "Hall C+D",
     "duration_minutes": 15,
     "interest_tags": [
-      "fabric",
       "data",
+      "fabric",
       "analytics"
     ],
     "zone_id": "data-zone"
   },
   {
-    "booth_id": "booth-powerbi",
-    "name": "Power BI",
-    "description": "Interactive reporting ideas using NFC cards, storytelling, and live reports",
-    "session_type": "Demo booth",
+    "booth_id": "booth-fabric-iq-power-bi",
+    "name": "Fabric IQ - Power BI",
+    "description": "Power BI / Fabric IQ experience.",
+    "session_type": "Demo",
     "topics": [
       "Unify your data platform"
     ],
     "audience": [
+      "Developers",
       "Decision-makers"
     ],
     "hall": "Hall C+D",
     "duration_minutes": 15,
     "interest_tags": [
-      "power-bi",
       "data",
+      "fabric",
       "analytics"
     ],
     "zone_id": "data-zone"
@@ -43,50 +44,31 @@
   {
     "booth_id": "booth-health-ai",
     "name": "Health AI",
-    "description": "Healthcare copilot and agent experiences",
-    "session_type": "Demo booth",
+    "description": "Copilot Agent for Healthcare, Health Agent Service, Dragon Copilot, healthcare safeguards, healthcare language models, medical context, interoperability, credible sources, healthcare workflows, multi-channel scenarios.",
+    "session_type": "Demo",
     "topics": [
       "Copilot and agents at work",
       "Innovate with low code AI and agents"
     ],
     "audience": [
+      "Developers",
       "Decision-makers"
     ],
     "hall": "Hall C+D",
     "duration_minutes": 15,
     "interest_tags": [
-      "ai-agents",
       "copilot-productivity",
+      "ai-agents",
       "business-value"
     ],
     "zone_id": "expo"
   },
   {
-    "booth_id": "booth-better-together-security",
-    "name": "Better Together Security",
-    "description": "Security investigation and exposure management story",
-    "session_type": "Demo booth",
+    "booth_id": "booth-site-reliability-engineering-agents",
+    "name": "Site Reliability Engineering Agents",
+    "description": "Troubleshoot a live incident with SRE Agent. Connect 3rd-party MCPs and connectors to gather more information.",
+    "session_type": "Demo",
     "topics": [
-      "Security"
-    ],
-    "audience": [
-      "Decision-makers"
-    ],
-    "hall": "Hall C+D",
-    "duration_minutes": 15,
-    "interest_tags": [
-      "security",
-      "governance"
-    ],
-    "zone_id": "security-zone"
-  },
-  {
-    "booth_id": "booth-security-for-ai",
-    "name": "Security for AI",
-    "description": "How organisations can use AI safely with attack detection for AI apps and services",
-    "session_type": "Demo booth",
-    "topics": [
-      "Security",
       "Copilot and agents at work"
     ],
     "audience": [
@@ -96,20 +78,17 @@
     "hall": "Hall C+D",
     "duration_minutes": 15,
     "interest_tags": [
-      "security",
-      "ai-agents",
-      "governance"
+      "business-value"
     ],
-    "zone_id": "security-zone"
+    "zone_id": "expo"
   },
   {
-    "booth_id": "booth-ai-for-security",
-    "name": "AI for Security",
-    "description": "Threat intelligence briefing agent and security-focused AI scenarios",
-    "session_type": "Demo booth",
+    "booth_id": "booth-security-orchestration-automation-and-response-agent-soar-agent",
+    "name": "Security Orchestration, Automation and Response Agent SOAR Agent",
+    "description": "SOAR Agent demo. Links: YouTube and demos.microsoft.com.",
+    "session_type": "Demo",
     "topics": [
-      "Security",
-      "Innovate with Azure AI apps and agents"
+      "Security"
     ],
     "audience": [
       "Developers",
@@ -119,8 +98,88 @@
     "duration_minutes": 15,
     "interest_tags": [
       "security",
+      "governance",
       "ai-agents"
     ],
     "zone_id": "security-zone"
+  },
+  {
+    "booth_id": "booth-security-for-ai-agent-365",
+    "name": "Security for AI & Agent 365",
+    "description": "Security for AI and Agent 365.",
+    "session_type": "Demo",
+    "topics": [
+      "Security"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "hall": "Hall C+D",
+    "duration_minutes": 15,
+    "interest_tags": [
+      "security",
+      "governance",
+      "ai-agents"
+    ],
+    "zone_id": "security-zone"
+  },
+  {
+    "booth_id": "booth-security-operations-center-agent",
+    "name": "Security Operations Center Agent",
+    "description": "Triage Agent by Jael Fafner + Analyst Note by Yotam Segev.",
+    "session_type": "Demo",
+    "topics": [
+      "Security"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "hall": "Hall C+D",
+    "duration_minutes": 15,
+    "interest_tags": [
+      "security",
+      "governance",
+      "ai-agents"
+    ],
+    "zone_id": "security-zone"
+  },
+  {
+    "booth_id": "booth-researcher-demo",
+    "name": "Researcher Demo",
+    "description": "Researcher demo.",
+    "session_type": "Demo",
+    "topics": [
+      "Copilot and agents at work"
+    ],
+    "audience": [
+      "Decision-makers"
+    ],
+    "hall": "Hall C+D",
+    "duration_minutes": 15,
+    "interest_tags": [
+      "copilot-productivity",
+      "ai-agents"
+    ],
+    "zone_id": "expo"
+  },
+  {
+    "booth_id": "booth-ask-the-expert",
+    "name": "ASK the EXPERT",
+    "description": "Open expert station for attendee questions, guidance, architecture discussion, troubleshooting, and follow-up conversations.",
+    "session_type": "Expert Station / Q&A",
+    "topics": [
+      "Copilot and agents at work"
+    ],
+    "audience": [
+      "Decision-makers"
+    ],
+    "hall": "Hall C+D",
+    "duration_minutes": 15,
+    "interest_tags": [
+      "business-value"
+    ],
+    "zone_id": "expo"
   }
 ]

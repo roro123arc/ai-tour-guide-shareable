@@ -2,67 +2,659 @@
   {
     "station_id": "station-fabric",
     "name": "Fabric",
-    "station_type": "Demo station",
-    "description": "Real-time bus telemetry demo using public transportation data from Israel",
+    "title": "Real‑Time Intelligence with Microsoft Fabric and AI Agents",
+    "station_type": "Demo",
+    "description": "Fabric-themed digital escape room: “The Case of the Missing Trophy”. Participants use Fabric CLI to solve challenges across workspaces, lakehouses, pipelines, and notebooks, collect digits, and unlock a physical prize.",
+    "equipment": "מחשב נייד + דיסקוןקי לסרט",
     "hall": "Hall C+D",
     "zone_id": "data-zone",
-    "topics": ["Unify your data platform"],
-    "audience": ["Developers", "Decision-makers"],
-    "interest_tags": ["fabric", "data", "analytics"]
+    "topics": [
+      "Unify your data platform"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "data",
+      "fabric",
+      "analytics"
+    ],
+    "presenters": [
+      "Naor Biton",
+      "Dori Rabin",
+      "Michael Greenshtein"
+    ],
+    "time_slots": {
+      "08:30-11:00": [],
+      "11:00-13:00": [],
+      "13:00-15:00": [],
+      "15:00-16:30": []
+    },
+    "content_owner": "",
+    "content_shared": "",
+    "status": "Not started",
+    "notes": "Requires physical lockbox / prize"
   },
   {
-    "station_id": "station-powerbi",
-    "name": "Power BI",
-    "station_type": "Demo station",
-    "description": "Interactive reporting ideas using NFC cards, storytelling, and live reports",
+    "station_id": "station-fabric-iq-power-bi",
+    "name": "Fabric IQ - Power BI",
+    "title": "Microsoft Fabric IQ- from Power BI to Agentic AI",
+    "station_type": "Demo",
+    "description": "Power BI / Fabric IQ experience.",
+    "equipment": "מחשב נייד + דיסקוןקי לסרט",
     "hall": "Hall C+D",
     "zone_id": "data-zone",
-    "topics": ["Unify your data platform"],
-    "audience": ["Decision-makers"],
-    "interest_tags": ["power-bi", "data", "analytics"]
+    "topics": [
+      "Unify your data platform"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "data",
+      "fabric",
+      "analytics"
+    ],
+    "presenters": [
+      "Yonathan Morgan",
+      "Uri Gaziel",
+      "Emanuel Shalmiev",
+      "Shemer Tenenbaum"
+    ],
+    "time_slots": {
+      "08:30-11:00": [],
+      "11:00-13:00": [],
+      "13:00-15:00": [],
+      "15:00-16:30": []
+    },
+    "content_owner": "",
+    "content_shared": "",
+    "status": "Not started",
+    "notes": ""
   },
   {
     "station_id": "station-health-ai",
     "name": "Health AI",
-    "station_type": "Demo station",
-    "description": "Healthcare copilot and agent experiences",
+    "title": "Clinic of Tomorrow + Microsoft Dragon Copilot",
+    "station_type": "Demo",
+    "description": "Copilot Agent for Healthcare, Health Agent Service, Dragon Copilot, healthcare safeguards, healthcare language models, medical context, interoperability, credible sources, healthcare workflows, multi-channel scenarios.",
+    "equipment": "3 מחשבים",
     "hall": "Hall C+D",
     "zone_id": "expo",
-    "topics": ["Copilot and agents at work", "Innovate with low code AI and agents"],
-    "audience": ["Decision-makers"],
-    "interest_tags": ["ai-agents", "copilot-productivity", "business-value"]
+    "topics": [
+      "Copilot and agents at work",
+      "Innovate with low code AI and agents"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "copilot-productivity",
+      "ai-agents",
+      "business-value"
+    ],
+    "presenters": [
+      "Einat Gruda Idelovitch",
+      "Sarit Saas",
+      "Assaf Sofer",
+      "Eddie Schneider",
+      "Hadas Bitran",
+      "Uri Einav",
+      "Yael Fischer-Oren",
+      "Lilach Goldshtein",
+      "Guy Epshtein",
+      "Linoy Tsarfaty",
+      "Noam Avidor",
+      "Ran Efrati",
+      "Ksenya Kveler"
+    ],
+    "time_slots": {
+      "08:30-11:00": [
+        "Uri Einav",
+        "Einat Gruda Idelovitch"
+      ],
+      "11:00-13:00": [
+        "Ksenya Kveler",
+        "Lilach Goldshtein"
+      ],
+      "13:00-15:00": [
+        "Uri Einav",
+        "Einat Gruda Idelovitch"
+      ],
+      "15:00-16:30": [
+        "Ksenya Kveler",
+        "Lilach Goldshtein"
+      ]
+    },
+    "content_owner": "Einat Gruda Idelovitch",
+    "content_shared": "",
+    "status": "Not started",
+    "notes": ""
   },
   {
-    "station_id": "station-better-together-security",
-    "name": "Better Together Security",
-    "station_type": "Demo station",
-    "description": "Security investigation and exposure management story",
+    "station_id": "station-site-reliability-engineering-agents",
+    "name": "Site Reliability Engineering Agents",
+    "title": "AI‑Driven Reliability Engineering",
+    "station_type": "Demo",
+    "description": "Troubleshoot a live incident with SRE Agent. Connect 3rd-party MCPs and connectors to gather more information.",
+    "equipment": "מחשב מחובר למסך ויציג מצגת + מחשב נוסף יצוגו דימו חיי - צריך לבדוק ????",
     "hall": "Hall C+D",
-    "zone_id": "security-zone",
-    "topics": ["Security"],
-    "audience": ["Decision-makers"],
-    "interest_tags": ["security", "governance"]
+    "zone_id": "expo",
+    "topics": [
+      "Copilot and agents at work"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "business-value"
+    ],
+    "presenters": [
+      "Aviv Kabesa",
+      "Lior Yantovski",
+      "Ohad Senior"
+    ],
+    "time_slots": {
+      "08:30-11:00": [
+        "Aviv Kabesa",
+        "Lior Yantovski",
+        "Ohad Senior"
+      ],
+      "11:00-13:00": [
+        "Maayan Luxemburg",
+        "Maor Mizrahi"
+      ],
+      "13:00-15:00": [
+        "Aviv Kabesa",
+        "Lior Yantovski",
+        "Ohad Senior"
+      ],
+      "15:00-16:30": [
+        "Maayan Luxemburg",
+        "Maor Mizrahi"
+      ]
+    },
+    "content_owner": "",
+    "content_shared": "",
+    "status": "Not started",
+    "notes": ""
   },
   {
-    "station_id": "station-security-for-ai",
-    "name": "Security for AI",
-    "station_type": "Demo station",
-    "description": "How organisations can use AI safely with attack detection for AI apps and services",
+    "station_id": "station-security-orchestration-automation-and-response-agent-soar-agent",
+    "name": "Security Orchestration, Automation and Response Agent SOAR Agent",
+    "title": "Security Orchestration, Automation and Response Agent",
+    "station_type": "Demo",
+    "description": "SOAR Agent demo. Links: YouTube and demos.microsoft.com.",
+    "equipment": "עוד מחשב ומוניטור 24 להוסיף אופציה להוסיף אוזניות 5",
     "hall": "Hall C+D",
     "zone_id": "security-zone",
-    "topics": ["Security", "Copilot and agents at work"],
-    "audience": ["Developers", "Decision-makers"],
-    "interest_tags": ["security", "ai-agents", "governance"]
+    "topics": [
+      "Security"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "security",
+      "governance",
+      "ai-agents"
+    ],
+    "presenters": [
+      "Noa Aviv",
+      "Raviv Marom"
+    ],
+    "time_slots": {
+      "08:30-11:00": [
+        "Raviv Marom",
+        "Noa Aviv",
+        "Shiran Shuster Zur",
+        "Penina Weiss"
+      ],
+      "11:00-13:00": [
+        "Raviv Marom",
+        "Noa Aviv",
+        "Shiran Shuster Zur",
+        "Elad Peleg",
+        "Matan Taub",
+        "Dor Segal",
+        "Gili Rosin"
+      ],
+      "13:00-15:00": [
+        "Raviv Marom",
+        "Noa Aviv",
+        "Shiran Shuster Zur",
+        "Elad Peleg",
+        "Matan Taub",
+        "Dor Segal",
+        "Gili Rosin",
+        "Noa Cafri",
+        "Or Adler"
+      ],
+      "15:00-16:30": [
+        "Matan Taub",
+        "Noa Cafri",
+        "Dor Segal",
+        "Or Adlerf"
+      ]
+    },
+    "content_owner": "Noa Aviv, Raviv Marom",
+    "content_shared": "https://www.youtube.com/watch?v=cIjYOW8N_R4 / https://demos.microsoft.com/app/present/6098#/0/0",
+    "status": "Not started",
+    "notes": "Validate demo access before event"
   },
   {
-    "station_id": "station-ai-for-security",
-    "name": "AI for Security",
-    "station_type": "Demo station",
-    "description": "Threat intelligence briefing agent and security-focused AI scenarios",
+    "station_id": "station-security-for-ai-agent-365",
+    "name": "Security for AI & Agent 365",
+    "title": "Protecting the Agentic Transformation with Microsoft Agent 365",
+    "station_type": "Demo",
+    "description": "Security for AI and Agent 365.",
+    "equipment": "עוד מחשב ומוניטור 24",
     "hall": "Hall C+D",
     "zone_id": "security-zone",
-    "topics": ["Security", "Innovate with Azure AI apps and agents"],
-    "audience": ["Developers", "Decision-makers"],
-    "interest_tags": ["security", "ai-agents"]
+    "topics": [
+      "Security"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "security",
+      "governance",
+      "ai-agents"
+    ],
+    "presenters": [
+      "Inbal Silis"
+    ],
+    "time_slots": {
+      "08:30-11:00": [
+        "Inbal Silis",
+        "Shimi Ezra"
+      ],
+      "11:00-13:00": [
+        "Inbal Silis",
+        "Shimi Ezra"
+      ],
+      "13:00-15:00": [
+        "Inbal Silis",
+        "Adi Weisberg"
+      ],
+      "15:00-16:30": [
+        "Inbal Silis",
+        "Adi Weisberg"
+      ]
+    },
+    "content_owner": "Inbal Silis",
+    "content_shared": "",
+    "status": "Not started",
+    "notes": ""
+  },
+  {
+    "station_id": "station-security-operations-center-agent",
+    "name": "Security Operations Center Agent",
+    "title": "AI Driven Soc + Triage Agent",
+    "station_type": "Demo",
+    "description": "Triage Agent by Jael Fafner + Analyst Note by Yotam Segev.",
+    "equipment": "",
+    "hall": "Hall C+D",
+    "zone_id": "security-zone",
+    "topics": [
+      "Security"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "security",
+      "governance",
+      "ai-agents"
+    ],
+    "presenters": [
+      "Jael Fafner",
+      "Yotam Segev"
+    ],
+    "time_slots": {
+      "08:30-11:00": [
+        "Yuval Saad Yaniv Granit"
+      ],
+      "11:00-13:00": [
+        "Yotam Feitelson Yoav Kalenstein"
+      ],
+      "13:00-15:00": [
+        "Dana Bouhadana (MatchPoint IT LTD) Mor Golan"
+      ],
+      "15:00-16:30": [
+        "Pini Cheyni Yuval Saad"
+      ]
+    },
+    "content_owner": "Jael Fafner, Yotam Segev",
+    "content_shared": "",
+    "status": "Not started",
+    "notes": ""
+  },
+  {
+    "station_id": "station-researcher-demo",
+    "name": "Researcher Demo",
+    "title": "Meet Microsoft Researcher",
+    "station_type": "Demo",
+    "description": "Researcher demo.",
+    "equipment": "מחשב מחובר למסך",
+    "hall": "Hall C+D",
+    "zone_id": "expo",
+    "topics": [
+      "Copilot and agents at work"
+    ],
+    "audience": [
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "copilot-productivity",
+      "ai-agents"
+    ],
+    "presenters": [
+      "Lior Saadon",
+      "Sharon Ben Zvi",
+      "Itai Hershenhoren",
+      "Noam Laish",
+      "Atalya Waissman"
+    ],
+    "time_slots": {
+      "08:30-11:00": [
+        "Lior Saadon",
+        "Sharon Ben Zvi",
+        "Itai Hershenhoren",
+        "Noam Laish",
+        "Atalya Waissman"
+      ],
+      "11:00-13:00": [
+        "Lior Saadon",
+        "Sharon Ben Zvi",
+        "Itai Hershenhoren",
+        "Noam Laish",
+        "Atalya Waissman"
+      ],
+      "13:00-15:00": [
+        "Lior Saadon",
+        "Sharon Ben Zvi",
+        "Itai Hershenhoren",
+        "Noam Laish",
+        "Atalya Waissman"
+      ],
+      "15:00-16:30": [
+        "Lior Saadon",
+        "Sharon Ben Zvi",
+        "Itai Hershenhoren",
+        "Noam Laish",
+        "Atalya Waissman"
+      ]
+    },
+    "content_owner": "Lior Saadon, Sharon Ben Zvi Itai Hershenhoren Noam Laish Atalya Waissman",
+    "content_shared": "",
+    "status": "Not started",
+    "notes": ""
+  },
+  {
+    "station_id": "station-copilot-coworker-copilot-tasks",
+    "name": "Copilot Coworker / Copilot Tasks",
+    "title": "Copilot Coworker / Copilot Tasks",
+    "station_type": "Workshop",
+    "description": "Copilot Coworker and Copilot Tasks workshop.",
+    "equipment": "",
+    "hall": "Hall B - Developers Session",
+    "zone_id": "developer-zone",
+    "topics": [
+      "Copilot and agents at work"
+    ],
+    "audience": [
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "copilot-productivity",
+      "ai-agents",
+      "developer"
+    ],
+    "presenters": [
+      "Ofir Gavish",
+      "Hila Kon",
+      "Meron Fridman",
+      "Ofer Mironi"
+    ],
+    "time_slots": {
+      "08:30-11:00": [
+        "Ofir Gavish",
+        "Meron Fridman"
+      ],
+      "11:00-13:00": [
+        "Hila Kon",
+        "Ofer Mironi"
+      ],
+      "13:00-15:00": [
+        "Ofir Gavish",
+        "Meron Fridman"
+      ],
+      "15:00-16:30": [
+        "Hila Kon",
+        "Ofer Mironi"
+      ]
+    },
+    "content_owner": "",
+    "content_shared": "",
+    "status": "Not started",
+    "notes": ""
+  },
+  {
+    "station_id": "station-code-smarter-with-github-copilot",
+    "name": "Code Smarter With GitHub Copilot",
+    "title": "Code Smarter With GitHub Copilot",
+    "station_type": "Workshop",
+    "description": "Discover the new GitHub Copilot features.",
+    "equipment": "",
+    "hall": "Hall B - Developers Session",
+    "zone_id": "developer-zone",
+    "topics": [
+      "Copilot and agents at work",
+      "Innovate with Azure AI apps and agents"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "copilot-productivity",
+      "ai-agents",
+      "github-copilot",
+      "developer"
+    ],
+    "presenters": [
+      "Rotem Levi",
+      "Mohammad Zaid"
+    ],
+    "time_slots": {
+      "08:30-11:00": [
+        "Shoham Hoffman Haik",
+        "Rotem Levi"
+      ],
+      "11:00-13:00": [
+        "Idit Bnaya",
+        "Yarik Simineans"
+      ],
+      "13:00-15:00": [
+        "Rotem Levi",
+        "Shoham Hoffman Haik"
+      ],
+      "15:00-16:30": [
+        "Idit Bnaya",
+        "Yarik Simineans"
+      ]
+    },
+    "content_owner": "",
+    "content_shared": "",
+    "status": "Not started",
+    "notes": ""
+  },
+  {
+    "station_id": "station-unlock-your-creativity-with-vibe-coding",
+    "name": "Unlock Your Creativity With Vibe Coding",
+    "title": "Unlock Your Creativity With Vibe Coding",
+    "station_type": "Workshop",
+    "description": "Create a classic game in 15 minutes with GitHub Copilot Agent.",
+    "equipment": "",
+    "hall": "Hall B - Developers Session",
+    "zone_id": "developer-zone",
+    "topics": [
+      "Copilot and agents at work",
+      "Innovate with Azure AI apps and agents"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "copilot-productivity",
+      "ai-agents",
+      "github-copilot",
+      "developer"
+    ],
+    "presenters": [
+      "Rotem Levi",
+      "Mohammad Zaid"
+    ],
+    "time_slots": {
+      "08:30-11:00": [
+        "Mohammad Zaid",
+        "Eldad Someh"
+      ],
+      "11:00-13:00": [
+        "Michael Tsukerman",
+        "Ariel Meistel"
+      ],
+      "13:00-15:00": [
+        "Mohammad Zaid",
+        "Eldad Someh"
+      ],
+      "15:00-16:30": [
+        "Ariel Meistel",
+        "Michael Tsukerman"
+      ]
+    },
+    "content_owner": "",
+    "content_shared": "",
+    "status": "Not started",
+    "notes": ""
+  },
+  {
+    "station_id": "station-build-your-own-genai-agent",
+    "name": "Build Your Own GenAI Agent",
+    "title": "Build Your Own GenAI Agent",
+    "station_type": "Workshop",
+    "description": "Design an AI agent that thinks, remembers, and acts for you.",
+    "equipment": "",
+    "hall": "Hall B - Developers Session",
+    "zone_id": "developer-zone",
+    "topics": [
+      "Innovate with Azure AI apps and agents"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "github-copilot",
+      "developer",
+      "ai-agents"
+    ],
+    "presenters": [
+      "Pavel Sheinfeld",
+      "Omri Norber",
+      "Elinoy Elbaum"
+    ],
+    "time_slots": {
+      "08:30-11:00": [
+        "Pavel Sheinfeld",
+        "Omri Norber"
+      ],
+      "11:00-13:00": [
+        "Elinoy Elbum",
+        "Omer Sharon"
+      ],
+      "13:00-15:00": [
+        "Pavel Sheinfeld",
+        "Omri Norber"
+      ],
+      "15:00-16:30": [
+        "Elinoy Elbum",
+        "Omer Sharon"
+      ]
+    },
+    "content_owner": "",
+    "content_shared": "",
+    "status": "Not started",
+    "notes": ""
+  },
+  {
+    "station_id": "station-ask-the-expert",
+    "name": "ASK the EXPERT",
+    "title": "ASK the EXPERT",
+    "station_type": "Expert Station / Q&A",
+    "description": "Open expert station for attendee questions, guidance, architecture discussion, troubleshooting, and follow-up conversations.",
+    "equipment": "",
+    "hall": "Hall C+D",
+    "zone_id": "expo",
+    "topics": [
+      "Copilot and agents at work"
+    ],
+    "audience": [
+      "Decision-makers"
+    ],
+    "interest_tags": [
+      "business-value"
+    ],
+    "presenters": [
+      "Dotan Paz",
+      "Adam Schneider",
+      "Tzahi Arial",
+      "Itzhak Janach",
+      "Nadav Ben Haim",
+      "Omer Feldman",
+      "Roie Ben Haim",
+      "Gilad Katz",
+      "Michael Liav"
+    ],
+    "time_slots": {
+      "08:30-11:00": [
+        "Roie Ben Haim",
+        "Omer Feldman",
+        "Adam Schneider",
+        "Nadav Cohen"
+      ],
+      "11:00-13:00": [
+        "Dotan Paz",
+        "Gilad Katz",
+        "Tzahi Arial",
+        "Michael Liav"
+      ],
+      "13:00-15:00": [
+        "Roie Ben Haim",
+        "Omer Feldman",
+        "Nadav Ben Haim",
+        "Itzhak Janach"
+      ],
+      "15:00-16:30": [
+        "Gilad Katz",
+        "Adam Schneider",
+        "Itzhak Janach",
+        "Michael Liav"
+      ]
+    },
+    "content_owner": "",
+    "content_shared": "",
+    "status": "Not started",
+    "notes": "Recommend assigning 2 experts per slot"
   }
 ]

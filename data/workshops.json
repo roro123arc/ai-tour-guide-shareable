@@ -1,43 +1,97 @@
 [
   {
-    "workshop_id": "wrk-code-smarter",
-    "title": "Code Smarter With GitHub Copilot",
-    "description": "Discover the new GitHub Copilot features",
-    "session_type": "Breakout",
+    "workshop_id": "wrk-copilot-coworker-copilot-tasks",
+    "title": "Copilot Coworker / Copilot Tasks",
+    "description": "Copilot Coworker and Copilot Tasks workshop.",
+    "session_type": "Workshop",
     "topics": [
-      "Copilot and agents at work",
-      "Innovate with Azure AI apps and agents"
+      "Copilot and agents at work"
     ],
     "audience": [
-      "Developers"
+      "Decision-makers"
     ],
-    "hall": "Hall B · Developers Session",
+    "hall": "Hall B - Developers Session",
     "duration_minutes": 45,
     "interest_tags": [
-      "github-copilot",
-      "developer",
-      "copilot-productivity"
+      "copilot-productivity",
+      "ai-agents",
+      "developer"
     ],
     "owners": [
-      "Yonatan Manor",
-      "Kfir Behar",
-      "Rotem Levi"
+      "Ofir Gavish",
+      "Hila Kon",
+      "Meron Fridman",
+      "Ofer Mironi"
     ],
     "zone_id": "developer-zone"
   },
   {
-    "workshop_id": "wrk-vibe-coding",
-    "title": "Unlock Your Creativity With Vibe Coding",
-    "description": "Create a classic game in 15 minutes with GitHub Copilot agent",
-    "session_type": "Lightning Talk",
+    "workshop_id": "wrk-code-smarter-with-github-copilot",
+    "title": "Code Smarter With GitHub Copilot",
+    "description": "Discover the new GitHub Copilot features.",
+    "session_type": "Workshop",
     "topics": [
       "Copilot and agents at work",
       "Innovate with Azure AI apps and agents"
     ],
     "audience": [
-      "Developers"
+      "Developers",
+      "Decision-makers"
     ],
-    "hall": "Hall B · Developers Session",
+    "hall": "Hall B - Developers Session",
+    "duration_minutes": 45,
+    "interest_tags": [
+      "copilot-productivity",
+      "ai-agents",
+      "github-copilot",
+      "developer"
+    ],
+    "owners": [
+      "Rotem Levi",
+      "Mohammad Zaid"
+    ],
+    "zone_id": "developer-zone"
+  },
+  {
+    "workshop_id": "wrk-unlock-your-creativity-with-vibe-coding",
+    "title": "Unlock Your Creativity With Vibe Coding",
+    "description": "Create a classic game in 15 minutes with GitHub Copilot Agent.",
+    "session_type": "Workshop",
+    "topics": [
+      "Copilot and agents at work",
+      "Innovate with Azure AI apps and agents"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "hall": "Hall B - Developers Session",
+    "duration_minutes": 45,
+    "interest_tags": [
+      "copilot-productivity",
+      "ai-agents",
+      "github-copilot",
+      "developer"
+    ],
+    "owners": [
+      "Rotem Levi",
+      "Mohammad Zaid"
+    ],
+    "zone_id": "developer-zone"
+  },
+  {
+    "workshop_id": "wrk-build-your-own-genai-agent",
+    "title": "Build Your Own GenAI Agent",
+    "description": "Design an AI agent that thinks, remembers, and acts for you.",
+    "session_type": "Workshop",
+    "topics": [
+      "Innovate with Azure AI apps and agents"
+    ],
+    "audience": [
+      "Developers",
+      "Decision-makers"
+    ],
+    "hall": "Hall B - Developers Session",
     "duration_minutes": 45,
     "interest_tags": [
       "github-copilot",
@@ -45,86 +99,9 @@
       "ai-agents"
     ],
     "owners": [
-      "Yotam Feitelson",
-      "Rotem Levi"
-    ],
-    "zone_id": "developer-zone"
-  },
-  {
-    "workshop_id": "wrk-copilot-studio",
-    "title": "Copilot Studio in Action",
-    "description": "Quick intro to Copilot Studio. Instant agent building.",
-    "session_type": "Breakout",
-    "topics": [
-      "Copilot and agents at work",
-      "Innovate with low code AI and agents"
-    ],
-    "audience": [
-      "Decision-makers",
-      "Developers"
-    ],
-    "hall": "Hall B · Developers Session",
-    "duration_minutes": 45,
-    "interest_tags": [
-      "ai-agents",
-      "copilot-productivity"
-    ],
-    "owners": [
-      "Moran Herman",
-      "Rafi Rabo",
-      "Adi Leibowitz"
-    ],
-    "zone_id": "developer-zone"
-  },
-  {
-    "workshop_id": "wrk-trip-advisor",
-    "title": "Create Your Own AI Trip Advisor",
-    "description": "Build and customize the agent behind your next vacation with Azure AI Foundry",
-    "session_type": "Breakout",
-    "topics": [
-      "Innovate with Azure AI apps and agents",
-      "Copilot and agents at work"
-    ],
-    "audience": [
-      "Developers"
-    ],
-    "hall": "Hall B · Developers Session",
-    "duration_minutes": 45,
-    "interest_tags": [
-      "ai-agents",
-      "developer"
-    ],
-    "owners": [
-      "Omer Feldman",
-      "Dor Slagter",
-      "Oz Levy"
-    ],
-    "zone_id": "developer-zone"
-  },
-  {
-    "workshop_id": "wrk-genai-agent",
-    "title": "Build Your Own GenAI Agent",
-    "description": "Design your AI agent that thinks, remembers, and acts for you",
-    "session_type": "Lightning Talk",
-    "topics": [
-      "Innovate with Azure AI apps and agents",
-      "Copilot and agents at work"
-    ],
-    "audience": [
-      "Developers",
-      "Decision-makers"
-    ],
-    "hall": "Hall C+D",
-    "duration_minutes": 30,
-    "interest_tags": [
-      "ai-agents",
-      "developer",
-      "copilot-productivity"
-    ],
-    "owners": [
-      "Maor Nissan",
-      "Tamara Gaidar",
-      "Matanel Cohen"
+      "Pavel Sheinfeld",
+      "Omri Norber",
+      "Elinoy Elbaum"
     ],
     "zone_id": "developer-zone"
   }

@@ -1,9 +1,9 @@
 {
   "source": "Modeled from the official Microsoft AI Tour Tel Aviv session catalog filters for booth-demo reliability.",
   "session_types": [
-    "Breakout",
-    "Lightning Talk",
-    "Demo booth"
+    "Demo",
+    "Workshop",
+    "Expert Station / Q&A"
   ],
   "topics": [
     "Copilot and agents at work",

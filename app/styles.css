@@ -269,10 +269,11 @@ code {
   margin-top: 20px;
 }
 
-.intro-actions a {
-  color: var(--cp-link);
-  font-weight: 900;
-  text-decoration: none;
+.intro-actions .primary {
+  min-height: 54px;
+  padding: 0 28px;
+  border-radius: 14px;
+  font-size: 20px;
 }
 
 .qr-modal {
@@ -1245,6 +1246,7 @@ html[data-theme="dark"] .map-small-label {
   .hero-visual img { min-height: 260px; object-position: center 38%; }
   .hero-content { padding: 24px; }
   .venue-map { min-height: 350px; }
+  .venue-map .map-pins { display: none; }
 }
 
 @media (max-width: 560px) {

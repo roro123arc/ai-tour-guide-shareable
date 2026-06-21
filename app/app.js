@@ -3,12 +3,11 @@ async function loadJson(path) {
   return res.json();
 }
 
-const queryParams = new URLSearchParams(window.location.search);
-const copilotDemoMode = queryParams.get('demo') === 'copilot';
+const copilotDemoMode = true;
 
 function bindIntroModal() {
   const modal = document.getElementById('introModal');
-  const closeButtons = [document.getElementById('introStart'), document.getElementById('introPreview')];
+  const closeButtons = [document.getElementById('introStart')];
   const closeModal = () => modal?.classList.add('hidden');
 
   closeButtons.forEach(button => button?.addEventListener('click', closeModal));
@@ -432,10 +431,6 @@ function answerQuestion(q, eventMeta, agendaSummary, stations = []) {
   const whereNowResult = document.getElementById('whereNowResult');
   let activeTags = [];
   let activeQueryText = '';
-
-  if (copilotDemoMode) {
-    document.getElementById('copilotDemoExtensions').classList.remove('hidden');
-  }
 
   const quickDefs = [
     { id: 'developer', label: '👩‍💻 Developer' },

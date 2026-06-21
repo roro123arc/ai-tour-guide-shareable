@@ -38,13 +38,7 @@ cd ai-tour-guide-shareable
 http://localhost:8000/app/
 ```
 
-זו הכתובת המקורית והנקייה למשתתפים.
-
-כתובת preview לגרסה המשודרגת של דמו Copilot:
-
-```text
-http://localhost:8000/app/?demo=copilot
-```
+זו הכתובת של חוויית העמדה המלאה, כולל ההמלצות, המפה וכלי ההרחבה של Copilot.
 
 אם צריך פורט אחר:
 
@@ -134,16 +128,10 @@ TEAM-INSTRUCTIONS-he.md
 
 הסיפור המדויק: זה לא דמו שטוען ש-GitHub Copilot בנה את כל האפליקציה מאפס בלייב. זה דמו שמראה איך משתמשים ב-GitHub Copilot על codebase אמיתי כדי להבין, להרחיב ולהתאים חוויית משתתפים.
 
-חשוב: ברירת המחדל נשארת הדף המקורי:
+חשוב: ברירת המחדל היא חוויית העמדה המלאה:
 
 ```text
 http://localhost:8000/app/
-```
-
-הגרסה המשודרגת קיימת רק כ-preview/reference:
-
-```text
-http://localhost:8000/app/?demo=copilot
 ```
 
 מה להראות:
@@ -154,7 +142,7 @@ http://localhost:8000/app/?demo=copilot
 4. לשאול את המשתתף/קהל: “מה הייתם מוסיפים עכשיו?”
 5. לפתוח את `prompts/05-demo-extensions.txt`.
 6. להריץ prompt אחד ב-GitHub Copilot Chat.
-7. לפתוח את גרסת ה-preview כדי להראות את התוצאה הרצויה.
+7. להשתמש בכלי ההרחבה שכבר מופיעים בדף כדי להראות את התוצאה הרצויה.
 
 Prompt מומלץ:
 

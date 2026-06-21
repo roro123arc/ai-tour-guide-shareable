@@ -26,13 +26,7 @@ Open:
 http://localhost:8000/app/
 ```
 
-The default URL intentionally shows the original attendee experience.
-
-Preview the enhanced Copilot-demo version:
-
-```text
-http://localhost:8000/app/?demo=copilot
-```
+The default URL shows the full booth experience, including attendee recommendations and Copilot enhancement controls.
 
 Optional custom port:
 
@@ -114,18 +108,6 @@ Pin locations are configured in `app/app.js` under `venueLocations`.
 
 Use this app as a Copilot-ready extension demo rather than a claim that the full app was generated live.
 
-The default attendee page stays simple:
-
-```text
-http://localhost:8000/app/
-```
-
-The enhanced reference version is available separately:
-
-```text
-http://localhost:8000/app/?demo=copilot
-```
-
 Suggested flow:
 
 1. Open the attendee guide and choose a fast path such as **Developer**.
@@ -133,7 +115,7 @@ Suggested flow:
 3. Show the recommendations, venue map, ideal path, and time-conflict handling.
 4. Ask attendees what they would add next.
 5. Open `prompts/05-demo-extensions.txt` and paste one prompt into GitHub Copilot Chat.
-6. Use the enhanced preview URL to show the target experience:
+6. Use the enhancement controls on the page to show the target experience:
    - **Official catalog filters** mirror the public AI Tour catalog filters: session type, topic, and audience.
    - **Where should I go now?** recommends a next stop based on current hall, time available, and interest.
    - **Why this?** explains recommendations.

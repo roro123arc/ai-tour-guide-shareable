@@ -429,10 +429,16 @@ function answerQuestion(q, eventMeta, agendaSummary) {
 
   function currentFilters() {
     return {
-      sessionType: sessionTypeFilter.value,
-      topic: topicFilter.value,
-      audience: audienceFilter.value
+      sessionType: sessionTypeFilter?.value || '',
+      topic: topicFilter?.value || '',
+      audience: audienceFilter?.value || ''
     };
+  }
+
+  function resetCatalogFilters() {
+    if (sessionTypeFilter) sessionTypeFilter.value = '';
+    if (topicFilter) topicFilter.value = '';
+    if (audienceFilter) audienceFilter.value = '';
   }
 
   function filterItems(items, filters) {
@@ -521,9 +527,7 @@ function answerQuestion(q, eventMeta, agendaSummary) {
   });
 
   document.getElementById('resetFilters').addEventListener('click', () => {
-    sessionTypeFilter.value = '';
-    topicFilter.value = '';
-    audienceFilter.value = '';
+    resetCatalogFilters();
     renderRecommendations(activeTags, activeQueryText);
   });
 
@@ -532,7 +536,10 @@ function answerQuestion(q, eventMeta, agendaSummary) {
   quickDefs.forEach(btn => {
     const el = document.createElement('button');
     el.textContent = btn.label;
-    el.onclick = () => renderRecommendations(taxonomy[btn.id] || [], btn.id);
+    el.onclick = () => {
+      resetCatalogFilters();
+      renderRecommendations(taxonomy[btn.id] || [], btn.id);
+    };
     quickButtons.appendChild(el);
   });
 
@@ -546,11 +553,15 @@ function answerQuestion(q, eventMeta, agendaSummary) {
         <span class="profile-desc">${profile.description}</span>
       </span>
     `;
-    el.onclick = () => renderRecommendations(profile.interest_tags || [], `${profile.title} ${profile.description}`);
+    el.onclick = () => {
+      resetCatalogFilters();
+      renderRecommendations(profile.interest_tags || [], `${profile.title} ${profile.description}`);
+    };
     sampleProfilesEl.appendChild(el);
   });
 
   document.getElementById('submitProfile').addEventListener('click', () => {
+    resetCatalogFilters();
     const title = document.getElementById('jobTitle').value;
     const company = document.getElementById('company').value;
     const description = document.getElementById('description').value;

@@ -110,24 +110,38 @@
     color:#8A93A8;align-self:center;
   }
 
-  /* where-available list */
-  .where{margin-top:12px;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  /* where-available cards */
+  .where{
+    margin-top:12px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:10px;
+  }
   .where .w-head{
     font-family:'Assistant',sans-serif;font-weight:700;font-size:.7rem;
     color:#8A93A8;background:#FAFBFD;padding:6px 13px;letter-spacing:.06em;
-    border-bottom:1px solid var(--line);
+    border:1px solid var(--line);border-radius:10px;
+    grid-column:1/-1;
   }
   .where .w-item{
-    display:flex;gap:10px;align-items:flex-start;
-    padding:8px 13px;font-size:.86rem;color:var(--ink-soft);
-    border-bottom:1px dashed var(--line);
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:10px;
+    align-items:start;
+    min-height:92px;
+    padding:14px 13px;
+    font-size:.86rem;
+    color:var(--ink-soft);
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:#FAFBFD;
   }
-  .where .w-item:last-of-type{border-bottom:none;}
-  .where .w-item .ic{flex-shrink:0;width:24px;text-align:center;font-size:1rem;line-height:1.5;}
+  .where .w-item .ic{width:30px;text-align:center;font-size:1.35rem;line-height:1.2;}
   .where .w-item b{color:var(--ink);font-weight:600;}
   .where .w-note{
-    font-size:.77rem;color:#A6AEC2;padding:6px 13px;
-    background:#FAFBFD;border-top:1px solid var(--line);
+    grid-column:1/-1;
+    font-size:.77rem;color:#A6AEC2;padding:8px 13px;
+    background:#FAFBFD;border:1px solid var(--line);border-radius:10px;
   }
 
   /* bottom status bar: automation + cost */

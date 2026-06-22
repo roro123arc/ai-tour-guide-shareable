@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מסלול משימה — מהפרומפט ועד Merge · מנופי החיסכון של Build 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Rubik:wght@500;600;700;800&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14213D;
+    --ink-soft:#3E4A66;
+    --paper:#F8F9FB;
+    --card:#FFFFFF;
+    --line:#DDE2EC;
+    --token:#E89200;
+    --token-soft:#FFF4DE;
+    --lever:#0E7C6B;
+    --lever-soft:#E5F4F1;
+    --build:#2B50DF;
+    --build-soft:#E9EDFD;
+    --warn:#C2410C;
+    --warn-soft:#FFF1E8;
+    --foundry:#6B2FB3;
+    --rail:#C9D0E0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Heebo',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    direction:rtl;text-align:right;line-height:1.6;
+  }
+  .num{font-family:'Assistant',sans-serif;font-variant-numeric:tabular-nums;}
+  .en{font-family:'Assistant',sans-serif;direction:ltr;display:inline-block;}
+
+  header{
+    background:var(--ink);color:#fff;
+    padding:44px 24px 36px;
+  }
+  .head-inner{max-width:1150px;margin:0 auto;}
+  header .eyebrow{font-family:'Assistant',sans-serif;font-size:.82rem;letter-spacing:.12em;color:var(--token);font-weight:700;}
+  header h1{font-family:'Rubik',sans-serif;font-weight:800;font-size:clamp(1.6rem,3.6vw,2.5rem);margin:10px 0 8px;line-height:1.3;}
+  header p{color:#C7CEE0;max-width:760px;font-weight:300;}
+  header p b{color:#fff;font-weight:600;}
+
+  .layout{
+    max-width:1150px;margin:36px auto 60px;padding:0 24px;
+    display:grid;grid-template-columns:1fr 320px;gap:36px;align-items:start;
+  }
+
+  /* ============ FLOW ============ */
+  .flow{position:relative;padding-right:34px;}
+  .flow::before{
+    content:"";position:absolute;top:14px;bottom:14px;right:11px;
+    width:4px;background:var(--rail);border-radius:4px;
+  }
+  .flow .rail-fill{
+    position:absolute;top:14px;right:11px;width:4px;
+    background:linear-gradient(180deg,var(--token),var(--build));
+    border-radius:4px;height:0;transition:height .7s ease;
+  }
+
+  .node{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin-bottom:26px;position:relative;
+    transition:border-color .3s,box-shadow .3s,transform .3s,opacity .3s;
+    cursor:pointer;
+  }
+  .node::before{
+    content:"";position:absolute;top:24px;right:-30px;
+    width:17px;height:17px;border-radius:50%;
+    background:var(--paper);border:4px solid var(--rail);
+    transition:border-color .3s,background .3s;z-index:1;
+  }
+  .node.active{border-color:var(--token);box-shadow:0 12px 32px rgba(232,146,0,.16);transform:translateX(-4px);}
+  .node.active::before{border-color:var(--token);background:var(--token);}
+  .node.done::before{border-color:var(--build);background:var(--build);}
+  .node.skipped{opacity:.38;}
+
+  .node .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+  .node h3{font-family:'Rubik',sans-serif;font-weight:700;font-size:1.12rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .node .stage-chip{
+    font-family:'Assistant',sans-serif;font-weight:700;font-size:.72rem;
+    border-radius:100px;padding:3px 11px;white-space:nowrap;
+  }
+  .stage-chip.lever{background:var(--lever-soft);color:var(--lever);}
+  .stage-chip.infra{background:var(--build-soft);color:var(--build);}
+  .node .desc{font-size:.92rem;color:var(--ink-soft);margin-top:8px;}
+
+  .delta{
+    font-family:'Assistant',sans-serif;font-weight:700;font-size:.95rem;
+    color:var(--lever);background:var(--lever-soft);
+    border-radius:8px;padding:4px 12px;white-space:nowrap;flex-shrink:0;
+  }
+  .delta.cost{color:var(--warn);background:var(--warn-soft);}
+  .delta.neutral{color:#8A93A8;background:#F0F2F7;}
+
+  .chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;}
+  .chip{
+    font-family:'Assistant',sans-serif;font-size:.74rem;font-weight:600;
+    border:1px solid var(--line);border-radius:100px;padding:2px 10px;
+    color:var(--ink-soft);background:#FAFBFD;
+  }
+  .chip.adv{background:var(--token-soft);color:#9A6200;border-color:transparent;}
+  .chip.adv::before{content:"★ ";}
+  .chip.adv.strong{background:var(--token);color:var(--ink);}
+  .chips-label{
+    font-family:'Assistant',sans-serif;font-size:.72rem;font-weight:700;
+    color:#8A93A8;align-self:center;
+  }
+
+  /* where-available list */
+  .where{margin-top:12px;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .where .w-head{
+    font-family:'Assistant',sans-serif;font-weight:700;font-size:.7rem;
+    color:#8A93A8;background:#FAFBFD;padding:6px 13px;letter-spacing:.06em;
+    border-bottom:1px solid var(--line);
+  }
+  .where .w-item{
+    display:flex;gap:10px;align-items:flex-start;
+    padding:8px 13px;font-size:.86rem;color:var(--ink-soft);
+    border-bottom:1px dashed var(--line);
+  }
+  .where .w-item:last-of-type{border-bottom:none;}
+  .where .w-item .ic{flex-shrink:0;width:24px;text-align:center;font-size:1rem;line-height:1.5;}
+  .where .w-item b{color:var(--ink);font-weight:600;}
+  .where .w-note{
+    font-size:.77rem;color:#A6AEC2;padding:6px 13px;
+    background:#FAFBFD;border-top:1px solid var(--line);
+  }
+
+  /* bottom status bar: automation + cost */
+  .statusbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+  .stat{
+    display:flex;align-items:center;gap:8px;
+    font-size:.8rem;color:var(--ink-soft);
+    background:#FAFBFD;border:1px solid var(--line);
+    border-radius:100px;padding:5px 14px;
+  }
+  .stat .ic{font-size:.95rem;line-height:1;}
+  .stat.auto-full{background:var(--lever-soft);border-color:#BFE3DB;color:#0A5F52;}
+  .stat.auto-half{background:var(--token-soft);border-color:#F0DDB5;color:#8A5A00;}
+  .dollars{
+    font-family:'Assistant',sans-serif;font-weight:800;font-size:.98rem;
+    letter-spacing:1.5px;direction:ltr;line-height:1;
+  }
+  .dollars .on{color:var(--token);}
+  .dollars .off{color:#D4DAE6;}
+
+  /* eval gates */
+  .gates{margin-top:10px;display:flex;flex-direction:column;gap:8px;}
+  .gate{
+    display:flex;gap:11px;align-items:flex-start;
+    background:#FAFBFD;border:1px solid var(--line);border-radius:10px;
+    padding:10px 13px;font-size:.86rem;color:var(--ink-soft);
+  }
+  .gate .ic{flex-shrink:0;font-size:1.1rem;line-height:1.4;}
+  .gate b{color:var(--ink);font-weight:600;}
+
+  /* foundry slide-in drawer */
+  .foundry-btn{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:'Heebo',sans-serif;font-size:.8rem;font-weight:600;
+    color:#fff;background:var(--foundry);border:none;border-radius:100px;
+    padding:5px 14px;cursor:pointer;transition:background .2s;
+  }
+  .foundry-btn:hover{background:#5A2699;}
+  .fwrap{
+    position:absolute;inset:0;border-radius:14px;overflow:hidden;
+    pointer-events:none;z-index:3;
+  }
+  .fdrawer{
+    position:absolute;inset:0;
+    background:linear-gradient(135deg,#2C1450 0%,#5B2DA8 100%);
+    color:#fff;padding:24px 28px;
+    transform:translateX(-106%);
+    transition:transform .45s cubic-bezier(.16,1,.3,1);
+    pointer-events:auto;overflow:auto;cursor:default;
+  }
+  .node.fopen .fdrawer{transform:none;}
+  .fdrawer .ftag{
+    font-family:'Assistant',sans-serif;font-size:.68rem;font-weight:700;
+    letter-spacing:.1em;color:#C9B3F0;
+  }
+  .fdrawer h4{
+    font-family:'Rubik',sans-serif;font-weight:700;font-size:1.1rem;
+    margin:6px 0 10px;color:#fff;
+  }
+  .fdrawer p{font-size:.9rem;color:#E7DDF8;line-height:1.75;}
+  .fdrawer p b{color:#fff;font-weight:600;}
+  .fdrawer .fclose{
+    position:absolute;top:14px;left:14px;
+    background:rgba(255,255,255,.16);border:none;color:#fff;
+    width:30px;height:30px;border-radius:50%;cursor:pointer;
+    font-size:.95rem;line-height:1;transition:background .2s;
+  }
+  .fdrawer .fclose:hover{background:rgba(255,255,255,.3);}
+
+  .more{
+    max-height:0;overflow:hidden;transition:max-height .45s ease;
+  }
+  .node.open .more{max-height:420px;}
+  .more-inner{
+    border-top:1px dashed var(--line);margin-top:14px;padding-top:12px;
+    font-size:.88rem;color:var(--ink-soft);
+  }
+  .more-inner b{color:var(--ink);font-weight:600;}
+  .more-inner ul{padding-right:18px;margin-top:6px;}
+  .more-inner li{margin-bottom:4px;}
+  .hint{
+    font-family:'Assistant',sans-serif;font-size:.72rem;color:#A6AEC2;margin-top:10px;
+  }
+  .node.open .hint{display:none;}
+
+  /* branch lanes */
+  .branch{
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:26px;position:relative;
+  }
+  .branch .lane{
+    border:1.5px dashed var(--line);border-radius:14px;padding:14px 16px;
+    background:transparent;transition:border-color .3s,background .3s,opacity .3s;
+  }
+  .branch .lane h4{font-family:'Rubik',sans-serif;font-size:.95rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+  .branch .lane p{font-size:.82rem;color:var(--ink-soft);margin-top:4px;}
+  .branch .lane.lit{border-color:var(--token);background:var(--token-soft);border-style:solid;}
+  .branch .lane.dim{opacity:.35;}
+  .branch::before{
+    content:"";position:absolute;top:-13px;right:11px;width:17px;height:17px;border-radius:50%;
+    background:var(--paper);border:4px solid var(--rail);right:-30px;display:none;
+  }
+
+  .endnode{
+    background:var(--ink);color:#fff;border:none;cursor:default;
+  }
+  .endnode h3{color:#fff;}
+  .endnode .desc{color:#C7CEE0;}
+  .endnode.active{box-shadow:0 12px 32px rgba(20,33,61,.35);}
+  .endnode .final-stat{
+    font-family:'Assistant',sans-serif;font-weight:700;font-size:1.05rem;color:var(--token);
+  }
+
+  /* ============ SIDE PANEL ============ */
+  .panel{
+    position:sticky;top:20px;
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:24px;display:flex;flex-direction:column;gap:18px;
+  }
+  .panel h2{font-family:'Rubik',sans-serif;font-size:1.05rem;font-weight:700;}
+  .scenario{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .scenario button{
+    font-family:'Heebo',sans-serif;font-weight:600;font-size:.88rem;
+    border:1.5px solid var(--line);background:#fff;border-radius:10px;
+    padding:9px 6px;cursor:pointer;color:var(--ink-soft);transition:all .2s;
+  }
+  .scenario button.sel{border-color:var(--build);background:var(--build-soft);color:var(--build);}
+  .gauge{
+    background:var(--token-soft);border-radius:12px;padding:16px;text-align:center;
+  }
+  .gauge .label{font-family:'Assistant',sans-serif;font-weight:700;font-size:.75rem;color:#9A6200;letter-spacing:.05em;}
+  .gauge .value{
+    font-family:'Assistant',sans-serif;font-weight:700;font-size:2.2rem;color:var(--ink);
+    line-height:1.2;direction:ltr;
+  }
+  .gauge .value small{font-size:.9rem;font-weight:600;color:var(--ink-soft);}
+  .gauge .saved{font-family:'Assistant',sans-serif;font-weight:700;font-size:.9rem;color:var(--lever);min-height:1.4em;}
+  .bar{height:10px;background:#fff;border-radius:100px;overflow:hidden;margin-top:10px;border:1px solid #F0DDB5;}
+  .bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--token),var(--lever));border-radius:100px;transition:width .6s ease;}
+  .playbtn{
+    font-family:'Rubik',sans-serif;font-weight:700;font-size:1rem;
+    background:var(--ink);color:#fff;border:none;border-radius:12px;
+    padding:13px;cursor:pointer;transition:background .2s,transform .1s;
+  }
+  .playbtn:hover{background:#1E2E55;}
+  .playbtn:active{transform:scale(.98);}
+  .playbtn:disabled{background:#9AA5C0;cursor:default;}
+  .legend{font-size:.78rem;color:#8A93A8;border-top:1px solid var(--line);padding-top:12px;}
+  .legend .row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+  .legend .sw{width:12px;height:12px;border-radius:4px;flex-shrink:0;}
+  .footnote{font-size:.74rem;color:#A6AEC2;}
+
+  @media (max-width:920px){
+    .layout{grid-template-columns:1fr;}
+    .panel{position:static;order:-1;}
+    .branch{grid-template-columns:1fr;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <span class="eyebrow">Task Lifecycle · Build 2026</span>
+    <h1>מסלול משימה אחת: מהפרומפט ועד ה-Merge</h1>
+    <p>
+      כל תחנה במסלול היא <b>מנוף חיסכון</b> שב-Build 2026 הפך מ-best practice ידני ל<b>יכולת מובנית בפלטפורמה</b>.
+      בחרו תרחיש, לחצו "הרץ משימה", ועקבו אחרי תקציב הטוקנים. לחיצה על תחנה פותחת פירוט.
+    </p>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ FLOW COLUMN ============ -->
+  <div class="flow" id="flow">
+    <div class="rail-fill" id="railFill"></div>
+
+    <!-- 0 intake -->
+    <div class="node" data-node="intake">
+      <div class="top">
+        <h3>קליטת משימה <span class="stage-chip infra">Copilot App · My Work</span></h3>
+        <span class="delta neutral num" data-delta>תקציב: 120K</span>
+      </div>
+      <p class="desc">כאן הכול מתחיל: נותנים ל-Copilot משימה — בכתיבה חופשית או על ידי שיוך Issue קיים. הוא אוסף לבד את הרקע הרלוונטי מהריפו, ו-Memory++ מזכיר לו מה כבר למדנו בפעמים קודמות, כדי לא לשלם על גילוי מחדש.</p>
+      <div class="where">
+        <div class="w-head">איפה זה זמין</div>
+        <div class="w-item"><span class="ic">🖥️</span><span><b>Copilot App</b> — אפליקציית הדסקטופ החדשה (החל מ-Build 2026)</span></div>
+        <div class="w-item"><span class="ic">🧩</span><span><b>VS Code</b> — חלון הצ'אט של Copilot (Agent Mode)</span></div>
+        <div class="w-item"><span class="ic">⌨️</span><span><b>Copilot CLI</b> — מהטרמינל</span></div>
+        <div class="w-item"><span class="ic">🌐</span><span><b>github.com</b> — משייכים Issue ל-Copilot כאילו הוא חבר צוות</span></div>
+        <div class="w-item"><span class="ic">📱</span><span><b>מובייל / Jira</b> — מתחילים בנייד או מכרטיס Jira</span></div>
+        <div class="w-note">שימו לב: לא ב-Foundry — Foundry הוא המקום לבנות סוכנים משלכם, לא להפעיל את Copilot.</div>
+      </div>
+      <div class="chips">
+        <span class="chips-label">כלים בתחנה:</span>
+        <span class="chip en">Memory++ · /chronicle</span>
+        <span class="chip adv strong">יתרון מובהק: הקשר נטיבי מהריפו וה-CI</span>
+      </div>
+      <div class="statusbar">
+        <span class="stat auto-half"><span class="ic">🤝</span> חצי-אוטומטי — אתם פותחים, איסוף הרקע והזיכרון לבד</span>
+        <span class="stat"><span class="dollars"><span class="off">$$$</span></span> חינם — המונה מתחיל לרוץ רק כשהמודל עובד</span>
+        <button class="foundry-btn">🏭 ומה ב-Foundry?</button>
+      </div>
+      <div class="fwrap"><div class="fdrawer">
+        <button class="fclose" aria-label="סגירה">✕</button>
+        <span class="ftag">המקבילה ב-Microsoft Foundry</span>
+        <h4>Endpoint של Hosted Agent + Foundry IQ</h4>
+        <p>ב-Foundry את המשימות מקבל <b>סוכן שאתם בניתם</b> — לא Copilot. ה"קליטה" היא endpoint של Hosted Agent (GA מ-Build 2026): פנייה דרך API, בוט ב-Teams, או טריגר מתהליך עסקי. ואת ההקשר, במקום מהריפו, הסוכן שואב מ-<b>Foundry IQ</b> — שכבת ה-grounding שמביאה רק את הידע הארגוני הרלוונטי לשאלה, עם session persistence שזוכר שיחות קודמות.</p>
+      </div></div>
+      <div class="more"><div class="more-inner">
+        <b>מה חדש מ-Build:</b> ה-Copilot App (פריוויו, 2.6.2026) מרכז סשנים, Issues ואוטומציות במסך אחד; זיכרון חוצה-מכשירים אומר שקונטקסט שנבנה ב-CLI זמין גם באפליקציה ובמובייל — בלי לשלם עליו שוב.
+      </div></div>
+      <div class="hint">לחצו לפירוט ›</div>
+    </div>
+
+    <!-- 1 context -->
+    <div class="node" data-node="context">
+      <div class="top">
+        <h3>צמצום קונטקסט <span class="stage-chip lever">מנוף · Reduce Context</span></h3>
+        <span class="delta num" data-delta>‎−26K</span>
+      </div>
+      <p class="desc">לפני שהמודל רואה מילה אחת, מצמצמים את ה"תיק" שהוא מקבל: הוראות קבועות קצרות וממוקדות, ניתוק חיבורי MCP שלא בשימוש (כל חיבור כזה "מדביק" תיאורי כלים לכל פנייה), ודחיסה אוטומטית של היסטוריית השיחה. כל מה שנחסך כאן — נחסך שוב בכל צעד של הסוכן.</p>
+      <div class="where">
+        <div class="w-head">איפה זה קורה</div>
+        <div class="w-item"><span class="ic">📁</span><span><b>בריפו שלכם</b> — קבצי <span class="en">copilot-instructions.md / AGENTS.md</span> (אלה "הוראות הקבע" שנשלחות בכל פנייה)</span></div>
+        <div class="w-item"><span class="ic">🔌</span><span><b>הגדרות MCP</b> — ב-VS Code וב-CLI; מכבים שרתים שלא בשימוש</span></div>
+        <div class="w-item"><span class="ic">🔄</span><span><b>מאחורי הקלעים</b> — הדחיסה (compaction) רצה לבד בתוך ה-CLI, ה-SDK וה-App</span></div>
+      </div>
+      <div class="chips">
+        <span class="chips-label">כלים בתחנה:</span>
+        <span class="chip en">Compaction in SDK/CLI</span>
+        <span class="chip en">AGENTS.md</span>
+        <span class="chip en">MCP audit</span>
+      </div>
+      <div class="statusbar">
+        <span class="stat auto-half"><span class="ic">🤝</span> חצי-אוטומטי — הדחיסה לבד; קיצור ההוראות וניקוי ה-MCP פעם אחת ידנית</span>
+        <span class="stat"><span class="dollars"><span class="off">$$$</span></span> חינם לגמרי — התחנה היחידה שרק חוסכת</span>
+        <button class="foundry-btn">🏭 ומה ב-Foundry?</button>
+      </div>
+      <div class="fwrap"><div class="fdrawer">
+        <button class="fclose" aria-label="סגירה">✕</button>
+        <span class="ftag">המקבילה ב-Microsoft Foundry</span>
+        <h4>Agent Harness — ב-Agent Framework 1.0</h4>
+        <p>בדיוק אותו רעיון, רק לסוכנים שלכם: ה-<b>Agent Harness</b> (חלק מ-Agent Framework שהגיע ל-GA ב-Build) מביא <b>context compaction</b>, מיזוג הוראות ומעקב todo — מובנים, בלי שתכתבו אותם. ו-<b>Foundry IQ</b> עושה את עבודת הצמצום בצד הידע: שולף רק את הקטעים הרלוונטיים מהמאגרים הארגוניים במקום שתדחפו מסמכים שלמים לקונטקסט. אוטומטי, כלול במחיר ה-framework (קוד פתוח).</p>
+      </div></div>
+      <div class="more"><div class="more-inner">
+        <b>הנתונים מהשטח:</b>
+        <ul>
+          <li>כיווץ קבצי הוראות: ‎20–23%‎ הפחתה במשימות agent + שיפור בנכונות.</li>
+          <li>ניקוי MCP: עד ‎190K‎ טוקנים לריצה (סכמות כלים נשלחות בכל סיבוב).</li>
+          <li>מ-Build: compaction הוא כבר חלק מה-Agent Harness — לא סקריפט שאתם מתחזקים.</li>
+        </ul>
+      </div></div>
+      <div class="hint">לחצו לפירוט ›</div>
+    </div>
+
+    <!-- 2 routing -->
+    <div class="node" data-node="routing">
+      <div class="top">
+        <h3>ניתוב מודלים <span class="stage-chip lever">מנוף · Route Models</span></h3>
+        <span class="delta num" data-delta>פיצול מסלול</span>
+      </div>
+      <p class="desc">נקודת ההחלטה הכי משפיעה על המחיר: כל מודל עולה אחרת, והשאלה היא כמה "מוח" המשימה הזו באמת צריכה. תיקון כתיב לא צריך את אותו מודל כמו refactor של 40 קבצים. אפשר לתת ל-Copilot להחליט לבד (Auto), ואפשר שהארגון יקבע כללים מראש.</p>
+      <div class="where">
+        <div class="w-head">איפה זה קורה</div>
+        <div class="w-item"><span class="ic">🧩</span><span><b>VS Code</b> — בורר המודלים בצ'אט; בוחרים "Auto" פעם אחת והוא מנתב לבד</span></div>
+        <div class="w-item"><span class="ic">⌨️</span><span><b>CLI</b> — פקודת <span class="en">/model</span> לבחירה ידנית פר-משימה</span></div>
+        <div class="w-item"><span class="ic">🌐</span><span><b>github.com</b> — אדמין קובע לכל ריפו איזו רמת מודל תבקר את הקוד (Review Tiers)</span></div>
+      </div>
+      <div class="chips">
+        <span class="chips-label">כלים בתחנה:</span>
+        <span class="chip en">Auto Model Selection</span>
+        <span class="chip en">/model</span>
+        <span class="chip adv strong">יתרון מובהק: ניתוב כ-policy ארגוני</span>
+      </div>
+      <div class="statusbar">
+        <span class="stat auto-full"><span class="ic">⚙️</span> אוטומטי — אחרי הגדרה ראשונית, ההחלטות מתקבלות לבד</span>
+        <span class="stat"><span class="dollars"><span class="on">$</span><span class="off">–</span><span class="on">$$$</span></span> זו התחנה שקובעת את המחיר — לפי המודל שנבחר; Auto נותן הנחה</span>
+        <button class="foundry-btn">🏭 ומה ב-Foundry?</button>
+      </div>
+      <div class="fwrap"><div class="fdrawer">
+        <button class="fclose" aria-label="סגירה">✕</button>
+        <span class="ftag">המקבילה ב-Microsoft Foundry</span>
+        <h4>Model Router + קטלוג המודלים</h4>
+        <p>כאן Foundry אפילו רחב יותר מ-Copilot: ה-<b>Model Router</b> מנתב כל בקשה למודל המשתלם ביותר מתוך קטלוג של מאות — GPT-5.5, מודלי <b>Claude</b> (כולל Opus 4.8 שנכנס ב-Build), Grok, ומודלים קטנים וזולים — לפי מורכבות המשימה. אתם משלמים לפי טוקנים של המודל שנבחר בפועל (חיוב Azure, MACC-eligible), אז ניתוב טוב מתורגם ישירות לחיסכון בחשבונית.</p>
+      </div></div>
+      <div class="more"><div class="more-inner">
+        <b>למה זה המנוף הכי גדול:</b> מסלול קל לשאלות פשוטות חוסך ‎60–90%‎. מ-Build: רמת מאמץ הביקורת (low/medium) נקבעת פר-ריפו לפי סיכון — הניתוב מפסיק להיות החלטה של כל מפתח והופך לכלל ארגוני.
+      </div></div>
+      <div class="hint">לחצו לפירוט ›</div>
+    </div>
+
+    <!-- branch lanes -->
+    <div class="branch" id="branch">
+      <div class="lane" data-lane="light">
+        <h4>מסלול קל <span class="delta num" style="font-size:.8rem">‎−60%‎ מהיתרה</span></h4>
+        <p>משימה פשוטה → מודל קטן ומהיר, סוכן יחיד, בלי מקביליות. זול וגם מהיר יותר.</p>
+      </div>
+      <div class="lane" data-lane="heavy">
+        <h4>מסלול כבד <span class="delta cost num" style="font-size:.8rem">מודל Premium</span></h4>
+        <p>refactor מורכב → מודל reasoning, ואופציונלית /fleet במקביליות.</p>
+      </div>
+    </div>
+
+    <!-- 3 agents -->
+    <div class="node" data-node="agents">
+      <div class="top">
+        <h3>בחירת סוכנים <span class="stage-chip infra">Fleet · Worktrees</span></h3>
+        <span class="delta num" data-delta>—</span>
+      </div>
+      <p class="desc">עכשיו מחליטים כמה ידיים שמים על המשימה: סוכן אחד, או ‎/fleet‎ — כמה סוכנים שעובדים על אותה משימה במקביל ומגישים בסוף תוצאה אחת מסוכמת. כל סוכן מקבל עותק מבודד משלו של הקוד (git worktree), אז הם לא מתנגשים — וכל אחד רואה רק את מה שרלוונטי לו.</p>
+      <div class="where">
+        <div class="w-head">איפה זה קורה</div>
+        <div class="w-item"><span class="ic">⌨️</span><span><b>CLI</b> — פקודת <span class="en">/fleet</span> להרצה מקבילית</span></div>
+        <div class="w-item"><span class="ic">🖥️</span><span><b>Copilot App</b> — פותחים כמה סשנים זה לצד זה ורואים את כולם במסך אחד</span></div>
+        <div class="w-item"><span class="ic">🌐</span><span><b>github.com / Jira</b> — משייכים משימה ל-cloud agent והוא עובד ברקע</span></div>
+      </div>
+      <div class="chips">
+        <span class="chips-label">כלים בתחנה:</span>
+        <span class="chip en">/fleet</span>
+        <span class="chip en">Isolated worktrees</span>
+        <span class="chip adv">יתרון: התכנסות לתוצאה אחת + ירושת governance</span>
+      </div>
+      <div class="statusbar">
+        <span class="stat auto-half"><span class="ic">🤝</span> חצי-אוטומטי — אתם מחליטים אם ומתי; הבידוד מנוהל לבד</span>
+        <span class="stat"><span class="dollars"><span class="on">$$$</span></span> יקר — כל סוכן משלם בנפרד; Fleet של 4 ≈ פי 4 קרדיטים</span>
+        <button class="foundry-btn">🏭 ומה ב-Foundry?</button>
+      </div>
+      <div class="fwrap"><div class="fdrawer">
+        <button class="fclose" aria-label="סגירה">✕</button>
+        <span class="ftag">המקבילה ב-Microsoft Foundry</span>
+        <h4>Handoff Orchestration 1.0</h4>
+        <p>המקבילה ל-Fleet בעולם הסוכנים שלכם: <b>Handoff orchestration</b> (הגיע ל-1.0 ב-Build) מאפשר לבנות צוות של סוכנים שמעבירים עבודה ביניהם — אבל עם <b>טופולוגיה מפורשת ו-guardrails</b>: אתם מגדירים מראש מי יכול להעביר למי, במקום כאוס. והבונוס שסוגר את המעגל: סוכן שנבנה על <b>Copilot SDK</b> (או Claude Agent SDK) יכול להיכנס כמשתתף בתוך workflow של Foundry. אותה אזהרת מחיר: כל סוכן בצוות צורך טוקנים בנפרד.</p>
+      </div></div>
+      <div class="more"><div class="more-inner">
+        <b>אזהרת תקציב:</b> ‎4‎ subagents ≈ פי ‎4‎ קרדיטים. Fleet קונה <b>זמן קיר</b>, לא חיסכון — ולכן הוא שייך למסלול הכבד בלבד, אחרי שהניתוב הצדיק אותו. הבידוד ב-worktrees הוא דווקא כן מנוף קונטקסט: כל סוכן רואה רק את שלו.
+      </div></div>
+      <div class="hint">לחצו לפירוט ›</div>
+    </div>
+
+    <!-- 4 sandbox -->
+    <div class="node" data-node="sandbox">
+      <div class="top">
+        <h3>ביצוע ב-Sandbox <span class="stage-chip lever">מנוף · Fewer Retries</span></h3>
+        <span class="delta num" data-delta>‎−12K</span>
+      </div>
+      <p class="desc">כאן הסוכן באמת עובד: כותב קוד, מריץ אותו, רואה מה נשבר ומתקן — בלולאה רציפה. ה-sandbox הוא "חדר סגור": הסוכן יכול להריץ שם כל פקודה בלי לסכן את המחשב שלכם או את הפרודקשן, ולכן לא צריך לעצור ולבקש מכם אישור על כל צעד. פחות עצירות = פחות סבבים יקרים.</p>
+      <div class="where">
+        <div class="w-head">איפה זה קורה</div>
+        <div class="w-item"><span class="ic">💻</span><span><b>על המחשב שלכם</b> — סביבה מבודדת שה-CLI וה-App מקימים לבד</span></div>
+        <div class="w-item"><span class="ic">☁️</span><span><b>בענן של GitHub</b> — sandbox מנוהל ומבודד לחלוטין, לעבודה ברקע</span></div>
+        <div class="w-item"><span class="ic">🔐</span><span><b>ההפעלה</b> — האדמין מדליק policy פעם אחת ברמת הארגון; מאז זה חל על כולם</span></div>
+      </div>
+      <div class="chips">
+        <span class="chips-label">כלים בתחנה:</span>
+        <span class="chip en">Cloud + Local Sandboxes</span>
+        <span class="chip">Policies ארגוניים</span>
+        <span class="chip adv">יתרון: גם לוקאלי וגם ענן, תחת policy אחד</span>
+      </div>
+      <div class="statusbar">
+        <span class="stat auto-full"><span class="ic">⚙️</span> אוטומטי — מרגע שה-policy פעיל, כל ריצה עוברת דרכו לבד</span>
+        <span class="stat"><span class="dollars"><span class="on">$</span><span class="off">$$</span></span> כלול במנוי בפריוויו; שימוש ענן כבד צפוי להיות מתומחר בהמשך</span>
+        <button class="foundry-btn">🏭 ומה ב-Foundry?</button>
+      </div>
+      <div class="fwrap"><div class="fdrawer">
+        <button class="fclose" aria-label="סגירה">✕</button>
+        <span class="ftag">המקבילה ב-Microsoft Foundry</span>
+        <h4>CodeAct על Hyperlight</h4>
+        <p>הביצוע הממוגן של Foundry, עם טוויסט שחוסך טוקנים ישירות: ב-<b>CodeAct</b> (הוצג ב-Build) הסוכן לא קורא לכלים אחד-אחד — הוא <b>כותב קוד קצר שמריץ את כולם בבת אחת</b> בתוך micro-VM קליל של Hyperlight. במקום 15 סיבובי מודל (שכל אחד עולה כסף), סיבוב אחד או שניים. אותו עיקרון של בידוד כמו ה-sandboxes של GitHub, אבל המטרה העיקרית כאן היא לכווץ את ה-overhead של האורקסטרציה.</p>
+      </div></div>
+      <div class="more"><div class="more-inner">
+        <b>איפה החיסכון:</b> כל עצירה לאישור = סיבוב הקשר נוסף; כל כשל סביבה ("אצלי זה עובד") = ריצה חוזרת מלאה. סביבה משוכפלת ומבודדת מוחקת את שתי הקטגוריות. בפריוויו ציבורי מ-2.6.2026.
+      </div></div>
+      <div class="hint">לחצו לפירוט ›</div>
+    </div>
+
+    <!-- 5 eval -->
+    <div class="node" data-node="eval">
+      <div class="top">
+        <h3>שער הערכה <span class="stage-chip lever">מנוף · Eval Gate</span></h3>
+        <span class="delta num" data-delta>‎−6K</span>
+      </div>
+      <p class="desc">הקוד מוכן וה-PR נפתח — אבל שום דבר לא ממשיך בלי לעבור בדיקה. שלושה שערים, כל אחד עם תפקיד אחר:</p>
+      <div class="gates">
+        <div class="gate"><span class="ic">🔍</span><span><b>Copilot Code Review (עם Tiers)</b> — Copilot קורא את ה-PR ומעיר, כמו עמית בכיר. ה"Tier" קובע איזה מוח יבדוק: <b>low</b> = מודל רגיל וזול לריפו רגיל, <b>medium</b> = מודל חזק ויקר לריפו רגיש. האדמין קובע פעם אחת לכל ריפו.</span></div>
+        <div class="gate"><span class="ic">🛡️</span><span><b><span class="en">/security-review</span></b> — בדיקה נפרדת שמתעלמת מסגנון ולוגיקה ומחפשת דבר אחד: פרצות אבטחה.</span></div>
+        <div class="gate"><span class="ic">🖼️</span><span><b>Canvas</b> — מסך ב-Copilot App שבו הסוכן מציג לכם את מה שעשה (תכנית עבודה, השוואת קוד, תצוגת UI חיה). אתם מסתכלים, מאשרים או מכווינים — לפני שזה ממשיך.</span></div>
+      </div>
+      <div class="where">
+        <div class="w-head">איפה זה קורה</div>
+        <div class="w-item"><span class="ic">🌐</span><span><b>על ה-PR ב-github.com</b> — הביקורות מופיעות כתגובות רגילות (זמין גם ל-Azure Repos בפריוויו)</span></div>
+        <div class="w-item"><span class="ic">🖥️</span><span><b>Copilot App</b> — שם נמצא ה-Canvas</span></div>
+      </div>
+      <div class="chips">
+        <span class="chips-label">כלים בתחנה:</span>
+        <span class="chip en">Review tiers</span>
+        <span class="chip en">/security-review</span>
+        <span class="chip en">Canvas</span>
+      </div>
+      <div class="statusbar">
+        <span class="stat auto-half"><span class="ic">🤝</span> חצי-אוטומטי — אפשר ביקורת אוטומטית לכל PR; ה-Canvas זה אתם</span>
+        <span class="stat"><span class="dollars"><span class="on">$$</span><span class="off">$</span></span> כל ביקורת = בקשת פרימיום; Tier חזק עולה יותר — בדיוק בשביל זה יש tiers</span>
+        <button class="foundry-btn">🏭 ומה ב-Foundry?</button>
+      </div>
+      <div class="fwrap"><div class="fdrawer">
+        <button class="fclose" aria-label="סגירה">✕</button>
+        <span class="ftag">המקבילה ב-Microsoft Foundry</span>
+        <h4>Observability מובנה + Agent 365</h4>
+        <p>שער ההערכה של הסוכנים שלכם: <b>Hosted Agents</b> (GA) מגיעים עם observability מובנה — traces, מדדים והערכות (evaluations) על כל ריצה, כך שרואים בדיוק איפה הטוקנים נשרפים ואיפה האיכות נופלת. ומעל הכול — <b>Agent 365 SDK</b> (GA ב-Build): מישור ניטור ואבטחה אחד שמכניס אליו כל סוכן, מכל framework — אפילו כאלה שנבנו ב-Google Cloud או Amazon Bedrock. ה"Canvas" שלכם כאן הוא הדשבורדים של Foundry.</p>
+      </div></div>
+      <div class="more"><div class="more-inner">
+        <b>למה השער חוסך:</b> תפיסת בעיה כאן עולה תיקון נקודתי; תפיסה אחרי merge עולה ריצה מלאה מחדש + עלות אנושית. ה-tier מבטיח שגם הביקורת עצמה לא שורפת מודל יקר על PR טריוויאלי.
+      </div></div>
+      <div class="hint">לחצו לפירוט ›</div>
+    </div>
+
+    <!-- 6 merge -->
+    <div class="node" data-node="merge">
+      <div class="top">
+        <h3>Agent Merge <span class="stage-chip lever">מנוף · Last Mile</span></h3>
+        <span class="delta num" data-delta>‎−18K</span>
+      </div>
+      <p class="desc">הקטע שבדרך כלל הכי מתיש: ה-PR עבר ביקורת, ועכשיו צריך לחכות ל-CI, לתקן טסט שנפל, לענות ל-reviewer... Agent Merge עושה את זה במקומכם: עוקב אחרי הבדיקות, מתקן כשלים נקודתית על ההקשר שכבר קיים, ומגיב להערות — במקום להרים מחדש סוכן שלם (וכל הקונטקסט שלו) על כל תקלה קטנה.</p>
+      <div class="where">
+        <div class="w-head">איפה זה קורה</div>
+        <div class="w-item"><span class="ic">🖥️</span><span><b>Copilot App בלבד</b> — מצמידים אותו ל-PR שיצא מהסשן</span></div>
+        <div class="w-item"><span class="ic">🌐</span><span><b>github.com</b> — את ההתקדמות (checks, תגובות) רואים שם כרגיל</span></div>
+      </div>
+      <div class="chips">
+        <span class="chips-label">כלים בתחנה:</span>
+        <span class="chip en">Checks monitoring</span>
+        <span class="chip adv strong">יתרון מובהק: ליווי PR עד merge — אין מקבילה מלאה</span>
+      </div>
+      <div class="statusbar">
+        <span class="stat auto-half"><span class="ic">🤝</span> חצי-אוטומטי — מנטר ומתקן לבד; ה-merge הסופי תמיד באישור שלכם</span>
+        <span class="stat"><span class="dollars"><span class="on">$</span><span class="off">$$</span></span> כל תיקון קטן עולה קצת — אבל הרבה פחות מריצה מלאה מחדש</span>
+        <button class="foundry-btn">🏭 ומה ב-Foundry?</button>
+      </div>
+      <div class="fwrap"><div class="fdrawer">
+        <button class="fclose" aria-label="סגירה">✕</button>
+        <span class="ftag">המקבילה ב-Microsoft Foundry</span>
+        <h4>אין מקבילה ישירה — וזה בכוונה</h4>
+        <p>Merge הוא "המייל האחרון" של עולם <b>הקוד</b>, ולכן הוא חי רק בצד של GitHub. ב-Foundry המקבילה הרעיונית היא <b>המסלול לפרודקשן</b>: מ-local dev ל-<b>Hosted Agent</b> מנוהל בלחיצה — עם scaling אוטומטי, session persistence ו-deployment מבוקר. נקודה טובה ללקוח: זה בדיוק המקום שבו שני העולמות נפגשים — הקוד של הסוכן שלכם עובר merge ב-GitHub (עם Agent Merge), וה-deploy שלו רץ ב-Foundry.</p>
+      </div></div>
+      <div class="more"><div class="more-inner">
+        <b>המייל האחרון הוא הבזבזני ביותר:</b> PR שנתקע על lint או טסט מתנדנד גורר היסטורית ריצה שלמה מחדש. Agent Merge סוגר את הלולאה אוטומטית, וזה ההבדל בין "סוכן שכותב קוד" ל"סוכן שמספק קוד". בפריוויו טכני מ-2.6.2026.
+      </div></div>
+      <div class="hint">לחצו לפירוט ›</div>
+    </div>
+
+    <!-- end -->
+    <div class="node endnode" data-node="end">
+      <div class="top">
+        <h3>✓ Merged</h3>
+        <span class="final-stat num" id="finalStat"></span>
+      </div>
+      <p class="desc" id="finalDesc">הריצו את הסימולציה כדי לראות את התוצאה המצטברת.</p>
+    </div>
+  </div>
+
+  <!-- ============ SIDE PANEL ============ -->
+  <aside class="panel">
+    <h2>סימולציית תקציב טוקנים</h2>
+    <div class="scenario">
+      <button id="btnLight">משימה פשוטה<br><small>תיקון באג קטן</small></button>
+      <button id="btnHeavy" class="sel">משימה מורכבת<br><small>Refactor רב-קבצים</small></button>
+    </div>
+    <div class="gauge">
+      <span class="label">תקציב טוקנים נוכחי</span>
+      <div class="value"><span id="counter">120</span><small>K</small></div>
+      <div class="bar"><i id="barFill"></i></div>
+      <div class="saved" id="savedLine">&nbsp;</div>
+    </div>
+    <button class="playbtn" id="playBtn">▶ הרץ משימה</button>
+    <div class="legend">
+      <div class="row"><span>⚙️</span> אוטומטי לגמרי — מגדירים פעם אחת ושוכחים</div>
+      <div class="row"><span>🤝</span> חצי-אוטומטי — דורש החלטה או פעולה שלכם</div>
+      <div class="row"><span class="dollars" style="font-size:.85rem"><span class="off">$$$</span></span> אפור = חינם · <span class="dollars" style="font-size:.85rem"><span class="on">$</span></span> עד <span class="dollars" style="font-size:.85rem"><span class="on">$$$</span></span> = רמת העלות</div>
+      <div class="row"><span class="sw" style="background:var(--token);border:1px solid var(--token)"></span> ★ יתרון של מיקרוסופט מול מתחרים</div>
+      <div class="row"><span>🏭</span> לחיצה פותחת את המקבילה ב-Microsoft Foundry</div>
+    </div>
+    <p class="footnote">המספרים להמחשה, מבוססים על טווחי חיסכון מדווחים מהשטח (יוני 2026). תקציב פתיחה: 120K טוקנים למשימה מורכבת.</p>
+  </aside>
+</div>
+
+<script>
+(function(){
+  const nodes = Array.from(document.querySelectorAll('.node[data-node]'));
+  const byId = {}; nodes.forEach(n=>byId[n.dataset.node]=n);
+  const lanes = {light:document.querySelector('[data-lane="light"]'), heavy:document.querySelector('[data-lane="heavy"]')};
+  const counter = document.getElementById('counter');
+  const barFill = document.getElementById('barFill');
+  const savedLine = document.getElementById('savedLine');
+  const railFill = document.getElementById('railFill');
+  const playBtn = document.getElementById('playBtn');
+  const finalStat = document.getElementById('finalStat');
+  const finalDesc = document.getElementById('finalDesc');
+  const btnLight = document.getElementById('btnLight');
+  const btnHeavy = document.getElementById('btnHeavy');
+
+  let scenario = 'heavy';
+  let playing = false;
+
+  // steps: [nodeKey, newBudget, savedText, deltaText]
+  const plans = {
+    heavy: {
+      start:120,
+      steps:[
+        ['intake',120,'', 'תקציב: 120K'],
+        ['context',94,'נחסכו 26K — הוראות רזות + MCP audit','‎−26K'],
+        ['routing',94,'הוחלט: מסלול כבד — מודל Premium','מסלול כבד'],
+        ['agents',94,'סוכן יחיד ב-worktree מבודד (בלי Fleet — אין הצדקה)','—'],
+        ['sandbox',82,'נחסכו 12K — אפס ריצות חוזרות מכשלי סביבה','‎−12K'],
+        ['eval',76,'נחסכו 6K — ביקורת ב-tier מתאים, בעיות נתפסו מוקדם','‎−6K'],
+        ['merge',58,'נחסכו 18K — תיקוני CI נקודתיים במקום ריצה מאפס','‎−18K'],
+        ['end',58,'','']
+      ],
+      lane:'heavy',
+      final:'58K · חיסכון ‎52%‎',
+      finalDesc:'משימה מורכבת: מ-120K ל-58K — בלי לוותר על מודל חזק איפה שצריך. החיסכון הגיע מקונטקסט, מהסביבה ומהמייל האחרון.'
+    },
+    light: {
+      start:120,
+      steps:[
+        ['intake',120,'','תקציב: 120K'],
+        ['context',94,'נחסכו 26K — הוראות רזות + MCP audit','‎−26K'],
+        ['routing',94,'הוחלט: מסלול קל — מודל קטן ומהיר','מסלול קל'],
+        ['agents',38,'נחסכו 56K — מודל קל על היתרה (‎−60%‎), סוכן יחיד','‎−56K'],
+        ['sandbox',33,'נחסכו 5K — ריצה נקייה, אפס חזרות','‎−5K'],
+        ['eval',31,'נחסכו 2K — ביקורת low tier, מספיקה לחלוטין','‎−2K'],
+        ['merge',25,'נחסכו 6K — merge חלק כמעט ללא התערבות','‎−6K'],
+        ['end',25,'','']
+      ],
+      lane:'light',
+      final:'25K · חיסכון ‎79%‎',
+      finalDesc:'משימה פשוטה: מ-120K ל-25K. רוב החיסכון מניתוב — ההחלטה לא לשלם על מודל frontier כשלא צריך.'
+    }
+  };
+
+  function setScenario(s){
+    if(playing) return;
+    scenario = s;
+    btnLight.classList.toggle('sel', s==='light');
+    btnHeavy.classList.toggle('sel', s==='heavy');
+    reset();
+  }
+  btnLight.addEventListener('click',()=>setScenario('light'));
+  btnHeavy.addEventListener('click',()=>setScenario('heavy'));
+
+  function reset(){
+    nodes.forEach(n=>n.classList.remove('active','done','skipped'));
+    lanes.light.classList.remove('lit','dim');
+    lanes.heavy.classList.remove('lit','dim');
+    railFill.style.height='0';
+    const p = plans[scenario];
+    counter.textContent = p.start;
+    barFill.style.width='100%';
+    savedLine.innerHTML='&nbsp;';
+    finalStat.textContent='';
+    finalDesc.textContent='הריצו את הסימולציה כדי לראות את התוצאה המצטברת.';
+    // reset delta labels to plan values
+    p.steps.forEach(([key,,,delta])=>{
+      const el = byId[key] && byId[key].querySelector('[data-delta]');
+      if(el && delta) el.textContent = delta;
+    });
+  }
+
+  function animateCounter(from,to,dur){
+    const t0 = performance.now();
+    function tick(t){
+      const k = Math.min(1,(t-t0)/dur);
+      const v = Math.round(from + (to-from)*k);
+      counter.textContent = v;
+      barFill.style.width = (v/120*100)+'%';
+      if(k<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function railTo(node){
+    const flowRect = document.getElementById('flow').getBoundingClientRect();
+    const nRect = node.getBoundingClientRect();
+    const h = (nRect.top - flowRect.top) + 30;
+    railFill.style.height = Math.max(0,h)+'px';
+  }
+
+  function play(){
+    if(playing) return;
+    playing = true;
+    playBtn.disabled = true;
+    reset();
+    const p = plans[scenario];
+    let prevBudget = p.start;
+    let i = 0;
+
+    function step(){
+      if(i>0){
+        const prevKey = p.steps[i-1][0];
+        byId[prevKey].classList.remove('active');
+        byId[prevKey].classList.add('done');
+      }
+      if(i>=p.steps.length){
+        finish(); return;
+      }
+      const [key,budget,saved] = p.steps[i];
+      const node = byId[key];
+      node.classList.add('active');
+      railTo(node);
+      node.scrollIntoView({behavior:'smooth',block:'center'});
+      if(budget!==prevBudget){ animateCounter(prevBudget,budget,600); prevBudget=budget; }
+      if(saved){ savedLine.textContent = saved; }
+      if(key==='routing'){
+        setTimeout(()=>{
+          lanes[p.lane].classList.add('lit');
+          lanes[p.lane==='light'?'heavy':'light'].classList.add('dim');
+        },500);
+      }
+      i++;
+      setTimeout(step, key==='end'?600:1500);
+    }
+
+    function finish(){
+      finalStat.textContent = p.final;
+      finalDesc.textContent = p.finalDesc;
+      savedLine.textContent = 'סה״כ: '+p.final;
+      playing = false;
+      playBtn.disabled = false;
+      playBtn.textContent = '↺ הרץ שוב';
+    }
+    step();
+  }
+  playBtn.addEventListener('click',play);
+
+  // expand/collapse details
+  nodes.forEach(n=>{
+    if(n.dataset.node==='end') return;
+    n.addEventListener('click',e=>{
+      if(e.target.closest('button')) return;
+      if(e.target.closest('.fdrawer')) return;
+      n.classList.toggle('open');
+    });
+  });
+
+  // foundry drawers
+  document.querySelectorAll('.foundry-btn').forEach(b=>{
+    b.addEventListener('click',e=>{
+      e.stopPropagation();
+      document.querySelectorAll('.node.fopen').forEach(n=>n.classList.remove('fopen'));
+      b.closest('.node').classList.add('fopen');
+    });
+  });
+  document.querySelectorAll('.fclose').forEach(b=>{
+    b.addEventListener('click',e=>{
+      e.stopPropagation();
+      b.closest('.node').classList.remove('fopen');
+    });
+  });
+
+  reset();
+})();
+</script>
+</body>
+</html>

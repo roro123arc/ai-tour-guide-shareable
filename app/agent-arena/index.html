@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Arena - Big Screen</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+}
+button, input { font: inherit; }
+.arena-art {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.arena-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08), transparent 18%, transparent 82%, rgba(0, 0, 0, 0.08)),
+    radial-gradient(circle at 50% 36%, transparent 0, var(--cp-bg) 86%);
+}
+.arena-art img {
+  position: absolute;
+  bottom: -4vh;
+  width: min(54vw, 880px);
+  max-width: none;
+  opacity: .78;
+  filter: saturate(1.28) contrast(1.18);
+}
+.arena-art-left {
+  left: max(-12vw, -220px);
+}
+.arena-art-right {
+  right: max(-12vw, -220px);
+}
+.shell {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 24px;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 20px;
+  max-width: 1480px;
+  margin: 0 auto;
+}
+.header, .banner, .panel, .fighter, .footer, .facilitator {
+  background: color-mix(in srgb, var(--cp-panel) 46%, transparent);
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  box-shadow: var(--cp-shadow);
+  -webkit-backdrop-filter: blur(5px) saturate(1.18);
+  backdrop-filter: blur(5px) saturate(1.18);
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+}
+.eyebrow {
+  color: var(--cp-text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+h1 {
+  margin: 6px 0 0;
+  font-size: clamp(34px, 4vw, 64px);
+  line-height: .95;
+  letter-spacing: -.04em;
+}
+.station-heading {
+  max-width: 1180px;
+  color: var(--cp-text-muted);
+  font-size: clamp(48px, 5.7vw, 96px);
+  line-height: .91;
+  letter-spacing: -.055em;
+}
+.station-heading-line {
+  display: block;
+}
+.station-heading-line + .station-heading-line {
+  padding-left: clamp(150px, 17vw, 310px);
+}
+.station-heading-lower {
+  display: inline-block;
+  margin-left: clamp(28px, 3.2vw, 58px);
+}
+.fighter-heading {
+  width: min(100%, 1120px);
+  max-width: 1120px;
+  color: color-mix(in srgb, var(--cp-text) 86%, var(--cp-text-muted));
+  font-size: clamp(38px, 4.9vw, 78px);
+  -webkit-text-stroke: 1.35px color-mix(in srgb, var(--cp-bg) 88%, var(--cp-text));
+  paint-order: stroke fill;
+  white-space: nowrap;
+  word-spacing: clamp(8px, 1vw, 18px);
+  letter-spacing: .01em;
+  text-align: center;
+  text-shadow:
+    0 0 2px rgba(255, 255, 255, 1),
+    0 0 18px rgba(255, 255, 255, 0.9),
+    0 0 42px rgba(255, 255, 255, 0.7),
+    0 0 84px rgba(255, 255, 255, 0.46);
+  animation: fighter-title-glow 2.2s ease-in-out infinite;
+}
+@keyframes fighter-title-glow {
+  0%, 100% {
+    filter: brightness(1);
+    text-shadow:
+      0 0 2px rgba(255, 255, 255, 0.95),
+      0 0 14px rgba(255, 255, 255, 0.74),
+      0 0 34px rgba(255, 255, 255, 0.52),
+      0 0 66px rgba(255, 255, 255, 0.34);
+  }
+  50% {
+    filter: brightness(1.15);
+    text-shadow:
+      0 0 3px rgba(255, 255, 255, 1),
+      0 0 24px rgba(255, 255, 255, 1),
+      0 0 56px rgba(255, 255, 255, 0.84),
+      0 0 110px rgba(255, 255, 255, 0.58);
+  }
+}
+.header > div:first-child {
+  min-width: 0;
+  flex: 1;
+}
+.yolo { color: var(--cp-warning); }
+.arch { color: var(--cp-success); }
+.live {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 10px;
+  margin-top: 6px;
+  color: var(--cp-text-muted);
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cp-danger);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+.mode {
+  margin-top: 8px;
+  color: var(--cp-text-soft);
+  font-size: 13px;
+}
+.mode strong { color: var(--cp-accent); }
+.banner {
+  padding: 16px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-color: var(--cp-success);
+  background: var(--cp-highlight);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.banner.hidden { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+.banner-title {
+  color: var(--cp-success);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.banner-detail { color: var(--cp-text-soft); font-weight: 700; }
+.fighters {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 78px minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+.fighter {
+  position: relative;
+  overflow: hidden;
+  padding: 22px;
+}
+.fighter > * {
+  position: relative;
+  z-index: 1;
+}
+.fighter-name {
+  margin: 0;
+  font-size: clamp(42px, 5vw, 82px);
+  line-height: .88;
+  letter-spacing: -.06em;
+  font-weight: 900;
+}
+.fighter-tag {
+  margin: 10px 0 22px;
+  color: var(--cp-text-muted);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.stat { margin-bottom: 16px; }
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 7px;
+}
+.stat-label {
+  color: var(--cp-text-muted);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.stat-val { font-size: clamp(22px, 2.2vw, 36px); font-weight: 900; }
+.bar {
+  height: 9px;
+  overflow: hidden;
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+  border: 1px solid var(--cp-border);
+}
+.bar-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 0.625rem;
+  transition: width 1.1s cubic-bezier(.2, .8, .2, 1);
+}
+.fill-yolo { background: var(--cp-warning); }
+.fill-arch { background: var(--cp-success); }
+.fill-speed { background: var(--cp-warning); }
+.speed-val { color: var(--cp-warning); }
+.models { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+.stack-card {
+  margin-top: 14px;
+  padding: 10px;
+  border-radius: 0.625rem;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface-soft);
+}
+.stack-label {
+  color: var(--cp-text-muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.stack-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 26px;
+  padding: 3px 10px;
+  border-radius: 0.625rem;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface-soft);
+  color: var(--cp-text);
+  font-size: 12px;
+  font-weight: 800;
+}
+.chip.yolo-chip { color: var(--cp-warning); }
+.chip.arch-chip { color: var(--cp-success); }
+.vs {
+  display: grid;
+  place-items: center;
+  color: var(--cp-text-muted);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+.vs-inner {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--cp-surface);
+  border: 1px solid var(--cp-border);
+}
+.bottom {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+.panel { padding: 18px; }
+.panel-title {
+  margin-bottom: 14px;
+  color: var(--cp-text-muted);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.lb-row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 76px;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--cp-border);
+}
+.lb-row:last-child { border-bottom: 0; }
+.lb-rank {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--cp-surface-soft);
+  color: var(--cp-text-muted);
+  font-weight: 900;
+}
+.lb-rank.best { color: var(--cp-warning); }
+.lb-name { font-size: 15px; font-weight: 900; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lb-meta { color: var(--cp-text-muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mini-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 1px 7px;
+  border-radius: 0.625rem;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface-soft);
+  color: var(--cp-success);
+  font-size: 10px;
+  font-weight: 900;
+}
+.lb-cost, .lb-saving, .lb-quality { font-size: 15px; font-weight: 900; text-align: right; }
+.lb-saving { color: var(--cp-success); }
+.lb-cost, .lb-quality { display: none; }
+.empty {
+  padding: 28px 0;
+  text-align: center;
+  color: var(--cp-text-muted);
+}
+.usecase-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 210px;
+  padding: 18px 20px 20px;
+  border-radius: 0.875rem;
+  border: 1px solid var(--cp-border);
+  background: color-mix(in srgb, var(--cp-surface-soft) 74%, transparent);
+  display: grid;
+  gap: 16px;
+  transition: border-color .35s ease, box-shadow .35s ease, transform .35s ease;
+}
+.usecase-card.running {
+  border-color: var(--cp-warning);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--cp-warning) 40%, transparent), var(--cp-shadow);
+}
+.usecase-card.running .usecase-metric {
+  animation: metric-soft-pulse 1.8s ease-in-out infinite;
+}
+.usecase-card.winner {
+  border-color: var(--cp-success);
+  box-shadow: 0 0 32px color-mix(in srgb, var(--cp-success) 45%, transparent), var(--cp-shadow);
+  animation: winner-pop .9s ease;
+}
+.usecase-card.winner .usecase-metric {
+  animation: metric-white-glow 1.35s ease-in-out 2;
+}
+@keyframes winner-pop {
+  0%, 100% { transform: scale(1); }
+  35% { transform: scale(1.018); }
+}
+@keyframes metric-white-glow {
+  0%, 100% {
+    border-color: var(--cp-border);
+    box-shadow: none;
+  }
+  45% {
+    border-color: rgba(255, 255, 255, 0.95);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.72),
+      0 0 28px rgba(255, 255, 255, 0.7),
+      inset 0 0 24px rgba(255, 255, 255, 0.16);
+  }
+}
+@keyframes metric-soft-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    border-color: rgba(255, 255, 255, 0.54);
+    box-shadow:
+      0 0 18px rgba(255, 255, 255, 0.35),
+      inset 0 0 14px rgba(255, 255, 255, 0.08);
+  }
+}
+.usecase-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: end;
+}
+.usecase-kicker {
+  color: var(--cp-accent);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.usecase-title {
+  margin-top: 8px;
+  font-size: clamp(42px, 4.4vw, 76px);
+  line-height: .95;
+  font-weight: 900;
+  letter-spacing: -.04em;
+}
+.usecase-emoji {
+  display: inline-block;
+  margin-right: 12px;
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.45));
+}
+.usecase-task {
+  margin-top: 9px;
+  color: var(--cp-text-soft);
+  font-size: clamp(16px, 1.4vw, 22px);
+  line-height: 1.35;
+  font-weight: 700;
+}
+.usecase-scale {
+  margin-top: 10px;
+  color: var(--cp-text-muted);
+  font-size: clamp(13px, 1vw, 17px);
+  line-height: 1.35;
+  font-weight: 900;
+  letter-spacing: .02em;
+}
+.usecase-scale strong {
+  color: var(--cp-success);
+}
+.usecase-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 0;
+}
+.usecase-metric {
+  min-height: 132px;
+  padding: 18px 14px;
+  border-radius: 0.625rem;
+  border: 1px solid var(--cp-border);
+  background: color-mix(in srgb, var(--cp-surface) 68%, transparent);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.usecase-metric-label {
+  color: var(--cp-text-muted);
+  font-size: clamp(13px, 1.1vw, 18px);
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.usecase-metric-value {
+  margin-top: 10px;
+  color: var(--cp-success);
+  font-size: clamp(46px, 4.6vw, 78px);
+  line-height: 1;
+  font-weight: 900;
+}
+.usecase-live {
+  display: none;
+  margin-top: 12px;
+  padding: 9px 10px;
+  border-radius: 0.625rem;
+  background: var(--cp-highlight);
+  color: var(--cp-accent);
+  font-size: 12px;
+  font-weight: 900;
+}
+.usecase-live.visible { display: block; }
+.recipe-metric {
+  margin-top: 14px;
+}
+.recipe-metrics {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 10px;
+  text-align: center;
+}
+.recipe-metrics .recipe-metric {
+  margin-top: 0;
+}
+.recipe-metric-value {
+  color: var(--cp-success);
+  font-size: clamp(42px, 4vw, 68px);
+  line-height: .95;
+  font-weight: 900;
+  letter-spacing: -.04em;
+}
+.recipe-metric-note {
+  color: var(--cp-text-muted);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.build-flow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  margin-top: 24px;
+  align-items: stretch;
+  justify-content: center;
+}
+.flow-step {
+  min-height: 238px;
+  padding: 22px 18px;
+  border-radius: 0.625rem;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface-soft);
+  text-decoration: none;
+  color: var(--cp-text);
+  display: grid;
+  align-content: start;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.flow-step:hover {
+  transform: translateY(-2px);
+  border-color: var(--cp-accent);
+  background: var(--cp-accent-soft);
+}
+.flow-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.flow-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 0.625rem;
+  background: var(--cp-accent-soft);
+  color: var(--cp-accent);
+}
+.flow-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.flow-num {
+  color: var(--cp-accent);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+.flow-title {
+  margin-top: 14px;
+  color: var(--cp-text);
+  font-size: 23px;
+  font-weight: 900;
+  line-height: 1.05;
+}
+.flow-copy {
+  margin-top: 10px;
+  color: var(--cp-text-soft);
+  font-size: 14px;
+  line-height: 1.42;
+}
+.flow-impact {
+  margin-top: 14px;
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 0.625rem;
+  background: var(--cp-highlight);
+  color: var(--cp-success);
+  font-size: 11px;
+  font-weight: 900;
+}
+.flow-link {
+  margin-top: 12px;
+  color: var(--cp-link);
+  font-size: 13px;
+  font-weight: 900;
+}
+.build-path {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--cp-border);
+}
+.build-path-title {
+  color: var(--cp-text-muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.build-path-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.build-path-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 3px 10px;
+  border-radius: 0.625rem;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface-soft);
+  color: var(--cp-link);
+  font-size: 11px;
+  font-weight: 900;
+  text-decoration: none;
+}
+.build-path-link:hover {
+  border-color: var(--cp-accent);
+  background: var(--cp-accent-soft);
+  color: var(--cp-accent);
+}
+.flow-arrow {
+  display: none;
+}
+.prompt {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+  border: 1px solid var(--cp-border);
+  color: var(--cp-success);
+  font-family: Consolas, "Courier New", Courier, monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.proof {
+  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+}
+.proof-mode {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 24px;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 0.625rem;
+  background: var(--cp-highlight);
+  color: var(--cp-accent);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.proof-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+}
+.proof-step {
+  color: var(--cp-text);
+  font-size: 12px;
+  font-weight: 900;
+}
+.proof-impact {
+  margin-top: 2px;
+  color: var(--cp-text-muted);
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.proof-metric {
+  color: var(--cp-success);
+  font-size: 12px;
+  font-weight: 900;
+}
+.footer {
+  padding: 13px 18px;
+  text-align: center;
+  color: var(--cp-text-soft);
+  font-weight: 700;
+}
+.footer strong { color: var(--cp-success); }
+.flash { animation: flash .7s ease; }
+@keyframes flash { 0%, 100% { opacity: 1; } 45% { opacity: .35; } }
+.facilitator {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: min(420px, calc(100vw - 32px));
+  padding: 14px;
+  background: var(--cp-panel-strong);
+  display: none;
+  z-index: 10;
+}
+.facilitator.visible { display: block; }
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.form-grid label { display: grid; gap: 4px; color: var(--cp-text-muted); font-size: 12px; font-weight: 700; }
+.form-grid input {
+  min-width: 0;
+  padding: 8px 10px;
+  border-radius: 0.625rem;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+  color: var(--cp-text);
+}
+.actions { display: flex; gap: 8px; margin-top: 10px; }
+.actions button {
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface-soft);
+  color: var(--cp-text);
+  border-radius: 0.625rem;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-weight: 800;
+}
+.actions button.primary {
+  background: var(--cp-accent);
+  color: var(--cp-accent-fg);
+  border-color: var(--cp-accent);
+}
+@media (max-width: 980px) {
+  .arena-art img { width: 78vw; opacity: .46; }
+  .arena-art-left { left: -38vw; }
+  .arena-art-right { right: -38vw; }
+  .shell { padding: 16px; }
+  .header, .banner { align-items: flex-start; flex-direction: column; }
+  .fighters, .bottom { grid-template-columns: 1fr; }
+  .usecase-copy { grid-template-columns: 1fr; }
+  .usecase-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vs { display: none; }
+  .lb-row { grid-template-columns: 34px minmax(0, 1fr) 82px 82px; }
+  .lb-quality { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="arena-art" aria-hidden="true">
+  <img class="arena-art-left" src="assets/lazy-yolo-genius.png" alt="">
+  <img class="arena-art-right" src="assets/street-smart-architect.png" alt="">
+</div>
+<main class="shell">
+  <section class="header">
+    <div>
+      <div class="eyebrow">Agent Arena - Microsoft Build 2026</div>
+      <h1 class="station-heading fighter-heading">CHOOSE YOUR AGENT FIGHTER</h1>
+      <div class="mode" id="mode"></div>
+    </div>
+    <div class="live"><span class="dot"></span><span id="live-label">Interactive station</span></div>
+  </section>
+
+  <section class="banner hidden" id="banner">
+    <div class="banner-title" id="banner-title">New leaderboard record</div>
+    <div class="banner-detail" id="banner-detail"></div>
+  </section>
+
+  <section class="fighters">
+    <article class="fighter fighter-yolo">
+      <h2 class="fighter-name yolo">Lazy YOLO<br>Genius</h2>
+      <div class="fighter-tag">GPT-5 everywhere - no regrets</div>
+      <div class="stat">
+        <div class="stat-row"><span class="stat-label">Cost</span><span class="stat-val yolo" id="yolo-cost">$3.82</span></div>
+        <div class="bar"><div class="bar-fill fill-yolo" id="yolo-cost-bar" style="width:92%"></div></div>
+      </div>
+      <div class="stat">
+        <div class="stat-row"><span class="stat-label">Quality</span><span class="stat-val" id="yolo-quality">92</span></div>
+        <div class="bar"><div class="bar-fill fill-yolo" id="yolo-quality-bar" style="width:92%"></div></div>
+      </div>
+      <div class="stat">
+        <div class="stat-row"><span class="stat-label">Time</span><span class="stat-val speed-val" id="yolo-speed">18s</span></div>
+        <div class="bar"><div class="bar-fill fill-speed" id="yolo-speed-bar" style="width:92%"></div></div>
+      </div>
+      <div class="stat">
+        <div class="stat-row"><span class="stat-label">Token burn</span><span class="stat-val yolo" id="yolo-tokens">220k</span></div>
+        <div class="bar"><div class="bar-fill fill-yolo" id="yolo-token-bar" style="width:92%"></div></div>
+      </div>
+    </article>
+
+    <div class="vs"><div class="vs-inner">VS</div></div>
+
+    <article class="fighter fighter-arch">
+      <h2 class="fighter-name arch">Street-Smart<br>Architect</h2>
+      <div class="fighter-tag">Routed - parallel - efficient</div>
+      <div class="stat">
+        <div class="stat-row"><span class="stat-label">Best cost</span><span class="stat-val arch" id="arch-cost">--</span></div>
+        <div class="bar"><div class="bar-fill fill-arch" id="arch-cost-bar"></div></div>
+      </div>
+      <div class="stat">
+        <div class="stat-row"><span class="stat-label">Quality</span><span class="stat-val" id="arch-quality">--</span></div>
+        <div class="bar"><div class="bar-fill fill-arch" id="arch-quality-bar"></div></div>
+      </div>
+      <div class="stat">
+        <div class="stat-row"><span class="stat-label">Time</span><span class="stat-val speed-val" id="arch-speed">waiting</span></div>
+        <div class="bar"><div class="bar-fill fill-speed" id="arch-speed-bar"></div></div>
+      </div>
+      <div class="stat">
+        <div class="stat-row"><span class="stat-label">Token burn</span><span class="stat-val arch" id="arch-tokens">waiting</span></div>
+        <div class="bar"><div class="bar-fill fill-arch" id="arch-token-bar"></div></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="bottom">
+    <article class="panel">
+      <div class="panel-title">Use case run</div>
+      <div class="usecase-card" id="usecase-card">
+        <div class="usecase-copy">
+          <div>
+            <div class="usecase-kicker" id="usecase-kicker">Scenario simulation</div>
+            <div class="usecase-title"><span class="usecase-emoji" id="usecase-emoji">✈️</span><span id="usecase-title">Travel Planner Agent</span></div>
+            <div class="usecase-task" id="usecase-task">Build a 2-day itinerary with budget-aware recommendations.</div>
+            <div class="usecase-scale" id="usecase-scale">Company scale: ~12K runs/month x $3.28 saved/run = ~$39K/month</div>
+          </div>
+          <div class="usecase-live" id="usecase-live"></div>
+        </div>
+        <div class="usecase-metrics">
+          <div class="usecase-metric">
+            <div class="usecase-metric-label">$K saved / month</div>
+            <div class="usecase-metric-value" id="usecase-cost-saving">--</div>
+          </div>
+          <div class="usecase-metric">
+            <div class="usecase-metric-label">Tokens cut</div>
+            <div class="usecase-metric-value" id="usecase-token-saving">--</div>
+          </div>
+          <div class="usecase-metric">
+            <div class="usecase-metric-label">Speed gain</div>
+            <div class="usecase-metric-value" id="usecase-speed-saving">--</div>
+          </div>
+          <div class="usecase-metric">
+            <div class="usecase-metric-label">Weighted score</div>
+            <div class="usecase-metric-value" id="usecase-score">--</div>
+          </div>
+        </div>
+      </div>
+    </article>
+    <article class="panel">
+      <div class="panel-title">Efficient agent recipe</div>
+      <div class="recipe-metrics">
+          <div class="recipe-metric">
+            <div class="recipe-metric-value" id="recipe-saving">--</div>
+          </div>
+          <div class="recipe-metric-note" id="recipe-note">weighted agent score</div>
+      </div>
+      <div class="build-flow">
+        <a class="flow-step" href="https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-router" target="_blank" rel="noopener noreferrer">
+          <div class="flow-head">
+            <div class="flow-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 6h7" />
+                <path d="M4 12h12" />
+                <path d="M4 18h7" />
+                <path d="M16 6l4 4-4 4" />
+              </svg>
+            </div>
+            <div class="flow-num">01</div>
+          </div>
+          <div class="flow-title">Model routing</div>
+          <div class="flow-copy">Route each step to the right capability: small model, tool, or premium reasoning only when needed.</div>
+          <div class="flow-impact">Cuts premium calls</div>
+          <div class="flow-link">Azure OpenAI model router →</div>
+        </a>
+        <a class="flow-step" href="https://www.bing.com/videos/riverview/relatedvideo?q=TOOL+GROUNDING+Microsoft&amp;mid=741958DE4E12E20791D0741958DE4E12E20791D0&amp;churl=https%3a%2f%2fwww.youtube.com%2fchannel%2fUCBcPPMQmVe5O3on4v5VKrYA&amp;FORM=VIRE" target="_blank" rel="noopener noreferrer">
+          <div class="flow-head">
+            <div class="flow-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 4v5" />
+                <path d="M16 4v5" />
+                <path d="M6 9h12v3a6 6 0 0 1-12 0V9z" />
+                <path d="M12 18v3" />
+                <path d="M9 21h6" />
+              </svg>
+            </div>
+            <div class="flow-num">02</div>
+          </div>
+          <div class="flow-title">Tool grounding</div>
+          <div class="flow-copy">Use deterministic tools, docs, data, or MCP connectors instead of asking the model to guess.</div>
+          <div class="flow-impact">Fewer tokens, better grounding</div>
+          <div class="flow-link">Tool grounding video →</div>
+        </a>
+        <a class="flow-step" href="https://learn.microsoft.com/en-us/windows-365/enterprise/context-based-redirections" target="_blank" rel="noopener noreferrer">
+          <div class="flow-head">
+            <div class="flow-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6l7-3z" />
+                <path d="M8.5 12.5l2 2 5-5" />
+              </svg>
+            </div>
+            <div class="flow-num">03</div>
+          </div>
+          <div class="flow-title">Context redirection</div>
+          <div class="flow-copy">Pass compact, distilled state between steps instead of dumping raw transcript, emails, or full history.</div>
+          <div class="flow-impact">Shrinks token load</div>
+          <div class="flow-link">Context-based redirections →</div>
+        </a>
+        <a class="flow-step" href="https://microsoft.github.io/CopilotStudioSamples/testing/evaluation/EvalGateADO/" target="_blank" rel="noopener noreferrer">
+          <div class="flow-head">
+            <div class="flow-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 19V5" />
+                <path d="M4 19h16" />
+                <path d="M7 15l3-4 3 2 4-6" />
+                <path d="M17 7h3v3" />
+              </svg>
+            </div>
+            <div class="flow-num">04</div>
+          </div>
+          <div class="flow-title">Eval gates</div>
+          <div class="flow-copy">Count savings only if quality stays above threshold. No cheap-but-bad wins.</div>
+          <div class="flow-impact">Protects quality</div>
+          <div class="flow-link">Eval Gate ADO sample →</div>
+        </a>
+      </div>
+      <div class="build-path">
+        <div class="build-path-title">Build 2026 production path</div>
+        <div class="build-path-links">
+          <a class="build-path-link" href="https://build.microsoft.com/en-US/sessions/LIVE151" target="_blank" rel="noopener noreferrer">Copilot SDK 1.0</a>
+          <a class="build-path-link" href="https://build.microsoft.com/en-US/sessions/LIVE152" target="_blank" rel="noopener noreferrer">Fleet + review</a>
+          <a class="build-path-link" href="https://build.microsoft.com/en-US/sessions/DEM305" target="_blank" rel="noopener noreferrer">Cloud Sandboxes</a>
+          <a class="build-path-link" href="https://build.microsoft.com/en-US/sessions/BRK200" target="_blank" rel="noopener noreferrer">Agent Merge</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <footer class="footer">Microsoft Build pattern: <strong>orchestrate, route, evaluate, optimize.</strong> Same result, radically better economics.</footer>
+</main>
+
+<aside class="facilitator" id="facilitator">
+  <div class="panel-title">Facilitator quick add</div>
+  <form id="manual-form" class="form-grid">
+    <label>Name <input name="name" value="Ayelet" required></label>
+    <label>Cost <input name="cost" type="number" min="0" step="0.01" value="0.74" required></label>
+    <label>Quality <input name="quality" type="number" min="0" max="100" step="1" value="90" required></label>
+    <label>Speed sec <input name="speed" type="number" min="0" step="0.1" value="4.8"></label>
+    <label>Workflow <input name="workflow" value="Travel Planner"></label>
+    <label style="grid-column:1 / -1">Prompt <input name="prompt" value="parallelize + route models"></label>
+  </form>
+  <div class="actions">
+    <button class="primary" id="add-local" type="button">Add to screen</button>
+    <button id="reset-local" type="button">Reset local</button>
+    <button id="close-panel" type="button">Close</button>
+  </div>
+</aside>
+
+<script>
+const BASELINE = 3.82;
+const POLL_INTERVAL_MS = 5000;
+const USE_CASE_INTERVAL_MS = 12500;
+const RUN_ANIMATION_MS = 1700;
+const params = new URLSearchParams(location.search);
+const sameOriginApi = location.protocol.startsWith("http") ? `${location.origin}/api` : "";
+const configuredApiUrl =
+  params.get("apiUrl") ||
+  sameOriginApi ||
+  localStorage.getItem("arenaApiUrl") ||
+  "";
+if (params.get("apiUrl")) localStorage.setItem("arenaApiUrl", params.get("apiUrl"));
+
+const demoEntries = [
+  { name: "Ayelet", cost: 0.74, quality: 90, speed: 4.2, workflow: "Travel Planner", prompt: "Foundry Agent Service + MCP Toolbox", time: "demo" },
+  { name: "Ran", cost: 0.91, quality: 88, speed: 5.1, workflow: "Travel Planner", prompt: "Foundry Local + Responses API", time: "demo" },
+  { name: "Noa", cost: 1.10, quality: 93, speed: 6.0, workflow: "Travel Planner", prompt: "eval gate + tracing", time: "demo" }
+];
+let lastBestCost = Infinity;
+let jsonpCounter = 0;
+let state = { entries: [], totalRuns: 0, mode: "empty" };
+let currentUseCaseIndex = 0;
+let latestLiveEntry = null;
+let latestLiveSignature = "";
+
+const prompts = [
+  "\"optimize for cost, keep quality above 85\"",
+  "\"parallelize the summarization\"",
+  "\"use browser tools instead of reasoning\"",
+  "\"reduce context passed between agents\"",
+  "\"cache repeated subqueries\"",
+  "\"use cheaper models where possible\"",
+  "\"final reasoning only on premium model\""
+];
+let promptIndex = 0;
+
+const useCases = [
+  {
+    id: "travel",
+    emoji: "✈️",
+    title: "Travel Planner Agent",
+    task: "Build a 2-day itinerary with budget-aware recommendations.",
+    monthlyRuns: 12000,
+    baseline: { cost: 3.82, quality: 92, speed: 18, tokens: 220 },
+    architect: { cost: 0.54, quality: 92, speed: 0.8, tokens: 32 },
+    prompt: "\"route lookup + ranking, then use premium reasoning only for final itinerary\"",
+    trace: [
+      { step: "Lookup", impact: "budget-fit candidates from structured data", tokens: 2000, cost: 0.03 },
+      { step: "Rank", impact: "lightweight ranking replaces premium reasoning", tokens: 4000, cost: 0.06 },
+      { step: "Compose", impact: "premium model used once for final wording", tokens: 24000, cost: 0.42 },
+      { step: "Quality gate", impact: "itinerary accepted only if quality >= 85", tokens: 2000, cost: 0.03 }
+    ],
+    recipe: ["1 premium call", "Lookup from catalog", "3-option compact brief", "Q92 passes gate"]
+  },
+  {
+    id: "support",
+    emoji: "🎧",
+    title: "Customer Support Agent",
+    task: "Answer a customer issue using product docs, ticket history, and account context.",
+    monthlyRuns: 35000,
+    baseline: { cost: 4.64, quality: 91, speed: 22, tokens: 268 },
+    architect: { cost: 0.86, quality: 90, speed: 3.6, tokens: 52 },
+    prompt: "\"retrieve only relevant tickets and docs, then draft one grounded answer\"",
+    trace: [
+      { step: "Retrieve", impact: "top docs and recent tickets only", tokens: 8000, cost: 0.10 },
+      { step: "Classify", impact: "small model identifies issue type", tokens: 5000, cost: 0.07 },
+      { step: "Draft", impact: "premium model writes customer-safe response", tokens: 34000, cost: 0.64 },
+      { step: "Grounding gate", impact: "checks answer against retrieved sources", tokens: 5000, cost: 0.05 }
+    ],
+    recipe: ["Docs routed first", "Ticket lookup tool", "Relevant context only", "Grounded Q90"]
+  },
+  {
+    id: "brief",
+    emoji: "📈",
+    title: "Sales Brief Agent",
+    task: "Prepare a meeting brief from CRM signals, recent emails, and account notes.",
+    monthlyRuns: 18000,
+    baseline: { cost: 5.28, quality: 90, speed: 27, tokens: 310 },
+    architect: { cost: 1.12, quality: 89, speed: 5.2, tokens: 66 },
+    prompt: "\"distill account signals before generating the meeting brief\"",
+    trace: [
+      { step: "Collect", impact: "CRM and email signals fetched by tools", tokens: 12000, cost: 0.16 },
+      { step: "Filter", impact: "small model keeps buying signals only", tokens: 8000, cost: 0.12 },
+      { step: "Brief", impact: "premium model creates executive narrative", tokens: 40000, cost: 0.78 },
+      { step: "Risk gate", impact: "missing-account-context check", tokens: 6000, cost: 0.06 }
+    ],
+    recipe: ["Signal routing", "CRM/email tools", "Executive brief context", "Q89 passes gate"]
+  },
+  {
+    id: "meeting",
+    emoji: "📝",
+    title: "Meeting Follow-up Agent",
+    task: "Turn a transcript into summary, decisions, owners, and next actions.",
+    monthlyRuns: 22000,
+    baseline: { cost: 6.10, quality: 93, speed: 34, tokens: 360 },
+    architect: { cost: 1.38, quality: 92, speed: 7.4, tokens: 82 },
+    prompt: "\"chunk transcript, extract actions deterministically, then compose final recap\"",
+    trace: [
+      { step: "Chunk", impact: "transcript split into focused sections", tokens: 18000, cost: 0.22 },
+      { step: "Extract", impact: "decisions and owners pulled per chunk", tokens: 18000, cost: 0.28 },
+      { step: "Dedupe", impact: "duplicate actions removed before final answer", tokens: 6000, cost: 0.08 },
+      { step: "Recap gate", impact: "checks owners and dates are preserved", tokens: 40000, cost: 0.80 }
+    ],
+    recipe: ["Chunked routing", "Extraction tools", "No raw transcript dump", "Q92 passes gate"]
+  }
+];
+
+function sanitizeText(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#039;"
+  }[char]));
+}
+
+function enrichEntry(entry) {
+  const cost = Number(entry.cost);
+  const quality = Number(entry.quality);
+  const saving = Number.isFinite(Number(entry.saving))
+    ? Number(entry.saving)
+    : Math.round((1 - cost / BASELINE) * 100);
+  const tokens = Number.isFinite(Number(entry.tokens))
+    ? Number(entry.tokens)
+    : Math.max(1, Math.round(cost / BASELINE * 220));
+  const speed = Number.isFinite(Number(entry.speed))
+    ? Number(entry.speed)
+    : Math.max(3.5, Math.round((cost / BASELINE * 18) * 10) / 10);
+  return {
+    name: sanitizeText(entry.name || "Participant"),
+    cost,
+    quality,
+    saving,
+    tokens,
+    speed,
+    workflow: sanitizeText(entry.workflow || "Travel Planner"),
+    prompt: sanitizeText(entry.prompt || prompts[promptIndex]),
+    time: sanitizeText(entry.time || "")
+  };
+}
+
+function bestPerParticipant(entries) {
+  const best = new Map();
+  entries.map(enrichEntry).filter((entry) =>
+    Number.isFinite(entry.cost) && Number.isFinite(entry.quality) && entry.quality >= 80
+  ).forEach((entry) => {
+    const previous = best.get(entry.name);
+    if (!previous || entry.cost < previous.cost) best.set(entry.name, entry);
+  });
+  return [...best.values()].sort((a, b) => a.cost - b.cost).slice(0, 5);
+}
+
+function setMode(text, connected) {
+  document.getElementById("mode").innerHTML = "";
+  document.getElementById("live-label").textContent = "Interactive station";
+}
+
+function render(payload, force = false) {
+  const liveChanged = maybeCaptureLiveEntry(payload);
+  if (!force && !liveChanged && render.hasRendered) return;
+  render.hasRendered = true;
+  renderUseCase(useCases[currentUseCaseIndex], latestLiveEntry);
+}
+
+function renderUseCase(useCase, liveEntry = null) {
+  const result = liveEntry || useCase.architect;
+  const score = scoreRun(useCase, result);
+  const card = document.getElementById("usecase-card");
+  const live = document.getElementById("usecase-live");
+
+  card.classList.remove("winner");
+  card.classList.add("running");
+  document.getElementById("usecase-kicker").textContent = liveEntry
+    ? "Live VS Code run"
+    : `Scenario ${currentUseCaseIndex + 1} / ${useCases.length} · estimated run`;
+  document.getElementById("usecase-emoji").textContent = useCase.emoji || "⚡";
+  document.getElementById("usecase-title").textContent = useCase.title;
+  document.getElementById("usecase-task").textContent = useCase.task;
+  document.getElementById("usecase-scale").innerHTML =
+    `Company scale: ~${formatRuns(useCase.monthlyRuns)} runs/month x ` +
+    `<strong>$${score.savedPerRun.toFixed(2)} saved/run</strong> = ~$${Math.round(score.monthlySavedK)}K/month`;
+  live.classList.toggle("visible", Boolean(liveEntry));
+  live.textContent = liveEntry
+    ? `${liveEntry.name || "Participant"} submitted live · $${Number(result.cost).toFixed(2)} · Q${Number(result.quality)}`
+    : "";
+
+  animateMetric("yolo-cost", useCase.baseline.cost, (value) => "$" + value.toFixed(2));
+  animateMetric("yolo-quality", useCase.baseline.quality, (value) => String(Math.round(value)));
+  animateMetric("yolo-speed", useCase.baseline.speed, (value) => value.toFixed(1).replace(/\.0$/, "") + "s");
+  animateMetric("yolo-tokens", useCase.baseline.tokens, (value) => Math.round(value) + "k");
+  animateMetric("arch-cost", Number(result.cost), (value) => "$" + value.toFixed(2));
+  animateMetric("arch-quality", Number(result.quality), (value) => String(Math.round(value)));
+  animateMetric("arch-speed", Number(result.speed), (value) => value.toFixed(1).replace(/\.0$/, "") + "s");
+  animateMetric("arch-tokens", Number(result.tokens), (value) => "~" + Math.round(value) + "k");
+
+  setBars(useCase.baseline, result);
+  animateMetric("usecase-cost-saving", score.monthlySavedK, (value) => "$" + Math.round(value) + "K");
+  animateMetric("usecase-token-saving", score.tokenSaving, (value) => "↓" + Math.round(value) + "%");
+  animateMetric("usecase-speed-saving", score.speedSaving, (value) => "↑" + Math.round(value) + "%");
+  animateMetric("usecase-score", score.weighted, (value) => Math.round(value) + "/100");
+  document.getElementById("recipe-saving").textContent = Math.round(score.weighted) + "/100";
+  document.getElementById("recipe-note").textContent = `weighted score · $${Math.round(score.monthlySavedK)}K saved/month`;
+  updateRecipe(useCase, score);
+
+  window.clearTimeout(renderUseCase.finishTimer);
+  renderUseCase.finishTimer = window.setTimeout(() => {
+    card.classList.remove("running");
+    card.classList.add("winner");
+    showBanner({
+      name: useCase.title,
+      cost: Number(result.cost),
+      quality: Number(result.quality),
+      saving: Math.round(score.costSaving)
+    });
+  }, RUN_ANIMATION_MS + 250);
+}
+
+function scoreRun(useCase, result) {
+  const baseline = useCase.baseline;
+  const costSaving = percentSaved(baseline.cost, Number(result.cost));
+  const tokenSaving = percentSaved(baseline.tokens, Number(result.tokens));
+  const speedSaving = percentSaved(baseline.speed, Number(result.speed));
+  const qualityRetained = Math.min(100, Number(result.quality) / baseline.quality * 100);
+  const monthlyRuns = Number(useCase.monthlyRuns || 10000);
+  const savedPerRun = Math.max(0, baseline.cost - Number(result.cost));
+  const monthlySavedK = savedPerRun * monthlyRuns / 1000;
+  const weighted = Number(result.quality) < 85
+    ? 0
+    : Math.round(costSaving * 0.4 + tokenSaving * 0.25 + speedSaving * 0.2 + qualityRetained * 0.15);
+  return { costSaving, tokenSaving, speedSaving, qualityRetained, savedPerRun, monthlySavedK, weighted };
+}
+
+function formatRuns(value) {
+  const runs = Number(value || 0);
+  if (runs >= 1000) return Math.round(runs / 1000) + "K";
+  return String(Math.round(runs));
+}
+
+function percentSaved(baseline, result) {
+  if (!Number.isFinite(baseline) || !Number.isFinite(result) || baseline <= 0) return 0;
+  return Math.max(0, Math.min(99, (1 - result / baseline) * 100));
+}
+
+function animateMetric(id, target, formatter) {
+  const el = document.getElementById(id);
+  const start = performance.now();
+  const numericTarget = Number(target);
+  function tick(now) {
+    const progress = Math.min(1, (now - start) / RUN_ANIMATION_MS);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = formatter(numericTarget * eased);
+    if (progress < 1) requestAnimationFrame(tick);
+    else updateText(id, formatter(numericTarget));
+  }
+  requestAnimationFrame(tick);
+}
+
+function setBars(baseline, result) {
+  const visualMax = 92;
+  document.getElementById("yolo-cost-bar").style.width = visualMax + "%";
+  document.getElementById("yolo-quality-bar").style.width = baseline.quality + "%";
+  document.getElementById("yolo-speed-bar").style.width = visualMax + "%";
+  document.getElementById("yolo-token-bar").style.width = visualMax + "%";
+  document.getElementById("arch-cost-bar").style.width = Math.max(2, Math.round(Number(result.cost) / baseline.cost * visualMax)) + "%";
+  document.getElementById("arch-quality-bar").style.width = Math.max(0, Math.min(100, Number(result.quality))) + "%";
+  document.getElementById("arch-speed-bar").style.width = Math.max(4, Math.round(Number(result.speed) / baseline.speed * visualMax)) + "%";
+  document.getElementById("arch-token-bar").style.width = Math.max(2, Math.round(Number(result.tokens) / baseline.tokens * visualMax)) + "%";
+}
+
+function updateRecipe(useCase, score) {
+  document.querySelectorAll(".flow-impact").forEach((node, index) => {
+    node.textContent = useCase.recipe[index] || node.textContent;
+  });
+  document.querySelectorAll(".flow-step").forEach((node, index) => {
+    node.style.opacity = Number(score.weighted) >= 70 || index < 3 ? "1" : ".72";
+  });
+}
+
+function maybeCaptureLiveEntry(payload) {
+  const entry = payload?.latestEntry;
+  if (!entry?.timestamp) return false;
+  const timestamp = Date.parse(entry.timestamp);
+  if (!Number.isFinite(timestamp) || Date.now() - timestamp > 10 * 60 * 1000) return false;
+  const signature = `${entry.timestamp}-${entry.name}-${entry.cost}-${entry.quality}`;
+  if (signature === latestLiveSignature) return false;
+  latestLiveSignature = signature;
+  latestLiveEntry = enrichEntry(entry);
+  latestLiveEntry.trace = Array.isArray(entry.trace) ? entry.trace : [];
+  return true;
+}
+
+function updateText(id, text) {
+  const el = document.getElementById(id);
+  if (el.textContent !== text) {
+    el.textContent = text;
+    el.classList.add("flash");
+    setTimeout(() => el.classList.remove("flash"), 750);
+  }
+}
+
+function showBanner(entry) {
+  const banner = document.getElementById("banner");
+  document.getElementById("banner-title").textContent = "New leaderboard record";
+  document.getElementById("banner-detail").textContent =
+    `${entry.name} · $${entry.cost.toFixed(2)} · Quality ${entry.quality} · ↓${entry.saving}% cheaper`;
+  banner.classList.remove("hidden");
+  setTimeout(() => banner.classList.add("hidden"), 8000);
+}
+
+async function poll() {
+  if (!configuredApiUrl) {
+    setMode("", false);
+    if (state.entries.length) {
+      render(state);
+    } else if (state.mode !== "demo") {
+      state = { entries: demoEntries, totalRuns: demoEntries.length, mode: "demo" };
+      render(state);
+    }
+    return;
+  }
+
+  setMode("", true);
+  try {
+    const res = await fetch(configuredApiUrl + "?action=leaderboard", { cache: "no-store" });
+    const data = await res.json();
+    state = { ...data, mode: "live" };
+    render(state);
+  } catch (error) {
+    try {
+      const data = await pollJsonp(configuredApiUrl + "?action=leaderboard");
+      state = { ...data, mode: "live" };
+      render(state);
+    } catch (jsonpError) {
+      setMode("", false);
+      if (!state.entries.length) render({ entries: demoEntries, totalRuns: demoEntries.length });
+    }
+  }
+}
+
+function pollJsonp(url) {
+  return new Promise((resolve, reject) => {
+    const callbackName = "__arenaJsonp" + jsonpCounter++;
+    const script = document.createElement("script");
+    const timeout = setTimeout(() => cleanup(reject, new Error("JSONP timeout")), 8000);
+    function cleanup(done, value) {
+      clearTimeout(timeout);
+      delete window[callbackName];
+      script.remove();
+      done(value);
+    }
+    window[callbackName] = (data) => cleanup(resolve, data);
+    script.onerror = () => cleanup(reject, new Error("JSONP failed"));
+    script.src = url + "&callback=" + encodeURIComponent(callbackName);
+    document.body.appendChild(script);
+  });
+}
+
+function addLocal(entry) {
+  const enriched = enrichEntry({ ...entry, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) });
+  latestLiveEntry = enriched;
+  latestLiveEntry.trace = [];
+  latestLiveSignature = `manual-${Date.now()}`;
+  state.entries = [...(state.entries || []), enriched];
+  state.totalRuns = Number(state.totalRuns || 0) + 1;
+  state.mode = "manual";
+  render(state, true);
+}
+
+function applyUrlSubmission() {
+  if (!params.get("name")) return;
+  addLocal({
+    name: params.get("name"),
+    cost: Number(params.get("cost")),
+    quality: Number(params.get("quality")),
+    workflow: params.get("workflow") || "Travel Planner",
+    prompt: params.get("prompt") || "manual override"
+  });
+}
+
+async function submitRemote(entry) {
+  const response = await fetch(configuredApiUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(entry)
+  });
+  const result = await response.json();
+  if (!result.ok) throw new Error(result.error || "Submit failed");
+  await poll();
+  return result;
+}
+
+document.getElementById("add-local").addEventListener("click", async () => {
+  const form = new FormData(document.getElementById("manual-form"));
+  const entry = Object.fromEntries(form.entries());
+  if (!configuredApiUrl) {
+    addLocal(entry);
+    return;
+  }
+  try {
+    await submitRemote(entry);
+  } catch (error) {
+    console.warn("Remote submit failed, adding locally", error);
+    addLocal(entry);
+  }
+});
+document.getElementById("reset-local").addEventListener("click", async () => {
+  if (configuredApiUrl) {
+    try {
+    await fetch(configuredApiUrl + "?action=reset", { cache: "no-store" });
+    } catch (error) {
+      console.warn("Remote reset failed", error);
+    }
+  }
+  lastBestCost = Infinity;
+  latestLiveEntry = null;
+  latestLiveSignature = "";
+  state = { entries: [], totalRuns: 0, mode: "manual" };
+  render(state, true);
+});
+document.getElementById("close-panel").addEventListener("click", () => {
+  document.getElementById("facilitator").classList.remove("visible");
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key.toLowerCase() === "p") document.getElementById("facilitator").classList.toggle("visible");
+  if (event.key.toLowerCase() === "d") {
+    state = { entries: demoEntries, totalRuns: demoEntries.length, mode: "demo" };
+    render(state, true);
+  }
+});
+
+setInterval(() => {
+  promptIndex = (promptIndex + 1) % prompts.length;
+}, 7000);
+
+setInterval(() => {
+  currentUseCaseIndex = (currentUseCaseIndex + 1) % useCases.length;
+  latestLiveEntry = null;
+  render(state, true);
+}, USE_CASE_INTERVAL_MS);
+
+if (params.get("panel") === "1") document.getElementById("facilitator").classList.add("visible");
+applyUrlSubmission();
+poll();
+setInterval(poll, POLL_INTERVAL_MS);
+</script>
+</body>
+</html>

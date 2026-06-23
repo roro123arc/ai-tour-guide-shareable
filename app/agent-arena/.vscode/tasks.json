@@ -1,0 +1,62 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Agent Arena: start big screen server",
+      "type": "shell",
+      "command": "./run.sh",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Vibe 1: submit original YOLO baseline",
+      "type": "shell",
+      "command": "python3 station/vibe_coding/run.py --mode baseline --name \"YOLO Baseline\"",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "ARENA_API_URL": "http://127.0.0.1:8765/api"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Vibe 2: submit my edited challenge.py",
+      "type": "shell",
+      "command": "python3 station/vibe_coding/run.py --mode challenge --name \"My Vibe Run\"",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "ARENA_API_URL": "http://127.0.0.1:8765/api"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Vibe backup: submit reference architect solution",
+      "type": "shell",
+      "command": "python3 station/vibe_coding/run.py --mode architect --name \"Vibe Architect\"",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "ARENA_API_URL": "http://127.0.0.1:8765/api"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Vibe: run Foundry-ready fallback",
+      "type": "shell",
+      "command": "python3 station/foundry_runner.py --name \"Foundry Ready\"",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "ARENA_API_URL": "http://127.0.0.1:8765/api"
+        }
+      },
+      "problemMatcher": []
+    }
+  ]
+}

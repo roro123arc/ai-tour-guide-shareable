@@ -4,23 +4,44 @@
 
 המסלול המומלץ הוא להריץ מקומית על המחשב שמחובר למסך הגדול. אם צריך ענן, מעלים את אותו שרת ל-Azure App Service.
 
+כל הפקודות כאן רצות מתוך התיקייה `app/agent-arena`.
+
 ## מבנה
 
 ```text
-agent-arena/
-├── big-screen/
-│   └── index.html       # המסך הגדול
+app/agent-arena/
+├── index.html                 # המסך הגדול (leaderboard חי)
+├── choose-your-fighter.html   # מסך ארנה חלופי בסגנון "בחר לוחם"
+├── agent-task-flow.html       # סימולציית token budget
+├── presenter-guide.html       # מדריך מצגת ויזואלי
+├── prompts.md                 # prompts ל-Agent Mode (גרסה קצרה)
 ├── data/
-│   └── leaderboard.json # נוצר אוטומטית בזמן ריצה
-├── server.py            # שרת מקומי / Azure App Service
-├── run.sh               # הפעלה מהירה
-├── foundry_mapping.md   # מיפוי מהדמו המקומי ל-Foundry production
-├── station_challenge.md # תסריט משתתף + talk track
+│   └── leaderboard.json       # נוצר אוטומטית בזמן ריצה
+├── server.py                  # שרת מקומי / Azure App Service
+├── run.sh                     # הפעלה מהירה
 └── station/
-    ├── vibe_coding/    # קבצי VS Code לעמדת וייב-קודינג
-    ├── run_workflow.py  # workflow מקומי אמיתי עם trace
-    ├── foundry_runner.py # Foundry mode אופציונלי עם fallback מקומי
-    └── submit.py        # helper לשליחה מתחנות המשתתפים
+    ├── run_workflow.py        # workflow מקומי אמיתי עם trace
+    ├── foundry_runner.py      # Foundry mode אופציונלי עם fallback מקומי
+    ├── submit.py              # helper לשליחה מתחנות המשתתפים
+    └── vibe_coding/
+        ├── CHALLENGE.md           # תקציר המשימה למשתתף (קראי קודם)
+        ├── challenge.py           # הקוד הנאיבי שאותו משפרים עם Copilot
+        ├── original_yolo.py       # baseline נעול להשוואה
+        ├── prompts.md             # prompt מוכן ל-Agent Mode
+        ├── solution_architect.py  # reference implementation
+        └── run.py                 # מריץ baseline/challenge/architect ושולח למסך
+```
+
+## משתתפים: התחילו כאן
+
+1. קראי את `station/vibe_coding/CHALLENGE.md` — תקציר המשימה.
+2. עקבי אחרי `participant-guide.md` — מדריך אישי צעד-אחר-צעד להרצת האתגר.
+3. ערכי את `station/vibe_coding/challenge.py` עם Copilot Agent Mode (ה-prompts ב-`station/vibe_coding/prompts.md`).
+4. שלחי את התוצאה למסך הגדול:
+
+```bash
+ARENA_API_URL="http://127.0.0.1:8765/api" \
+  python3 station/vibe_coding/run.py --mode challenge --name "Your Name"
 ```
 
 ## הפעלה מקומית לכנס
@@ -28,7 +49,7 @@ agent-arena/
 במחשב שמחובר למסך הגדול:
 
 ```bash
-cd /Users/rotemlevi/Documents/Clawpilot/agent-arena
+cd app/agent-arena
 ./run.sh
 ```
 
@@ -42,7 +63,7 @@ Chrome/Edge במסך מלא: `F11`.
 
 ## תחנות משתתפים באותה רשת
 
-פתחי לכל תחנה את `station_challenge.md`. זה הדף שמסביר למשתתף את המשימה ואת היכולות של Microsoft Build שכדאי לדבר עליהן בזמן הדמו.
+פתחי לכל תחנה את `station/vibe_coding/CHALLENGE.md`. זה הדף שמסביר למשתתף את המשימה ואת היכולות של Microsoft Build שכדאי לדבר עליהן בזמן הדמו.
 
 מצאי את ה-IP של המחשב שמריץ את המסך:
 
@@ -59,7 +80,7 @@ export ARENA_API_URL="http://YOUR_MAC_IP:8765/api"
 הדרך המומלצת בתחנה היא להריץ workflow אמיתי מקומי שמחשב cost/quality/speed ו-trace:
 
 ```bash
-cd /Users/rotemlevi/Documents/Clawpilot/agent-arena/station
+cd app/agent-arena/station
 ARENA_API_URL="http://YOUR_MAC_IP:8765/api" python3 run_workflow.py --name "Ayelet"
 ```
 
@@ -74,23 +95,25 @@ route models -> tool lookup -> eval gate -> trace capture -> submit
 פתחי את התיקייה הזו ב-VS Code:
 
 ```text
-/Users/rotemlevi/Documents/Clawpilot/agent-arena
+app/agent-arena
 ```
 
-הקבצים שהמשתתף רואה:
+הקבצים שהמשתתף רואה (הכול תחת `station/vibe_coding/`):
 
 ```text
+station/vibe_coding/CHALLENGE.md          # תקציר המשימה - קראי קודם
 station/vibe_coding/challenge.py          # הקוד הנאיבי שאותו מבקשים מ-Copilot לשפר
 station/vibe_coding/prompts.md            # prompt מוכן ל-Agent Mode
 station/vibe_coding/solution_architect.py # reference implementation
-station/vibe_coding/run.py                # מריץ baseline/architect ושולח למסך
+station/vibe_coding/run.py                # מריץ baseline/challenge/architect ושולח למסך
 ```
 
-ב-VS Code אפשר להריץ מה-Command Palette:
+ההרצה מתוך `app/agent-arena`:
 
-```text
-Tasks: Run Task -> Vibe: submit YOLO baseline
-Tasks: Run Task -> Vibe: submit architect solution
+```bash
+python3 station/vibe_coding/run.py --mode baseline  --name "Ayelet"   # YOLO baseline
+python3 station/vibe_coding/run.py --mode challenge --name "Ayelet"   # הקוד שלך אחרי שיפור
+python3 station/vibe_coding/run.py --mode architect --name "Ayelet"   # reference solution
 ```
 
 הסיפור למשתתף:
@@ -105,7 +128,7 @@ Tasks: Run Task -> Vibe: submit architect solution
 אם רוצים להראות Foundry-ready mode:
 
 ```bash
-cd /Users/rotemlevi/Documents/Clawpilot/agent-arena/station
+cd app/agent-arena/station
 python3 foundry_runner.py --name "Ayelet"
 ```
 
@@ -118,12 +141,10 @@ export AZURE_AI_FOUNDRY_MODEL="..."
 python3 foundry_runner.py --name "Ayelet"
 ```
 
-המיפוי המלא נמצא ב-`foundry_mapping.md`.
-
-אם רוצים לשלוח תוצאה ידנית בסוף workflow אחר:
+אם רוצים לשלוח תוצאה ידנית בסוף workflow אחר (מתוך `app/agent-arena/station`):
 
 ```python
-from station.submit import submit_result
+from submit import submit_result
 
 submit_result(
     name="Ayelet",
@@ -133,6 +154,7 @@ submit_result(
     workflow="Travel Planner",
     prompt="parallelize + route models",
     tokens=41,
+    trace=[],
 )
 ```
 
@@ -141,27 +163,28 @@ submit_result(
 בטרמינל אחד:
 
 ```bash
+cd app/agent-arena
 ./run.sh
 ```
 
 בטרמינל שני:
 
 ```bash
-cd station
+cd app/agent-arena/station
 ARENA_API_URL="http://127.0.0.1:8765/api" python3 run_workflow.py --name "Tester"
 ```
 
 או בלי שאלות:
 
 ```bash
-cd station
+cd app/agent-arena/station
 python3 run_workflow.py --name "Tester"
 ```
 
 בדיקת Foundry-ready fallback:
 
 ```bash
-cd station
+cd app/agent-arena/station
 python3 foundry_runner.py --name "Foundry Ready"
 ```
 
@@ -181,7 +204,7 @@ http://127.0.0.1:8765/api?action=reset
 
 אותו `server.py` יכול לרוץ ב-Azure App Service כ-Python app.
 
-דוגמת פריסה עם Azure CLI מתוך תיקיית `agent-arena`:
+דוגמת פריסה עם Azure CLI מתוך תיקיית `app/agent-arena`:
 
 ```bash
 az login
@@ -221,4 +244,4 @@ http://127.0.0.1:8765?name=Ayelet&cost=0.74&quality=90&workflow=Travel%20Planner
 - להשאיר את השרת המקומי פתוח בטרמינל גלוי.
 - אם רשת התחנות לא יציבה, להשתמש ב-panel הידני עם `P`.
 - איכות מתחת ל-80 נשמרת אבל לא נכנסת ל-leaderboard.
-- להשתמש ב-talk track מתוך `station_challenge.md`: הסיפור הוא routing, MCP Toolboxes, eval gates, observability ו-Foundry Agent Service.
+- להשתמש ב-talk track מתוך `station/vibe_coding/CHALLENGE.md`: הסיפור הוא routing, MCP Toolboxes, eval gates, observability ו-Foundry Agent Service.

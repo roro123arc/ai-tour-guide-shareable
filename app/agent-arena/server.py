@@ -14,7 +14,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
 ROOT = Path(__file__).resolve().parent
-SCREEN = ROOT / "big-screen" / "index.html"
+SCREEN = ROOT / "index-v2.html"
 DATA_DIR = ROOT / "data"
 DATA_FILE = DATA_DIR / "leaderboard.json"
 BASELINE_COST = 3.82

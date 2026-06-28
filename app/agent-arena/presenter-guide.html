@@ -419,6 +419,16 @@ h2 {
       <div class="metric"><div><div class="metric-label">Speed gain</div><div class="metric-value">↑96%</div></div></div>
       <div class="metric"><div><div class="metric-label">Weighted score</div><div class="metric-value">90/100</div></div></div>
     </div>
+    <div class="screen-map" style="margin-top:14px">
+      <div class="screen-block">
+        <div class="screen-title">Live leaderboard</div>
+        <div class="screen-copy">טבלת דירוג חיה של כל הצוותים לפי best cost, עם אחוז חיסכון ו־quality. מתעדכנת כל 5 שניות עם כל <span class="code">submit</span>, כך שכל משתתף רואה את עצמו עולה במסך.</div>
+      </div>
+      <div class="screen-block">
+        <div class="screen-title">Latest run trace</div>
+        <div class="screen-copy">פירוק השלבים של הריצה האחרונה: step, capability, impact, tokens ו־cost — כמו קבלה שמראה בדיוק מאיפה הגיע החיסכון.</div>
+      </div>
+    </div>
   </section>
 
   <section class="section card">
@@ -478,17 +488,17 @@ h2 {
       <div class="step">
         <div class="step-num">01</div>
         <div class="step-title">פותחים את הפרויקט</div>
-        <div class="step-copy"><span class="code">/Users/rotemlevi/Documents/Clawpilot/agent-arena</span></div>
+        <div class="step-copy">נכנסים לתיקייה <span class="code">app/agent-arena</span> בתוך ה־repo.</div>
       </div>
       <div class="step">
         <div class="step-num">02</div>
         <div class="step-title">פותחים challenge.py</div>
-        <div class="step-copy">זה הקובץ שהמשתתף משפר. הוא מייצג Agent workflow נאיבי.</div>
+        <div class="step-copy">הקובץ שהמשתתף משפר: <span class="code">station/vibe_coding/challenge.py</span>. הוא מייצג Agent workflow נאיבי (YOLO).</div>
       </div>
       <div class="step">
         <div class="step-num">03</div>
-        <div class="step-title">משתמשים ב־station/vibe_coding/prompts.md</div>
-        <div class="step-copy">יש שם prompts מוכנים ל־Copilot Agent Mode כדי להפוך YOLO workflow ל־Architect workflow.</div>
+        <div class="step-title">קוראים את הבריף וה־prompts</div>
+        <div class="step-copy"><span class="code">station/vibe_coding/CHALLENGE.md</span> לבריף, ו־<span class="code">station/vibe_coding/prompts.md</span> ל־prompts מוכנים ל־Copilot Agent Mode.</div>
       </div>
       <div class="step">
         <div class="step-num">04</div>
@@ -497,8 +507,8 @@ h2 {
       </div>
       <div class="step">
         <div class="step-num">05</div>
-        <div class="step-title">מריצים Task</div>
-        <div class="step-copy"><span class="code">Vibe 2: submit my edited challenge.py</span></div>
+        <div class="step-title">שולחים למסך</div>
+        <div class="step-copy"><span class="code">python3 station/vibe_coding/run.py --mode challenge --name "שם"</span></div>
       </div>
     </div>
   </section>
@@ -511,12 +521,12 @@ h2 {
       </div>
     </div>
     <div class="checklist">
-      <div class="check"><span>✓</span><span>לפני שמתחילים: לוודא שהמסך הגדול פתוח על <span class="code">https://roro123arc.github.io/ai-tour-guide-shareable/app/agent-arena/</span></span></div>
-      <div class="check"><span>✓</span><span>להראות שהמסך רץ לבד: use cases מתחלפים, metrics רצים, recipe משתנה.</span></div>
+      <div class="check"><span>✓</span><span>לפני שמתחילים: במחשב הראשי להריץ <span class="code">cd app/agent-arena && ./run.sh</span> ולפתוח את המסך הגדול על <span class="code">http://localhost:8765/</span> (משתתפים על מחשבים אחרים: <span class="code">http://SCREEN_IP:8765/</span>).</span></div>
+      <div class="check"><span>✓</span><span>להראות שהמסך רץ לבד: use cases מתחלפים, metrics רצים, ו־Live leaderboard + trace מוכנים לקבל submits.</span></div>
       <div class="check"><span>✓</span><span>כשמשתתף מתיישב: לפתוח VS Code על הפרויקט ולפתוח <span class="code">station/vibe_coding/challenge.py</span>.</span></div>
       <div class="check"><span>✓</span><span>לתת למשתתף prompt מ־<span class="code">station/vibe_coding/prompts.md</span> ולבקש מ־Copilot לשפר cost/tokens בלי לפגוע ב־quality.</span></div>
-      <div class="check"><span>✓</span><span>להריץ <span class="code">Tasks: Run Task → Vibe 2</span> ולראות את התוצאה כ־Live VS Code run במסך הגדול.</span></div>
-      <div class="check"><span>✓</span><span>אם משהו נשבר: להריץ <span class="code">Vibe backup: submit reference architect solution</span>.</span></div>
+      <div class="check"><span>✓</span><span>להריץ <span class="code">python3 station/vibe_coding/run.py --mode challenge --name "שם"</span> ולראות את הצוות עולה ל־Live leaderboard עם ה־trace שלו.</span></div>
+      <div class="check"><span>✓</span><span>אם משהו נשבר: להריץ <span class="code">python3 station/vibe_coding/run.py --mode architect --name "שם"</span> (פתרון הייחוס).</span></div>
     </div>
   </section>
 
@@ -555,10 +565,10 @@ h2 {
       </div>
     </div>
     <div class="checklist">
-      <div class="check"><span>1</span><span>אם האתר לא עולה: בטרמינל להריץ <span class="code">cd /Users/rotemlevi/Documents/Clawpilot/agent-arena && ./run.sh</span></span></div>
-      <div class="check"><span>2</span><span>אם לא רואים שינוי: לפתוח עם cache buster חדש, למשל <span class="code">?v=demo2</span>.</span></div>
-      <div class="check"><span>3</span><span>אם VS Code task לא שולח: לבדוק שה־server רץ וש־<span class="code">ARENA_API_URL</span> מצביע ל־<span class="code">http://127.0.0.1:8765/api</span>.</span></div>
-      <div class="check"><span>4</span><span>אם Copilot עשה שינוי לא טוב: לא להתעקש, להריץ את ה־backup architect solution ולהמשיך את הדמו.</span></div>
+      <div class="check"><span>1</span><span>אם המסך לא עולה: בטרמינל להריץ <span class="code">cd app/agent-arena && ./run.sh</span> ולוודא שהשרת מאזין על פורט 8765.</span></div>
+      <div class="check"><span>2</span><span>אם לא רואים שינוי: המסך מתרענן לבד כל 5 שניות — אפשר פשוט לרענן את הדפדפן (אין צורך ב־cache buster).</span></div>
+      <div class="check"><span>3</span><span>אם submit לא מגיע: לבדוק שה־server רץ ושמשתמשים ב־<span class="code">ARENA_API_URL=http://SCREEN_IP:8765/api</span> (או <span class="code">127.0.0.1</span> אם מריצים מקומית).</span></div>
+      <div class="check"><span>4</span><span>אם Copilot עשה שינוי לא טוב: לא להתעקש, להריץ <span class="code">run.py --mode architect</span> ולהמשיך את הדמו.</span></div>
     </div>
   </section>
 

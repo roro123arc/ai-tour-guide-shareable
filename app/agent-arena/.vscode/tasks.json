@@ -57,6 +57,15 @@
         }
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Vibe reset: restore challenge.py baseline",
+      "type": "shell",
+      "command": "python3 station/vibe_coding/reset_challenge.py",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
     }
   ]
 }

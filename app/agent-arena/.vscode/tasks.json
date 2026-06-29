@@ -59,9 +59,9 @@
       "problemMatcher": []
     },
     {
-      "label": "Vibe reset: restore challenge.py baseline",
+      "label": "Vibe reset: restore challenge.py from Git HEAD",
       "type": "shell",
-      "command": "python3 station/vibe_coding/reset_challenge.py",
+      "command": "git restore --source=HEAD -- station/vibe_coding/challenge.py",
       "options": {
         "cwd": "${workspaceFolder}"
       },

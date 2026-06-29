@@ -13,7 +13,7 @@
       document.documentElement.setAttribute("data-theme", theme);
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=20260621-full-ui" />
+  <link rel="stylesheet" href="styles.css?v=20260629-step-gating" />
 </head>
 <body>
   <div class="intro-modal" id="introModal" role="dialog" aria-modal="true" aria-labelledby="introTitle">
@@ -98,16 +98,18 @@
       </div>
     </section>
 
-    <section class="card demo-lab-card" id="copilotDemoExtensions">
+    <section class="card demo-lab-card hidden" id="copilotDemoExtensions">
       <div class="demo-lab-heading">
         <div>
-          <p class="step-label">Copilot demo extensions</p>
-          <h2>Make the guide smarter live</h2>
+          <p class="step-label" id="demoStepLabel">Copilot demo extension</p>
+          <h2 id="demoStepTitle">Make the guide smarter live</h2>
         </div>
       </div>
 
+      <p class="demo-step-note" id="demoStepNote"></p>
+
       <div class="demo-tools-grid">
-        <article class="tool-panel">
+        <article class="tool-panel" id="catalogFiltersPanel">
           <h3>Official catalog filters</h3>
           <div class="filter-grid">
             <label>
@@ -129,7 +131,7 @@
           </div>
         </article>
 
-        <article class="tool-panel">
+        <article class="tool-panel" id="whereNowPanel">
           <h3>Where should I go now?</h3>
           <div class="filter-grid">
             <label>
@@ -226,6 +228,6 @@
     </section>
   </main>
 
-  <script src="app.js?v=20260621-full-ui"></script>
+  <script src="app.js?v=20260629-step-gating"></script>
 </body>
 </html>

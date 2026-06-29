@@ -3,7 +3,9 @@ async function loadJson(path) {
   return res.json();
 }
 
-const copilotDemoMode = true;
+const queryParams = new URLSearchParams(window.location.search);
+const copilotDemoStep = queryParams.get('step');
+const copilotDemoMode = queryParams.get('demo') === 'copilot' || copilotDemoStep === '2' || copilotDemoStep === '3';
 
 function bindIntroModal() {
   const modal = document.getElementById('introModal');
@@ -34,6 +36,39 @@ function bindQrModal() {
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') closeModal();
   });
+}
+
+function configureCopilotDemoSections() {
+  const section = document.getElementById('copilotDemoExtensions');
+  const filtersPanel = document.getElementById('catalogFiltersPanel');
+  const wherePanel = document.getElementById('whereNowPanel');
+  const title = document.getElementById('demoStepTitle');
+  const label = document.getElementById('demoStepLabel');
+  const note = document.getElementById('demoStepNote');
+
+  if (!copilotDemoMode) return;
+
+  section?.classList.remove('hidden');
+
+  const showFilters = queryParams.get('demo') === 'copilot' || copilotDemoStep === '2';
+  const showWhereNow = queryParams.get('demo') === 'copilot' || copilotDemoStep === '3';
+
+  filtersPanel?.classList.toggle('hidden', !showFilters);
+  wherePanel?.classList.toggle('hidden', !showWhereNow);
+
+  if (copilotDemoStep === '2') {
+    label.textContent = 'Step 2';
+    title.textContent = 'Add smart recommendation filters';
+    note.textContent = 'This section appears after the filtering prompt is implemented with GitHub Copilot.';
+  } else if (copilotDemoStep === '3') {
+    label.textContent = 'Step 3';
+    title.textContent = 'Add “Where should I go now?”';
+    note.textContent = 'This section appears after the next-best-stop prompt is implemented with GitHub Copilot.';
+  } else {
+    label.textContent = 'Copilot demo extensions';
+    title.textContent = 'Make the guide smarter live';
+    note.textContent = 'Full preview mode: both Copilot enhancements are visible.';
+  }
 }
 
 function normalise(text) {
@@ -400,6 +435,7 @@ function answerQuestion(q, eventMeta, agendaSummary, stations = []) {
 (async function init() {
   bindIntroModal();
   bindQrModal();
+  configureCopilotDemoSections();
 
   const [eventMeta, agendaSummary, workshops, booths, stations, sampleProfiles, taxonomy, zones, catalogFilters] = await Promise.all([
     loadJson('../data/event_meta.json'),

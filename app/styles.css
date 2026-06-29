@@ -481,6 +481,12 @@ textarea {
   margin-bottom: 0;
 }
 
+.demo-step-note {
+  margin: -4px 0 12px;
+  color: var(--cp-text-muted);
+  font-weight: 700;
+}
+
 .demo-tools-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

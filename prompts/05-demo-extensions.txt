@@ -1,101 +1,161 @@
-# GitHub Copilot booth demo prompts
+# GitHub Copilot booth prompts
 
-Use these prompts after showing the original attendee guide at `/app/`.
-The idea is to let attendees choose what capability to add next, then use
-GitHub Copilot to inspect and extend the existing codebase.
+Use this file during the booth flow. Explanations to attendees can be in Hebrew,
+but the prompts below are in English so they can be pasted directly into
+GitHub Copilot Chat in VS Code.
 
-Preview URL for the already-built reference version:
+Public app:
 
 ```text
-http://localhost:8000/app/?demo=copilot
+https://roro123arc.github.io/ai-tour-guide-shareable/app/
 ```
 
-## Prompt 1 - understand the current app
+Repository:
 
 ```text
-Explain how this static AI Tour Guide app works.
-Cover:
-- where event data is stored
-- how workshops and booths are recommended
-- how the map pins are connected to sessions
-- how the ideal path avoids time conflicts
-- which files I should edit to add a new attendee feature
-Keep the explanation practical for a developer at a conference booth.
+https://github.com/roro123arc/ai-tour-guide-shareable
 ```
 
-## Prompt 2 - add official catalog filters
+## Step 1 - Understand the app and repo
+
+Use this first, after attendees try the public app.
 
 ```text
-Add a compact “Official catalog filters” panel to this app.
+I have this public web app:
+https://roro123arc.github.io/ai-tour-guide-shareable/app/
 
-Requirements:
-- Keep the default attendee guide simple and stable.
-- Add filters for Session type, Topic, and Audience.
-- Use data/catalog_filters.json for the available filter values.
-- Use existing metadata on workshops and booths:
-  session_type, topics, audience, hall.
-- Filtering should update recommended workshops and demo booths.
-- Do not add a backend, login, or external API.
+And this repository:
+https://github.com/roro123arc/ai-tour-guide-shareable
+
+Please help me understand:
+- what the app does from an attendee point of view
+- what kind of data it uses
+- how the repository is structured
+- where the recommendation logic probably lives
+- where I should look if I want to add a new feature
+
+Keep it practical and explain it like I just joined the project.
 ```
 
-## Prompt 3 - add “Where should I go now?”
+## Step 2 - Add recommendation filters
+
+Target preview URL after this step:
 
 ```text
-Add a “Where should I go now?” card.
-
-Inputs:
-- Current location: Registration, Hall C+D, Hall B, Hall F,G,H, Hall K,L,M
-- Time available: 10, 20, or 30 minutes
-- Interest: Developer, Security, Data, AI Agents
-
-Output:
-- One recommended next stop
-- The hall
-- Approximate walking time
-- Short reason based on interest match and time window
-
-Use local JSON and existing venueLocations only.
-Do not call Google Maps or any external API.
+https://roro123arc.github.io/ai-tour-guide-shareable/app/?step=2
 ```
 
-## Prompt 4 - add “Why this?”
+Prompt:
 
 ```text
-Add a short “Why this?” explanation under each recommended workshop and booth.
+Add useful recommendation filters to the AI Tour Guide app.
 
-Use:
-- matched interest tags
-- session type
-- audience
+The user should be able to filter by:
+- Session type
+- Topic
+- Audience
+
+Use the existing local JSON data.
+The filters should update the visible recommendations for workshops and demo stations.
+
+Keep the UI compact and friendly for a conference booth.
+Do not add a backend or external API.
+
+After implementing, explain what changed and how to test it.
+```
+
+## Step 3 - Add “Where should I go now?”
+
+Target preview URL after this step:
+
+```text
+https://roro123arc.github.io/ai-tour-guide-shareable/app/?step=3
+```
+
+Prompt:
+
+```text
+Add a “Where should I go now?” feature to the AI Tour Guide app.
+
+The user should choose:
+- current location
+- time available
+- interest
+
+The app should recommend one next best workshop or demo station.
+
+The answer should include:
+- name of the recommendation
 - hall/location
-- whether the item fits the selected profile
+- short reason
+- approximate walking time
 
-Keep each explanation to one sentence.
+Use only local JSON data and existing venue/map logic.
+Do not call Google Maps or any external API.
+
+Keep the UI simple and useful for attendees at the booth.
+After implementing, explain how to test it.
 ```
 
-## Prompt 5 - add “Copy my route”
+## Step 4 - Ask Copilot to find possible bugs
+
+Use this as a reviewer/debugging moment. Do not say “we already found a bug”;
+ask Copilot to inspect the app and identify possible issues.
 
 ```text
-Add a “Copy my route” button near “Your ideal path”.
-When clicked, copy a clean text itinerary to the clipboard with:
-- suggested zone
-- workshops
-- demo booths
-- halls
-- times
-- time conflict notes, if any
+Act as a code reviewer for this AI Tour Guide app.
 
-Show a small success message after copying.
-Keep the app static and local.
+Look for possible bugs or UX issues in:
+- recommendation flow
+- mobile layout
+- map and legend behavior
+- repeated clicks on buttons
+- search behavior
+- data loading from JSON
+
+List the top 3 issues you find.
+For each issue:
+- explain why it could happen
+- point to the relevant code
+- suggest a small safe fix
+
+Do not rewrite the whole app.
 ```
 
-## Suggested booth storyline
+Then choose one issue and ask Copilot to fix it:
 
 ```text
-The attendee first sees the original guide at /app/.
-Then we ask: “What would make this more useful at the event?”
-The audience chooses a feature.
-We use GitHub Copilot to understand the code and add the feature.
-The reference version is available at /app/?demo=copilot.
+Implement the safest fix for issue number 1.
+Keep the change small.
+Explain how I can test it in the browser.
+```
+
+## Step 5 - Improve code quality and cache-safety
+
+Use this as a “raw prompt” example: the request is intentionally not perfect,
+and Copilot helps turn it into a clearer technical task.
+
+```text
+I want to make this app cleaner and also avoid cache problems when I change JS or CSS.
+Can you help me think what should be improved?
+
+Look at the repo and suggest:
+- small code cleanup
+- better helper functions if needed
+- safer event handling
+- cache-busting for app.js and styles.css
+- anything that can make the app easier to maintain
+
+First, rewrite my request as a clear technical task.
+Then suggest a small safe implementation plan.
+Do not change behavior.
+```
+
+After Copilot clarifies the task, continue with:
+
+```text
+Now implement the smallest safe improvement from your plan.
+Keep the behavior unchanged.
+Explain how to verify that the site still works.
 ```
 
